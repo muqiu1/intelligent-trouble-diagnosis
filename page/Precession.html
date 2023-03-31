@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+<!-- <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>框架</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../echarts.js"></script>
+    <script src="../echarts-gl.js"></script>
+</head> -->
+
+<body>
+    <div class="layui-row">
+        <div class="layui-col-md3">
+            <div style="text-align:center; line-height:120px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+        </div>
+        <div class="layui-col-md2">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <input type="radio" name="status" value="0" title="实时检测">
+                    <input type="radio" name="status" value="1" title="当前查询" checked>
+                    <input type="radio" name="status" value="2" title="历史查询">
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md2">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
+                            <input type="text" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-normal" style="margin-top: 5px;">检索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12" style="border-style: solid;">
+            <div class="layui-row">
+                <div class="layui-col-md4">
+                    <form class="layui-form" action="">
+                        <select id="sss" lay-filter="">
+                        </select>
+                    </form>
+                </div>
+                <div class="layui-col-md4" name="nowTime">时间</div>
+                <div class="layui-col-md4">转速</div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6" style="border-style: solid;">
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="table1" style=height:250px;></div>
+                        <div class="layui-col-md12" id="table1_" style=height:250px;></div>
+                    </div>
+                </div>
+                <div class="layui-col-md6" style="border-style: solid;">
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="table2" style=height:500px;></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/Precession.js"></script>
+    <!-- <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#time1'
+                , value: '2019-10-10 06:01:00'
+                , isInitValue: true
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#time2'
+                , value: '2020-02-10 14:01:00'
+                , isInitValue: true
+                , type: 'datetime'
+            });
+        });
+        initName();
+        function initName() {
+            var slct = document.getElementById("sss");
+            for (var i in checkedList) {
+                var op = document.createElement("option")
+                op.setAttribute('value', checkedList[i].id)
+                op.innerHTML = checkedList[i].title;
+                slct.appendChild(op)
+            }
+            layui.use(['form'], function () {
+                layui.form.render('select')
+            });
+        }
+        // echarts
+        var _table1 = echarts.init(document.getElementById('table1'));
+        var _table1_ = echarts.init(document.getElementById('table1_'));
+        var _table2 = echarts.init(document.getElementById('table2'));
+        var data1 = [];
+        // for (let i = 0; i < 13; i++) {
+        //     // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
+        //     data1[i] = [i, Math.ceil(Math.random() * 15)];
+        // }
+        data1[0] = [0, 0]
+        data1[1] = [0.5, 2.5]
+        data1[2] = [0.75, 2.5]
+        data1[3] = [0.9, 4.9]
+        data1[4] = [1.1, 21]
+        data1[5] = [1.5, 2.5]
+        data1[6] = [1.8, 2.7]
+        data1[7] = [2, 3]
+        data1[8] = [2.5, 0]
+        data1[9] = [3.2, 2.5]
+        data1[10] = [4, 0]
+        data1[11] = [13, 0]
+        // var max = Math.max.apply(Math,data1);
+        var data2 = [];
+        // for (let i = 0; i < 300; i++) {
+        //     // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
+        //     data2[i] = [i, Math.ceil(Math.random() * 300) - 150];
+        // }
+        data2[0] = [0, 0]
+        data2[1] = [0.5, 2.5]
+        data2[2] = [0.75, 2.5]
+        data2[3] = [0.9, 4.9]
+        data2[4] = [1.1, 26]
+        data2[5] = [1.5, 2.5]
+        data2[6] = [1.8, 2.7]
+        data2[7] = [2, 3]
+        data2[8] = [2.5, 0]
+        data2[9] = [3.2, 2.5]
+        data2[10] = [4, 0]
+        data2[11] = [13, 0]
+        // 指定图表的配置项和数据
+        var option1 = {
+            xAxis: {
+                type: 'value',
+                name: "阶次",
+                nameTextStyle: {
+                    padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+                },
+                nameLocation: 'middle',
+                max:13
+            },
+            yAxis: {
+                type: 'value',
+                name: "幅值/mm",
+                nameGap:30,
+                nameLocation: 'middle'
+            },
+            series: [
+                {
+                    data: data1,
+                    type: 'line',
+                    lineStyle: {
+                        color: 'blue'
+                    },
+                    showSymbol: false,
+                    markPoint: {
+                        data: [
+                            {
+                                x: '90%',
+                                y: '10%',
+                                value: "X:6.064\nY:0.3787mm",
+                                symbol: 'roundRect',
+                                label: {
+                                    color: '#000'
+                                },
+                                itemStyle: {
+                                    color: 'rgba(255,255,255,0)',
+                                }
+                            },
+                            {
+                                x: '10%',
+                                y: '10%',
+                                value: "X向频谱图",
+                                symbol: 'roundRect',
+                                label: {
+                                    color: '#000'
+                                },
+                                itemStyle: {
+                                    color: 'rgba(255,255,255,0)',
+                                }
+                            }
+                        ]
+                    },
+                }
+            ]
+        };
+        var option2 = {
+            xAxis: {
+                type: 'value',
+                name: "阶次",
+                nameTextStyle: {
+                    padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+                },
+                nameLocation: 'middle',
+                max:13
+            },
+            yAxis: {
+                type: 'value',
+                name: "幅值/mm",
+                nameGap:30,
+                nameLocation: 'middle'
+            },
+            series: [
+                {
+                    data: data2,
+                    type: 'line',
+                    lineStyle: {
+                        color: 'blue'
+                    },
+                    showSymbol: false,
+                    markPoint: {
+                        data: [
+                            {
+                                x: '90%',
+                                y: '10%',
+                                value: "X:6.064\nY:0.3787mm",
+                                symbol: 'roundRect',
+                                label: {
+                                    color: '#000'
+                                },
+                                itemStyle: {
+                                    color: 'rgba(255,255,255,0)',
+                                }
+                            },
+                            {
+                                x: '10%',
+                                y: '10%',
+                                value: "Y向频谱图",
+                                symbol: 'roundRect',
+                                label: {
+                                    color: '#000'
+                                },
+                                itemStyle: {
+                                    color: 'rgba(255,255,255,0)',
+                                }
+                            }
+                        ]
+                    },
+                }
+            ]
+        };
+        data = [];
+        var temp;
+        for (let i = 0; i <= 240; i++) {
+            temp = i/10 - 12
+            if ( temp <-2.5){
+                data[i] = [temp, Math.floor(Math.cos(Math.PI/50 * i)*15)/48]
+            }
+            else if (temp < -2){ data[i]= [-2, 2.5] }
+            else if (temp < -1.6){ data[i]= [-1.6, 2.2] }
+            else if (temp < -1.4){ data[i]= [-1.4, 3] }
+            else if (temp < -1){ data[i]= [-1, 28] }
+            else if (temp < -0.5){ data[i]= [-0.5, 2] }
+            else if (temp < 0){ data[i]= [0, 0] }
+            else if (temp < 0.3){ data[i]= [0.3, 2] }
+            else{
+                data[i] = [temp, Math.floor(Math.cos(Math.PI/50 * i)*15)/48]
+            }
+        }
+        var option3 = {
+            xAxis: {
+                type: 'value',
+                name: "阶次",
+                nameTextStyle: {
+                    padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+                },
+                nameLocation: 'middle',
+                min: -12,
+                max: 12
+            },
+            yAxis: {
+                type: 'value',
+                name: "幅值/mm",
+                nameLocation: 'middle',
+                nameGap:30,
+                min: -1.5
+            },
+            series: [
+                {
+                    data: data,
+                    type: 'line',
+                    lineStyle: {
+                        color: 'blue'
+                    },
+                    showSymbol: false,
+                    markPoint: {
+                        data: [
+                            {
+                                x: '90%',
+                                y: '5%',
+                                value: "X:11.968\nY:0.236mm",
+                                symbol: 'roundRect',
+                                label: {
+                                    color: '#000'
+                                },
+                                itemStyle: {
+                                    color: 'rgba(255,255,255,0)',
+                                }
+                            },
+                            {
+                                x: '10%',
+                                y: '5%',
+                                value: "进动谱",
+                                symbol: 'roundRect',
+                                label: {
+                                    color: '#000'
+                                },
+                                itemStyle: {
+                                    color: 'rgba(255,255,255,0)',
+                                }
+                            }
+                        ]
+                    },
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        _table1.setOption(option1);
+        _table1_.setOption(option2);
+        _table2.setOption(option3);
+    </script> -->
+</body>

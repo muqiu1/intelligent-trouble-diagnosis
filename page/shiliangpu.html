@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>框架</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+  <script src="echarts.js"></script>
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header" style="height: 120px;">
+      <!-- 头部区域（可配合layui 已有的水平导航） -->
+      <div style="height: 60px;">
+        <ul class="layui-nav">
+          <!-- 移动端显示 -->
+          <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+            <i class="layui-icon layui-icon-spread-left"></i>
+          </li>
+
+          <li class="layui-nav-item layui-hide-xs"><a href="">系统设置</a></li>
+          <li class="layui-nav-item layui-hide-xs"><a href="">检测分析</a></li>
+          <li class="layui-nav-item layui-hide-xs"><a href="">报警参数</a></li>
+          <li class="layui-nav-item layui-hide-xs"><a href="">工具</a></li>
+          <li class="layui-nav-item layui-hide-xs"><a href="">报表</a></li>
+          <li class="layui-nav-item layui-hide-xs"><a href="">参数</a></li>
+        </ul>
+      </div>
+      <ul class="layui-nav">
+        <!-- 移动端显示 -->
+        <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+          <i class="layui-icon layui-icon-spread-left"></i>
+        </li>
+
+        <li class="layui-nav-item layui-hide-xs"><a href="">区域总貌</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">电机总貌</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">振动棒图</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">参数总表</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">时域波形</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">频率分析</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">趋势分析</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">倒谱分析</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">包络分析</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">相关分析</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">瀑布图分析</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">短时傅里叶</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">报警中心</a></li>
+        <li class="layui-nav-item layui-hide-xs"><a href="">报表中心</a></li>
+      </ul>
+      <!-- <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+          <a href="javascript:;">
+            <img src="https://www.bilibili.com/favicon.ico" class="layui-nav-img">
+            tester
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="">Your Profile</a></dd>
+            <dd><a href="">Settings</a></dd>
+            <dd><a href="">Sign out</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+          <a href="javascript:;">
+            <i class="layui-icon layui-icon-more-vertical"></i>
+          </a>
+        </li>
+      </ul> -->
+    </div>
+
+    <div class="layui-side layui-bg-gray" style="top: 120px;">
+      <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <div id="test12" class="demo-tree-more"></div>
+      </div>
+    </div>
+
+    <div class="layui-body" style="top: 120px;">
+      <!-- 内容主体区域 -->
+      <div style="padding: 15px;">
+        <div class="layui-row">
+          <div class="layui-col-md3">
+            <div class="grid-demo grid-demo-bg1" name="nowTime">时间</div>
+            <form class="layui-form" action="">
+              <div class="layui-form-item">
+                <input type="radio" name="status" value="0" title="实时检测" style="width: 10px;">
+                <input type="radio" name="status" value="1" title="当前查询" style="width: 10px;" checked>
+                <input type="radio" name="status" value="2" title="历史查询" style="width: 10px;">
+              </div>
+            </form>
+          </div>
+          <div class="layui-col-md2">
+            <div class="layui-form">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
+                    <input type="text" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-md7">
+            <div class="grid-demo grid-demo-bg1">时间线</div>
+          </div>
+        </div>
+        <div class="layui-row">
+          <div class="layui-col-md4">
+            <form class="layui-form" action="">
+              <select id="sss" lay-filter="">
+              </select>
+            </form>
+          </div>
+          <div class="layui-col-md6">转速</div>
+          <div class="layui-col-md6" name="nowTime">时间</div>
+        </div>
+        <div class="layui-row" style="border-style: solid;">
+          <div class="layui-col-md6">
+            <div class="layui-row">
+              <div class="layui-col-md12" id="table1" style=height:400px;></div>
+              <div class="layui-col-md12" id="table1_" style=height:400px;></div>
+            </div>
+          </div>
+          <div class="layui-col-md6">
+            <div class="layui-row">
+              <div class="layui-col-md12" id="table2" style=height:400px;></div>
+              <div class="layui-col-md12" id="table2_" style=height:400px;></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="../js/shiliangpu.js"></script>
+  <!-- <script>
+    function startTime() {
+      var now = new Date();
+      for (var obj of document.getElementsByName("nowTime")) {
+        obj.innerHTML = now.toLocaleString();
+      }
+      // setInterval(startTime, 1000);
+    }
+
+    //JS
+    initName();
+    function initName() {
+      var slct = document.getElementById("sss");
+      for (var i in checkedList) {
+        var op = document.createElement("option")
+        op.setAttribute('value', checkedList[i].id)
+        op.innerHTML = checkedList[i].title;
+        slct.appendChild(op)
+      }
+      layui.use(['form'], function () {
+        layui.form.render('select')
+      });
+    }
+    layui.use([], function () {
+      var now = new Date();
+      for (var obj of document.getElementsByName("nowTime")) {
+        obj.innerHTML = now.toLocaleString();
+      }
+      setInterval(startTime, 1000);
+    });
+    layui.use(['element', 'layer', 'util'], function () {
+      var element = layui.element
+        , layer = layui.layer
+        , util = layui.util
+        , $ = layui.$;
+
+      //头部事件
+      util.event('lay-header-event', {
+        //左侧菜单事件
+        menuLeft: function (othis) {
+          layer.msg('展开左侧菜单的操作', { icon: 0 });
+        }
+        , menuRight: function () {
+          layer.open({
+            type: 1
+            , content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+            , area: ['260px', '100%']
+            , offset: 'rt' //右上角
+            , anim: 5
+            , shadeClose: true
+          });
+        }
+      });
+    });
+    layui.use(['tree', 'util'], function () {
+      var tree = layui.tree
+        , layer = layui.layer
+        , util = layui.util
+
+        //模拟数据
+        , data = [{
+          title: '区域1'
+          , id: 1
+          , field: 'name1'
+          //, checked: true
+          , spread: true
+          , children: [{
+            title: '一号机组'
+            , id: 11
+            , field: 'name11'
+            , children: [{
+              title: '1#测点'
+              , id: 111
+              , field: ''
+            }, {
+              title: '2#测点'
+              , id: 112
+              , field: ''
+            }, {
+              title: '3#测点'
+              , id: 113
+              , field: ''
+            }, {
+              title: '4#测点'
+              , id: 114
+              , field: ''
+            }, {
+              title: '5#测点'
+              , id: 115
+              , field: ''
+            }]
+          }]
+        }, {
+          title: '区域2'
+          , id: 2
+          , field: 'name2'
+          , spread: true
+          , children: [{
+            title: '二号机组'
+            , id: 21
+            , field: 'name21'
+            , children: [{
+              title: '1#测点'
+              , id: 211
+              , field: ''
+            }, {
+              title: '2#测点'
+              , id: 212
+              , field: ''
+            }, {
+              title: '3#测点'
+              , id: 213
+              , field: ''
+            }, {
+              title: '4#测点'
+              , id: 214
+              , field: ''
+            }, {
+              title: '5#测点'
+              , id: 215
+              , field: ''
+            }]
+          }]
+        }]
+
+      //基本演示
+      tree.render({
+        elem: '#test12'
+        , data: data
+        , showCheckbox: true  //是否显示复选框
+        , id: 'demoId1'
+        , isJump: false //是否允许点击节点时弹出新窗口跳转
+        , oncheck: function (obj) {
+          var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+          // layer.alert(JSON.stringify(checkedData), { shade: 0 });
+        }
+      });
+    });
+    layui.use('laydate', function () {
+      var laydate = layui.laydate;
+      laydate.render({
+        elem: '#time1'
+        , value: '2022-11-22 17:03:22'
+        , isInitValue: true
+        , type: 'datetime'
+      });
+      laydate.render({
+        elem: '#time2'
+        , value: '2022-11-22 17:03:22'
+        , isInitValue: true
+        , type: 'datetime'
+      });
+    });
+
+    // echarts
+    var _table1 = echarts.init(document.getElementById('table1'));
+
+    var data1 = [];
+    for (let i = 0; i < 300; i++) {
+      // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
+      data1[i] = [i, Math.ceil(Math.random() * 10000)];
+    }
+    // var max = Math.max.apply(Math,data1);
+    var data2 = [];
+    for (let i = 0; i < 300; i++) {
+      // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
+      data2[i] = [i, Math.ceil(Math.random() * 300) - 150];
+    }
+    // 指定图表的配置项和数据
+    var option1 = {
+      xAxis: {
+        type: 'value',
+        name: "阶次",
+        nameTextStyle: {
+          padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      yAxis: {
+        type: 'value',
+        name: "主振矢幅值mm",
+        nameTextStyle: {
+          padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      series: [
+        {
+          data: data1,
+          type: 'line',
+          lineStyle: {
+            color: 'blue'
+          },
+          showSymbol: false,
+          markPoint: {
+            data: [
+              {
+                x: '90%',
+                y: '10%',
+                value: "X=11.3288\nY=0.3773mm",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              },
+            ]
+          },
+        }
+      ]
+    };
+
+    var option2 = {
+      xAxis: {
+        type: 'value',
+        name: "阶次",
+        nameTextStyle: {
+          padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      yAxis: {
+        type: 'value',
+        name: "振矢角",
+        nameTextStyle: {
+          padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      series: [
+        {
+          data: data2,
+          type: 'line',
+          lineStyle: {
+            color: 'blue'
+          },
+          showSymbol: false,
+          markPoint: {
+            data: [
+              {
+                x: '90%',
+                y: '10%',
+                value: "X=12.378\nY=21.5256",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              },
+            ]
+          },
+        }
+      ]
+    };
+    var option3 = {
+      xAxis: {
+        type: 'value',
+        name: "阶次",
+        nameTextStyle: {
+          padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      yAxis: {
+        type: 'value',
+        name: "副振矢幅值mm",
+        nameTextStyle: {
+          padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      series: [
+        {
+          data: data2,
+          type: 'line',
+          lineStyle: {
+            color: 'blue'
+          },
+          showSymbol: false,
+          markPoint: {
+            data: [
+              {
+                x: '90%',
+                y: '10%',
+                value: "X:12.378\nY:0.1533",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              },
+            ]
+          },
+        }
+      ]
+    };
+    var option4 = {
+      xAxis: {
+        type: 'value',
+        name: "阶次",
+        nameTextStyle: {
+          padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      yAxis: {
+        type: 'value',
+        name: "矢功率谱/dB",
+        nameTextStyle: {
+          padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+        },
+        nameLocation: 'middle'
+      },
+      series: [
+        {
+          data: data2,
+          type: 'line',
+          lineStyle: {
+            color: 'blue'
+          },
+          showSymbol: false,
+          markPoint: {
+            data: [
+              {
+                x: '90%',
+                y: '10%',
+                value: "X:0\nY:0dB",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              },
+            ]
+          },
+        }
+      ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    _table1.setOption(option1);
+
+    var _table1_ = echarts.init(document.getElementById('table1_')).setOption(option2);
+    var _table2 = echarts.init(document.getElementById('table2')).setOption(option3);
+    var _table2_ = echarts.init(document.getElementById('table2_')).setOption(option4);
+    layui.use('util', function () {
+      var util = layui.util;
+      util.event('lay-active', {
+        e1: function () {
+          layer.open({
+            type: 2,
+            area: ['1200px', '900px'],
+            shadeClose: true,
+            content: './child.html' //这里content是一个普通的String
+            // content:_table1
+            // success:function(layero,index){          
+            // }
+          });
+        }
+        , e2: function () {
+          layer.open({
+            type: 2,
+            shadeClose: true,
+            area: ['1200px', '900px'],
+            content: './child.html' //这里content是一个普通的String
+          });
+        }
+        , e3: function () {
+          layer.msg('触发了事件3');
+        }
+      });
+    });
+    function btn1() {
+      layer.open({
+        type: 2,
+        area: ['1200px', '900px'],
+        shadeClose: true,
+        content: './child.html' //这里content是一个普通的String
+        //需要传递参数
+      });
+    }
+    function btn2() {
+      layer.open({
+        type: 2,
+        area: ['1200px', '900px'],
+        shadeClose: true,
+        content: './child.html' //这里content是一个普通的String
+      });
+    }
+  </script> -->
+</body>
+
+</html>

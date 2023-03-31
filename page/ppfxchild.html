@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>框架</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
+  <script src="../echarts.js"></script>
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <!-- <div class="layui-body" style="top: 10px;"> -->
+      <!-- 内容主体区域 -->
+      <div style="padding: 15px;">
+        <div class="layui-row">
+          <div class="layui-col-md3">
+            <div class="grid-demo grid-demo-bg1" name="nowTime">时间</div>
+          </div>
+        </div>
+        <div class="layui-row">
+          <div class="layui-col-md6" style="border-style: solid;">
+            <div class="layui-row">
+              <div class="layui-col-md4">采样频率：12500Hz</div>
+              <div class="layui-col-md4" name="nowTime">时间</div>
+              <!-- <div class="layui-col-md4">细化谱分析</div> -->
+              <!-- <button type="button" class="layui-btn" lay-active="e1">细化谱分析</button>           -->
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-md4">峰值频率</div>
+              <div class="layui-col-md4">分析中心频率</div>
+              <div class="layui-col-md4">细化倍数</div>
+              <div class="layui-col-md4">分析</div>
+              <div class="layui-col-md4">实时检测</div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-md12" id="table1" style=height:300px;></div>
+              <div class="layui-col-md12" id="table1_" style=height:300px;></div>
+            </div>
+          </div>
+          <div class="layui-col-md6" style="border-style: solid;">
+            <div class="layui-row">
+              <div class="layui-col-md4">采样频率：12500Hz</div>
+              <div class="layui-col-md4" name="nowTime">时间</div>
+              <!-- <div class="layui-col-md4">细化谱分析</div> -->
+              <!-- <button type="button" class="layui-btn" lay-active="e2">细化谱分析</button> -->
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-md4">峰值频率</div>
+              <div class="layui-col-md4">分析中心频率</div>
+              <div class="layui-col-md4">细化倍数</div>
+              <div class="layui-col-md4">分析</div>
+              <div class="layui-col-md4">实时检测</div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-md12" id="table2" style=height:300px;></div>
+              <div class="layui-col-md12" id="table2_" style=height:300px;></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+
+  </div>
+  <script src="../layui/layui.js"></script>
+  <script src="../js/ppfxchild.js"></script>
+  <!-- <script>
+    function startTime() {
+      var now = new Date();
+      for (var obj of document.getElementsByName("nowTime")) {
+        obj.innerHTML = now.toLocaleString();
+      }
+      setInterval(startTime, 1000);
+    }
+    
+    //JS 
+    layui.use([], function () {
+      var now = new Date();
+      for (var obj of document.getElementsByName("nowTime")) {
+        obj.innerHTML = now.toLocaleString();
+      }
+      setInterval(startTime, 1000);
+    });
+    layui.use(['element', 'layer', 'util'], function () {
+      var element = layui.element
+        , layer = layui.layer
+        , util = layui.util
+        , $ = layui.$;
+
+      //头部事件
+      util.event('lay-header-event', {
+        //左侧菜单事件
+        menuLeft: function (othis) {
+          layer.msg('展开左侧菜单的操作', { icon: 0 });
+        }
+        , menuRight: function () {
+          layer.open({
+            type: 1
+            , content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+            , area: ['260px', '100%']
+            , offset: 'rt' //右上角
+            , anim: 5
+            , shadeClose: true
+          });
+        }
+      });
+    });
+
+    layui.use('laydate', function () {
+      var laydate = layui.laydate;
+      laydate.render({
+        elem: '#time1'
+        , value: '2022-11-22 17:03:22'
+        , isInitValue: true
+        , type: 'datetime'
+      });
+      laydate.render({
+        elem: '#time2'
+        , value: '2022-11-22 17:03:22'
+        , isInitValue: true
+        , type: 'datetime'
+      });
+    });
+
+    // echarts
+    var _table1 = echarts.init(document.getElementById('table1'));
+
+    var data1 = [];
+    for (let i = 0; i < 300; i++) {
+      // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
+      data1[i] = [i, Math.ceil(Math.random()*10000)];
+    }
+    // var max = Math.max.apply(Math,data1);
+    var data2 = [];
+    for (let i = 0; i < 300; i++) {
+      // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
+      data2[i] = [i, Math.ceil(Math.random()*300)-150];
+    }
+    // 指定图表的配置项和数据
+    var option1 = {
+      xAxis: {
+        type: 'value',
+        name: "频率/Hz",
+        nameLocation: 'middle'
+      },
+      yAxis: {
+        type: 'value',
+        name: "幅值/g",
+        nameLocation: 'middle'
+      },
+      series: [
+        {
+          data: data1,
+          type: 'line',
+          lineStyle: {
+            color: 'blue'
+          },
+          showSymbol: false,
+          markPoint: {
+            data: [
+              {
+                x: '90%',
+                y: '10%',
+                value: "x=2498.881Hz\ny=0.00g",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              },
+              {
+                x: '15%',
+                y: '10%',
+                value: "常规谱-幅频谱 ",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              }
+            ]
+          },
+        }
+      ]
+    };
+
+    var option2 = {
+      xAxis: {
+        type: 'value',
+        name: "频率/Hz",
+        nameLocation: 'middle'
+      },
+      yAxis: {
+        type: 'value',
+        name: "相位/g",
+        nameLocation: 'middle'
+      },
+      series: [
+        {
+          data: data2,
+          type: 'line',
+          lineStyle: {
+            color: 'blue'
+          },
+          showSymbol: false,
+          markPoint: {
+            data: [
+              {
+                x: '90%',
+                y: '10%',
+                value: "x=2498.881Hz\ny=0.00g",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              },
+              {
+                x: '15%',
+                y: '10%',
+                value: "常规谱-相频谱 ",
+                symbol: 'roundRect',
+                label: {
+                  color: '#000'
+                },
+                itemStyle: {
+                  color: 'rgba(255,255,255,0)',
+                }
+              }
+            ]
+          },
+        }
+      ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    _table1.setOption(option1);
+
+    var _table1_ = echarts.init(document.getElementById('table1_')).setOption(option2);
+    var _table2 = echarts.init(document.getElementById('table2')).setOption(option1);
+    var _table2_ = echarts.init(document.getElementById('table2_')).setOption(option2);
+    // var _table3 = echarts.init(document.getElementById('table3')).setOption(option2);
+    // var _table4 = echarts.init(document.getElementById('table4')).setOption(option2); 
+  </script> -->
+</body>
+
+</html>

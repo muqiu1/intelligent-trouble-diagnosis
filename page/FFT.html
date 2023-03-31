@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<!-- <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>框架</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../echarts.js"></script>
+    <script src="../echarts-gl.js"></script>
+</head> -->
+
+<body>
+    <div class="layui-row">
+        <div class="layui-col-md3">
+            <div style="text-align:center; line-height:120px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+        </div>
+        <div class="layui-col-md2">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <input type="radio" name="status" value="0" title="实时检测">
+                    <input type="radio" name="status" value="1" title="当前查询" checked>
+                    <input type="radio" name="status" value="2" title="历史查询">
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md2">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
+                            <input type="text" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-normal" style="margin-top: 5px;">检索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12" style="border-style: solid;">
+            <div class="layui-row">
+                <div class="layui-col-md4" id="nameFFT">
+                    <form class="layui-form" action="">
+                        <select id="sss" lay-filter="">
+                        </select>
+                    </form>
+                </div>
+                <div class="layui-col-md4" name="nowTime">时间</div>
+                <div class="layui-col-md4">转速</div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md5">
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="FFT1" style=height:350px;></div>
+                        <div class="layui-col-md12" id="FFT2" style=height:350px;></div>
+                    </div>
+                </div>
+                <div class="layui-col-md7">
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="FFT3" style=height:700px;></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/FFT.js"></script>
+    <!-- <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#time1'
+                , value: '2019-10-10 06:01:00'
+                , isInitValue: true
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#time2'
+                , value: '2020-02-10 14:01:00'
+                , isInitValue: true
+                , type: 'datetime'
+            });
+        });
+        drawFFT();
+
+        
+        initName();
+        function initName(){
+            var slct = document.getElementById("sss");
+            for (var i in checkedList){
+                var op = document.createElement("option")
+                op.setAttribute('value', checkedList[i].id)
+                op.innerHTML = checkedList[i].title;
+                slct.appendChild(op)
+            }
+            layui.use(['form'], function () {
+                layui.form.render('select')
+            });
+        }
+
+        function drawFFT() {
+            var data1 = [];
+            var data2 = [];
+            var data3 = [];
+            // Parametric curve [i, Math.cos(2 * Math.PI/(60) * i) * 15 + Math.cos(2 * Math.PI/(6) * i) * 3]
+            for (var t = 0; t < 1.4; t += 0.001) {
+                var y = t;
+                var x = Math.cos(2 * Math.PI/(100) * t*1000) * 20 + Math.cos(2 * Math.PI/(7) * t*1000) * 3
+                var z = 100/((x+23) / (23*2)) -100
+                data1.push([y, x]);
+                data2.push([z, x+23]);
+                data3.push([z, y, x+23]);
+            }
+            var option1 = {
+                tooltip: {},
+                xAxis: {
+                    type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle',
+                    nameGap:30,
+                    max:1.4
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameGap:30,
+                    nameLocation: 'middle'
+                },
+                series: [
+                    {
+                        data: data1,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                        markPoint: {
+                            data: [
+                                {
+                                    x: '90%',
+                                    y: '10%',
+                                    value: "x=0.00s\ny=0.00g",
+                                    symbol: 'roundRect',
+                                    label: {
+                                        color: '#000'
+                                    },
+                                    itemStyle: {
+                                        color: 'rgba(255,255,255,0)',
+                                    }
+                                }
+                            ]
+                        },
+                    }
+                ]
+            };
+            var _table1 = echarts.init(document.getElementById("FFT1")).setOption(option1);
+            var option2 = {
+                tooltip: {},
+                xAxis: {
+                    type: 'value',
+                    name: "频率/s",
+                    nameGap:30,
+                    nameLocation: 'middle',
+                    // max: 2000
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameGap:30,
+                    nameLocation: 'middle'
+                },
+                series: [
+                    {
+                        data: data2,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                        markPoint: {
+                            data: [
+                                {
+                                    x: '90%',
+                                    y: '10%',
+                                    value: "x=0.00s\ny=0.00g",
+                                    symbol: 'roundRect',
+                                    label: {
+                                        color: '#000'
+                                    },
+                                    itemStyle: {
+                                        color: 'rgba(255,255,255,0)',
+                                    }
+                                }
+                            ]
+                        },
+                    }
+                ]
+            };
+            var _table2 = echarts.init(document.getElementById("FFT2")).setOption(option2);
+            var option3d = {
+                tooltip: {},
+                xAxis3D: {
+                    type: 'value',
+                    name: "频率/s",
+                    nameLocation: 'middle',
+                    // max: 2000
+                },
+                yAxis3D: {
+                    type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle'
+                },
+                zAxis3D: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameLocation: 'middle'
+                },
+                grid3D: {
+                    viewControl: {
+                        projection: 'orthographic'
+                    }
+                },
+                series: [
+                    {
+                        data: data3,
+                        type: 'line3D',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false
+                    }
+                ]
+            };
+            var _table3 = echarts.init(document.getElementById("FFT3")).setOption(option3d);
+        }
+    </script> -->
+</body>

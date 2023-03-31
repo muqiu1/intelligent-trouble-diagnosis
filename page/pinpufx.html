@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+<!-- <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>框架</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+  <script src="echarts.js"></script>
+</head> -->
+
+<body>
+  <!-- <div class="layui-row">
+    <div class="layui-col-md3">
+      <div class="grid-demo grid-demo-bg1" name="nowTime">时间</div>
+      <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <input type="radio" name="status" value="0" title="实时检测" style="width: 10px;">
+          <input type="radio" name="status" value="1" title="当前查询" style="width: 10px;" checked>
+          <input type="radio" name="status" value="2" title="历史查询" style="width: 10px;">
+        </div>
+      </form>
+    </div>
+    <div class="layui-col-md2">
+      <div class="layui-form">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <div class="layui-input-inline">
+              <input type="text" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
+              <input type="text" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-md7">
+      <div class="grid-demo grid-demo-bg1">时间线</div>
+    </div>
+  </div> -->
+  <div class="layui-row">
+    <div class="layui-col-md3">
+        <div style="text-align:center; line-height:120px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+    </div>
+    <div class="layui-col-md2">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <input type="radio" name="status" value="0" title="实时检测">
+                <input type="radio" name="status" value="1" title="当前查询" checked>
+                <input type="radio" name="status" value="2" title="历史查询">
+            </div>
+        </form>
+    </div>
+    <div class="layui-col-md2">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
+                        <input type="text" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-normal" style="margin-top: 5px;">检索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md5">
+    </div>
+  </div>
+  <div class="layui-row" id="pinpufx">
+    <div class="layui-col-md6" style="border-style: solid;">
+      <div class="layui-row">
+        <div class="layui-col-md4">
+            <form class="layui-form" action="">
+                <select id="sss1" lay-filter="">
+                </select>
+            </form>
+        </div>
+        <div class="layui-col-md4">2014/5/10 9:51:33</div>
+        <div class="layui-col-md4">转速：0rpm</div>
+        <!-- <div class="layui-col-md4" name="nowTime">时间</div> -->
+        <!-- <button type="button" class="layui-btn" lay-active="e1">细化谱分析</button>           -->
+        <button type="submit" id="btn" onclick="btn1()">细化谱分析</button>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md4">选择频谱类型</div>
+        <div class="layui-col-md4">关联故障特征频率</div>
+        <div class="layui-col-md4">显示阶数</div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md12" id="table1" style=height:300px;></div>
+        <div class="layui-col-md12" id="table1_" style=height:300px;></div>
+      </div>
+    </div>
+    <div class="layui-col-md6" style="border-style: solid;">
+      <div class="layui-row">
+        <div class="layui-col-md4">
+            <form class="layui-form" action="">
+                <select id="sss2" lay-filter="">
+                </select>
+            </form>
+        </div>
+        <div class="layui-col-md4">2014/5/10 9:51:33</div>
+        <div class="layui-col-md4">转速：0rpm</div>
+        <!-- <div class="layui-col-md4" name="nowTime">时间</div> -->       
+        <!-- <button type="button" class="layui-btn" lay-active="e2">细化谱分析</button> -->
+        <button type="submit" id="btn" onclick="btn2()">细化谱分析</button>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md4">选择频谱类型</div>
+        <div class="layui-col-md4">关联故障特征频率</div>
+        <div class="layui-col-md4">显示阶数</div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md12" id="table2" style=height:300px;></div>
+        <div class="layui-col-md12" id="table2_" style=height:300px;></div>
+      </div>
+    </div>
+  </div>
+  <script src="../js/pinpufx.js"></script>
+  <script>
+    // function startTime() {
+    //   var now = new Date();
+    //   for (var obj of document.getElementsByName("nowTime")) {
+    //     obj.innerHTML = now.toLocaleString();
+    //   }
+    //   // setInterval(startTime, 1000);
+    // }
+
+    //JS 
+    // initName();
+    // function initName() {
+    //   var slct = document.getElementById("sss1");
+    //   for (var i in checkedList) {
+    //     var op = document.createElement("option")
+    //     op.setAttribute('value', checkedList[i].id)
+    //     op.innerHTML = checkedList[i].title;
+    //     slct.appendChild(op)
+    //   }
+    //   slct = document.getElementById("sss2");
+    //   for (var i in checkedList) {
+    //     var op = document.createElement("option")
+    //     op.setAttribute('value', checkedList[i].id)
+    //     op.innerHTML = checkedList[i].title;
+    //     slct.appendChild(op)
+    //   }
+    //   layui.use(['form'], function () {
+    //     layui.form.render('select')
+    //   });
+    // }
+
+    // layui.use('laydate', function () {
+    //   var laydate = layui.laydate;
+    //   laydate.render({
+    //     elem: '#time1'
+    //     , value: '2022-11-22 17:03:22'
+    //     , isInitValue: true
+    //     , type: 'datetime'
+    //   });
+    //   laydate.render({
+    //     elem: '#time2'
+    //     , value: '2022-11-22 17:03:22'
+    //     , isInitValue: true
+    //     , type: 'datetime'
+    //   });
+    // });
+
+    // // echarts
+    // var _table1 = echarts.init(document.getElementById('table1'));
+
+    // var data0 = [];
+    // for (let i = 0; i < 50; i++) {
+    //   // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];  
+    //   alpha=1
+    //   if (i==0){
+    //     alpha=0.1*(8+Math.random())
+    //   }else{
+    //     alpha=1/i
+    //   }
+    //   data0[i*8+0] = [(i*4+0)*25, 0.01*alpha];    
+    //   data0[i*8+1] = [(i*4+0)*25, 0.0004*alpha];
+    //   data0[i*8+2] = [(i*4+1)*25, 0.0002*alpha];
+    //   data0[i*8+3] = [(i*4+2)*25, 0.0004*alpha];
+    //   data0[i*8+4] = [(i*4+2)*25, 0.005*alpha];
+    //   data0[i*8+5] = [(i*4+2)*25, 0.0004*alpha];
+    //   data0[i*8+6] = [(i*4+3)*25, 0.0002*alpha];
+    //   data0[i*8+7] = [(i*4+4)*25, 0.0004*alpha];
+    // }
+    // var data1 = [];
+    // for (let i = 0; i < 50; i++) {
+    //   // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];  
+    //   alpha=1
+    //   if (i==0){
+    //     alpha=0.8
+    //   }else{
+    //     alpha=1/i
+    //   }
+    //   data1[i*8+0] = [(i*4+0)*25, 0.01*alpha];    
+    //   data1[i*8+1] = [(i*4+0)*25, 0.0004*alpha];
+    //   data1[i*8+2] = [(i*4+1)*25, 0.0002*alpha];
+    //   data1[i*8+3] = [(i*4+2)*25, 0.0004*alpha];
+    //   data1[i*8+4] = [(i*4+2)*25, 0.005*alpha];
+    //   data1[i*8+5] = [(i*4+2)*25, 0.0004*alpha];
+    //   data1[i*8+6] = [(i*4+3)*25, 0.0002*alpha];
+    //   data1[i*8+7] = [(i*4+4)*25, 0.0004*alpha];
+    // }
+        
+    // // var max = Math.max.apply(Math,data1);
+    // var data2 = [];
+    // for (let i = 0; i < 400; i++) {
+    //   // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];    
+    //   data2[i] = [i*12.5, Math.ceil(Math.random() * 300) - 150];
+    // }
+    // var data3 = [];
+    // for (let i = 0; i < 400; i++) {
+    //   // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];    
+    //   data3[i] = [i*12.5, Math.ceil(Math.random() * 300) - 150];
+    // }
+    // // 指定图表的配置项和数据
+    // var option0 = {
+    //   xAxis: {
+    //     type: 'value',
+    //     name: "频率/Hz",
+    //     nameLocation: 'middle',
+    //     nameTextStyle: {
+    //                 padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+    //     },
+    //   },
+    //   yAxis: {
+    //     type: 'value',
+    //     name: "幅值/g",
+    //     nameLocation: 'middle',
+    //     nameTextStyle: {
+    //                 padding: [0, 0,30, 0]    // 四个数字分别为上右下左与原位置距离
+    //             },
+    //     max: 0.012
+    //   },
+    //   series: [
+    //     {
+    //       data: data0,
+    //       type: 'line',
+    //       lineStyle: {
+    //         color: 'blue',
+    //         width:1.2
+    //       },
+    //       showSymbol: false,
+    //       markPoint: {
+    //         data: [
+    //           {
+    //             x: '90%',
+    //             y: '10%',
+    //             value: "x=2498.881Hz\ny=0.00g",
+    //             symbol: 'roundRect',
+    //             label: {
+    //               color: '#000'
+    //             },
+    //             itemStyle: {
+    //               color: 'rgba(255,255,255,0)',
+    //             }
+    //           },
+    //           {
+    //             x: '15%',
+    //             y: '10%',
+    //             value: "峰值频率：149.54Hz ",
+    //             symbol: 'roundRect',
+    //             label: {
+    //               color: '#000'
+    //             },
+    //             itemStyle: {
+    //               color: 'rgba(255,255,255,0)',
+    //             }
+    //           }
+    //         ]
+    //       },
+    //     }
+    //   ]
+    // };
+    // var option1 = {
+    //   xAxis: {
+    //     type: 'value',
+    //     name: "频率/Hz",
+    //     nameLocation: 'middle',
+    //     nameTextStyle: {
+    //                 padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+    //             },
+    //   },
+    //   yAxis: {
+    //     type: 'value',
+    //     name: "幅值/g",
+    //     nameLocation: 'middle',
+    //     max: 0.012,
+    //     nameTextStyle: {
+    //                 padding: [0, 0, 30, 0]    // 四个数字分别为上右下左与原位置距离
+    //             },
+    //   },
+    //   series: [
+    //     {
+    //       data: data1,
+    //       type: 'line',
+    //       lineStyle: {
+    //         color: 'blue',
+    //         width:1.2
+    //       },
+    //       showSymbol: false,
+    //       markPoint: {
+    //         data: [
+    //           {
+    //             x: '90%',
+    //             y: '10%',
+    //             value: "x=2494.881Hz\ny=0.004g",
+    //             symbol: 'roundRect',
+    //             label: {
+    //               color: '#000'
+    //             },
+    //             itemStyle: {
+    //               color: 'rgba(255,255,255,0)',
+    //             }
+    //           },
+    //           {
+    //             x: '15%',
+    //             y: '10%',
+    //             value: "峰值频率：149.54Hz ",
+    //             symbol: 'roundRect',
+    //             label: {
+    //               color: '#000'
+    //             },
+    //             itemStyle: {
+    //               color: 'rgba(255,255,255,0)',
+    //             }
+    //           }
+    //         ]
+    //       },
+    //     }
+    //   ]
+    // };
+
+    // var option2 = {
+    //   xAxis: {
+    //     type: 'value',
+    //     name: "频率/Hz",
+    //     nameLocation: 'middle',
+    //     nameTextStyle: {
+    //                 padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+    //             },
+    //   },
+    //   yAxis: {
+    //     type: 'value',
+    //     name: "相位/g",
+    //     nameTextStyle: {
+    //                 padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+    //             },
+    //     nameLocation: 'middle'
+    //   },
+    //   series: [
+    //     {
+    //       data: data2,
+    //       type: 'line',
+    //       lineStyle: {
+    //         color: 'blue',
+    //         width:1.5
+    //       },
+    //       showSymbol: false,
+    //     }
+    //   ]
+    // };
+    // var option3 = {
+    //   xAxis: {
+    //     type: 'value',
+    //     name: "频率/Hz",
+    //     nameLocation: 'middle',
+    //     nameTextStyle: {
+    //                 padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+    //     },
+    //   },
+    //   yAxis: {
+    //     type: 'value',
+    //     name: "相位/g",
+    //     nameTextStyle: {
+    //                 padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+    //             },
+    //     nameLocation: 'middle'
+    //   },
+    //   series: [
+    //     {
+    //       data: data3,
+    //       type: 'line',
+    //       lineStyle: {
+    //         color: 'blue',
+    //         width:1.5
+    //       },
+    //       showSymbol: false,
+    //     }
+    //   ]
+    // };
+    // // 使用刚指定的配置项和数据显示图表。
+    // _table1.setOption(option0);
+    // var _table1_ = echarts.init(document.getElementById('table1_')).setOption(option2);
+    // var _table2 = echarts.init(document.getElementById('table2')).setOption(option1);
+    // var _table2_ = echarts.init(document.getElementById('table2_')).setOption(option3);
+
+    // function btn1() {
+    //   layer.open({
+    //     type: 2,
+    //     area: ['1000px', '700px'],
+    //     shadeClose: true,
+    //     content: './page/ppfxchild.html' //这里content是一个普通的String
+    //     //需要传递参数
+    //   });
+    // }
+    // function btn2() {
+    //   layer.open({
+    //     type: 2,
+    //     area: ['1000px', '700px'],
+    //     shadeClose: true,
+    //     content: './page/ppfxchild.html' //这里content是一个普通的String
+    //   });
+    // }
+  </script>
+</body>
+</html>
