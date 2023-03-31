@@ -1,4 +1,3 @@
-//JS 
 var _target = 'userManage'
 function setTime() {
     now = new Date();

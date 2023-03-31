@@ -2,18 +2,17 @@ layui.use('laydate', function () {
     var laydate = layui.laydate;
     laydate.render({
         elem: '#time1'
-        , value: '2022-11-22 17:03:22'
+        , value: '2019-10-10 06:01:00'
         , isInitValue: true
         , type: 'datetime'
     });
     laydate.render({
         elem: '#time2'
-        , value: '2022-11-22 17:03:22'
+        , value: '2020-02-10 14:01:00'
         , isInitValue: true
         , type: 'datetime'
     });
 });
-var data = [];
 new Promise(function (resolve, reject) {
     layui.use('laytpl', function () {
         var laytpl = layui.laytpl
@@ -26,28 +25,12 @@ new Promise(function (resolve, reject) {
             view.innerHTML = html;
         });
     });
-    // var parameter ={};
-    // layui.$.ajax({
-    //     type: 'POST',
-    //     url: "http://192.168.10.104:8080/cms/user/list",
-    //     contentType: "application/json",
-    //     async: false,
-    //     dataType: "json",
-    //     data: parameter,
-    //     success: function (res) {
-    //         data = res.data.list
-    //     },
-    //     error: function () {
-    //         console.log(2)
-    //     }
-    // })
     resolve();
 }).then(function () {
     layui.use(['form'], function () {
         var $ = layui.$
         var form = layui.form;
         form.render('select')
-        console.log(data)
         $(document).ready(function () {
             for (var i = 0; i < checkedList.length; i++) {
                 draw(checkedList[i].id);
@@ -59,10 +42,10 @@ layui.use('form', function () {
     var form = layui.form;
 
     //监听提交
-    form.on('select()', function (res) {
-        var x = res.value.indexOf('_')
-        var id1 = res.value.substr(0, x)
-        var id2 = res.value.substr(x + 1)
+    form.on('select()', function (data) {
+        var x = data.value.indexOf('_')
+        var id1 = data.value.substr(0,x)
+        var id2 = data.value.substr(x+1)
         draw(id1)
     });
 });
@@ -70,8 +53,25 @@ function draw(id) {
     // echarts
     var data = [];
     for (let i = 0; i < 300; i++) {
-        // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-        data[i] = [i, Math.trunc(50 * Math.sin(i) * Math.cos(i * 2 + 1) * Math.sin(i * 3 + 2))];
+        if (i%19==0){ data[i] = [i/300, 0] }
+        else if (i%19==1){ data[i] = [i/300, 0.01] }
+        else if (i%19==2){ data[i] = [i/300, 0] }
+        else if (i%19==3){ data[i] = [i/300, 0.01 + (Math.random()-0.5)/500] }
+        else if (i%19==4){ data[i] = [i/300, 0.015 + (Math.random()-0.5)/500] }
+        else if (i%19==5){ data[i] = [i/300, 0.026 + (Math.random()-0.5)/500] }
+        else if (i%19==6){ data[i] = [i/300, 0.026 + (Math.random()-0.5)/500] }
+        else if (i%19==7){ data[i] = [i/300, 0] }
+        else if (i%19==8){ data[i] = [i/300, 0] }
+        else if (i%19==9){ data[i] = [i/300, 0] }
+        else if (i%19==10){ data[i] = [i/300, 0] }
+        else if (i%19==11){ data[i] = [i/300, 0] }
+        else if (i%19==12){ data[i] = [i/300, 0] }
+        else if (i%19==13){ data[i] = [i/300, 0] }
+        else if (i%19==14){ data[i] = [i/300, 0] }
+        else if (i%19==15){ data[i] = [i/300, 0] }
+        else if (i%19==16){ data[i] = [i/300, -0.02 + (Math.random()-0.5)/500] }
+        else if (i%19==17){ data[i] = [i/300, -0.023 + (Math.random()-0.5)/500] }
+        else if (i%19==18){ data[i] = [i/300, -0.06 + (Math.random()-0.5)/500] }
     }
     // 指定图表的配置项和数据
     var option = {
@@ -84,7 +84,10 @@ function draw(id) {
         yAxis: {
             type: 'value',
             name: "幅值/g",
-            nameLocation: 'middle'
+            nameLocation: 'middle',
+            max: 0.04,
+            min: -0.08,
+            nameGap: 40
         },
         series: [
             {
@@ -111,7 +114,7 @@ function draw(id) {
                         {
                             x: '15%',
                             y: '10%',
-                            value: "峰值：0.00g 有效值0.00g",
+                            value: "峰值：0.026g 有效值0.129g",
                             symbol: 'roundRect',
                             label: {
                                 color: '#000'
