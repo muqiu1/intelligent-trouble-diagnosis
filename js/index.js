@@ -44,6 +44,22 @@ function loadPage(target) {
     }
 }
 
+function updateAlarmText(id, string) {
+    let e = document.getElementById("id");
+    if (e) {
+        e.innerText = string;
+    }
+}
+
+function setAlarm() {
+    //判断逻辑：TODO
+    let alarmNum = 0;
+    let timerTest = setInterval(() => alarmNum++, 2000);
+    let timerAlarm = setInterval((alarmNum) => updateAlarmText(alarmNumber, `报警中心(${alarmNum})`));
+
+}
+
+
 layui.use(['element', 'layer', 'util'], function () {
     var element = layui.element
         , layer = layui.layer
@@ -190,4 +206,6 @@ layui.use(['tree'], function () {
     //         console.log(2)
     //     }
     // })
+
+
 });

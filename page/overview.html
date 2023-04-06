@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<!-- <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>框架</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../echarts.js"></script>
+    <script src="../echarts-gl.js"></script>
+</head> -->
+
+<body>
+    <div class="layui-row">
+        
+      <div class="layui-col-md9">
+        <select >
+          <option value="one">一号机组</option>
+          <option value="two" selected>二号机组</option>
+          <option value="three">三号机组</option>
+          <option value="four" disabled>四号机组</option>
+        </select>
+
+        
+        <button type="button" class="layui-btn">启动</button>
+        <button type="button" class="layui-btn">暂停</button>
+      </div>
+
+      <div class="layui-col-md3">
+        <div style="text-align:center; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+      </div>
+    </div>
+    <div class="layui-row" id="view-overview">
+      <div class="layui-col-md9">
+        <img src="../img1.PNG">
+      </div>
+      <div class="layui-col-md3">
+        <h6>电机参数</h6>
+        <h5 style="text-align: center; color: white; background-color: rgb(17, 24, 164);">基本信息</h5>
+        <div class="layui-col-md4">
+          <div style="border: 1px solid white">编号</div>
+          <div style="border: 1px solid white">电机名称</div>
+          <div style="border: 1px solid white">电机类型</div>
+          <div style="border: 1px solid white">所属区域</div>
+          <div style="border: 1px solid white">制造商</div>
+          <div style="border: 1px solid white">安装位置</div>
+        </div>
+        <div class="layui-col-md8">
+          <div style="border: 1px solid white">003号</div>
+          <div style="border: 1px solid white">一号机组</div>
+          <div style="border: 1px solid white">三相异步电机</div>
+          <div style="border: 1px solid white">实验1</div>
+          <div style="border: 1px solid white">神秘人</div>
+          <div style="border: 1px solid white">位置1</div>
+        </div>
+      </div>
+      <div class="layui-col-md3">
+        <h5 style="text-align: center; color: white; background-color: rgb(17, 24, 164);"">采样参数</h5>
+        <div class="layui-col-md4">
+          <div style="border: 1px solid white">采集器状态</div>
+          <div style="border: 1px solid white">采样方式</div>
+          <div style="border: 1px solid white">分析频宽</div>
+          <div style="border: 1px solid white">谱线数</div>
+        </div>
+
+        <div class="layui-col-md8">
+          <div style="border: 1px solid white">正在工作</div>
+          <div style="border: 1px solid white">定频采样</div>
+          <div style="border: 1px solid white">10000 Hz</div>
+          <div style="border: 1px solid white">6400</div>
+        </div>
+      </div>
+
+        <div class="layui-col-md3">
+          <h5 style="text-align: center; color: white; background-color: rgb(17, 24, 164);"">工艺参数</h5>
+          <table class="layui-table">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>名称</th>
+                <th>数值</th>
+                <th>单位</th>
+                <th>状态</th>
+              </tr> 
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>转速...</td>
+                <td>--</td>
+                <td>rpm</td>
+                <td>缺值</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+    </div>
+    <!-- <script id="demo" type="text/html">
+    {{#  layui.each(d.list, function(index, item){ }}
+        {{#
+            var _id = item.id;
+        }}
+      <div class="layui-col-md6" style="border-style: solid;">
+        <div class="layui-row">
+            <div class="layui-col-md4">
+                <form class="layui-form" action="">
+                    <select lay-filter="">
+                            {{#  layui.each(d.list, function(index, item){ }}
+                                {{#  if (_id == item.id){ }}
+                                    <option value={{_id +'_' + item.id}} selected>{{item.title}}</option>
+                                {{#  }else{ }}
+                                    <option value={{_id +'_' + item.id}}>{{item.title}}</option>
+                                {{#  } }}
+                            {{#  }); }}
+                    </select>
+                </form>
+            </div>
+            <div class="layui-col-md4" name="nowTime">时间</div>
+            <div class="layui-col-md4">转速</div>
+        </div>
+        <div class="layui-row">
+          <div class="layui-col-md12" id={{item.id}} style=height:400px;></div>
+        </div>
+      </div>
+    {{#  }); }}
+    </script> -->
+    <!-- <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#time1'
+                , value: '2019-10-10 06:01:00'
+                , isInitValue: true
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#time2'
+                , value: '2020-02-10 14:01:00'
+                , isInitValue: true
+                , type: 'datetime'
+            });
+        });
+        new Promise(function (resolve, reject) {
+            layui.use('laytpl', function () {
+                var laytpl = layui.laytpl
+                var getTpl = demo.innerHTML
+                var view = document.getElementById('view');
+                var tableData = {
+                    'list': checkedList
+                }
+                laytpl(getTpl).render(tableData, function (html) {
+                    view.innerHTML = html;
+                });
+            });
+            resolve();
+        }).then(function () {
+            layui.use(['form'], function () {
+                var $ = layui.$
+                var form = layui.form;
+                form.render('select')
+                $(document).ready(function () {
+                    for (var i = 0; i < checkedList.length; i++) {
+                        draw(checkedList[i].id);
+                    }
+                })
+            });
+        })
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('select()', function (data) {
+                var x = data.value.indexOf('_')
+                var id1 = data.value.substr(0,x)
+                var id2 = data.value.substr(x+1)
+                draw(id1)
+            });
+        });
+        function draw(id) {
+            // echarts
+            var data = [];
+            for (let i = 0; i < 300; i++) {
+                if (i%19==0){ data[i] = [i/300, 0] }
+                else if (i%19==1){ data[i] = [i/300, 0.01] }
+                else if (i%19==2){ data[i] = [i/300, 0] }
+                else if (i%19==3){ data[i] = [i/300, 0.01 + (Math.random()-0.5)/500] }
+                else if (i%19==4){ data[i] = [i/300, 0.015 + (Math.random()-0.5)/500] }
+                else if (i%19==5){ data[i] = [i/300, 0.026 + (Math.random()-0.5)/500] }
+                else if (i%19==6){ data[i] = [i/300, 0.026 + (Math.random()-0.5)/500] }
+                else if (i%19==7){ data[i] = [i/300, 0] }
+                else if (i%19==8){ data[i] = [i/300, 0] }
+                else if (i%19==9){ data[i] = [i/300, 0] }
+                else if (i%19==10){ data[i] = [i/300, 0] }
+                else if (i%19==11){ data[i] = [i/300, 0] }
+                else if (i%19==12){ data[i] = [i/300, 0] }
+                else if (i%19==13){ data[i] = [i/300, 0] }
+                else if (i%19==14){ data[i] = [i/300, 0] }
+                else if (i%19==15){ data[i] = [i/300, 0] }
+                else if (i%19==16){ data[i] = [i/300, -0.02 + (Math.random()-0.5)/500] }
+                else if (i%19==17){ data[i] = [i/300, -0.023 + (Math.random()-0.5)/500] }
+                else if (i%19==18){ data[i] = [i/300, -0.06 + (Math.random()-0.5)/500] }
+            }
+            // 指定图表的配置项和数据
+            var option = {
+                tooltip: {},
+                xAxis: {
+                    type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle'
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameLocation: 'middle',
+                    max: 0.04,
+                    min: -0.08,
+                    nameGap: 40
+                },
+                series: [
+                    {
+                        data: data,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                        markPoint: {
+                            data: [
+                                {
+                                    x: '90%',
+                                    y: '10%',
+                                    value: "x=0.00s\ny=0.00g",
+                                    symbol: 'roundRect',
+                                    label: {
+                                        color: '#000'
+                                    },
+                                    itemStyle: {
+                                        color: 'rgba(255,255,255,0)',
+                                    }
+                                },
+                                {
+                                    x: '15%',
+                                    y: '10%',
+                                    value: "峰值：0.026g 有效值0.129g",
+                                    symbol: 'roundRect',
+                                    label: {
+                                        color: '#000'
+                                    },
+                                    itemStyle: {
+                                        color: 'rgba(255,255,255,0)',
+                                    }
+                                }
+                            ]
+                        },
+                    }
+                ]
+            };
+            echarts.init(document.getElementById(id)).setOption(option);
+        };
+    </script> -->
+</body>

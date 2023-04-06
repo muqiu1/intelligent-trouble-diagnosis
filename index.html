@@ -34,7 +34,7 @@
         </ul>
       </div>
       <ul class="layui-nav">
-
+        <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('overview')" href="javascript:void(0)">电机总貌</a></li>
         <li class="layui-nav-item layui-hide-xs layui-this"><a onclick="loadPage('paramTable')" href="javascript:void(0)">参数总表</a></li>
         <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('TimeDomain')" href="javascript:void(0)">时域波形</a></li>
         <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('pinpufx')" href="javascript:void(0)">频谱分析</a></li>
@@ -45,7 +45,7 @@
         <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('Vector')" href="javascript:void(0)">矢量谱</a></li>
         <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('FFT')" href="javascript:void(0)">短时傅里叶</a></li>
         <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('XY_pic')" href="javascript:void(0)">XY图</a></li>
-        <li class="layui-nav-item layui-hide-xs"><a onclick="loadPage('AlarmCenter')" href="javascript:void(0)">报警中心(0)</a></li>
+        <li class="layui-nav-item layui-hide-xs" id="alarmNumber"><a onclick="loadPage('AlarmCenter')" href="javascript:void(0)">报警中心(0)</a></li>
       </ul>
       <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item layui-hide layui-show-md-inline-block">
