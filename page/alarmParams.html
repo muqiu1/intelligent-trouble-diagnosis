@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>报警参数</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <!-- <div class="layui-body" style="top: 10px;"> -->
+      <!-- 内容主体区域 -->
+      <div style="padding: 15px;">
+        <div class="layui-row">
+          <div class="layui-col-md11">
+            <button type="button" class="layui-btn">保存</button>
+          </div>
+          <div class="layui-col-md1">关闭前注意保存</div>
+        </div>
+        <div class="layui-row">
+          <div class="layui-col-md5" style="margin-right: 30px ;">
+
+            <div class="layui-row" style="margin-bottom: 10px;">
+              <label for="description">测点名称</label>
+              <input type="text" name="descript" id="description">
+            </div>
+
+            <div class="layui-row" style="margin-bottom: 10px;">
+              <div class="layui-col-md3">测点位置</div>
+              <select class="layui-col-md9">
+                <option value="电机端x">电机端x</option>
+                <option value="电机端y">电机端y</option>
+              </select>
+            </div>
+
+            <div class="layui-row" style="margin-bottom: 10px;">
+              <div class="layui-col-md3">传感器</div>
+              <div class="layui-col-md3">编号: 197</div>
+              <div class="layui-col-md4">灵敏度: 0.1V/g</div>
+              <button class="layui-col-md2">选择</button>
+            </div>
+
+            <div class="layui-row" style="margin-bottom: 10px;">
+              <div class="layui-col-md3">信号来源</div>
+              <select class="layui-col-md9">
+                <option value="模拟通道">模拟通道</option>
+              </select>
+            </div>
+
+            <div class="layui-row" style="margin-bottom: 10px;">
+              <div class="layui-col-md3">采集器通道ID</div>
+              <select class="layui-col-md9">
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+
+            <div class="layui-row" style="margin-bottom: 10px;">
+              <div class="layui-col-md3">键相信号通道</div>
+              <select class="layui-col-md3">
+                <option value="1">1</option>
+              </select>
+              <div class="layui-col-md3" style="text-align: right;">速比</div>
+              <select class="layui-col-md3">
+                <option value="1">1</option>
+              </select>
+            </div>
+
+            <form>
+              <fieldset>
+                <legend>采样方式</legend>
+                <div>
+                  <input type="radio" name="methods" value="1" >定频采样
+                  <fieldset>
+                    <legend>定频参数</legend>
+                    <div>
+                      <label>分析频宽</label>
+                      <select name="" id="">
+                        <option value="10kHz">10kHz</option>
+                        <option value="20kHz">20kHz</option>
+                      </select>
+                      <br>
+                      <label>谱线数</label>
+                      <select name="" id="">
+                        <option value="6400">6400</option>
+                        <option value="3200">3200</option>
+                      </select>
+                    </div>
+                    <div></div>
+                  </fieldset>
+                  <br>
+                  <input type="radio" name="methods" value="2" checked>同步整周期
+                  <fieldset>
+                    <legend>倍频参数</legend>
+                    <div>
+                      <label>采样倍频</label>
+                      <select name="" id="">
+                        <option value="256">256</option>
+                        <option value="128">128</option>
+                      </select>倍频
+                      <br>
+                      <label>采样长度</label>
+                      <select name="" id="">
+                        <option value="16">16</option>
+                        <option value="8">8</option>
+                      </select>周期
+                    </div>
+                    <div></div>
+                  </fieldset>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+
+          <div class="layui-col-md6">
+            <form>
+              <fieldset>
+                <legend>是否监测</legend>
+                <input type="radio" name="monitor" value="on" >启用
+                <input type="radio" name="monitor" value="off" checked>停用
+              </fieldset>
+            </form>
+
+            <form>
+              <fieldset>
+                <legend>报警策略</legend>
+
+                <label>报警指标</label>
+                <select name="" id="">
+                  <option value="1">峰峰值</option>
+                </select>
+
+                <label>报警策略</label>
+                <select name="" id="">
+                  <option value="2">不报警</option>
+                </select>
+                <br>
+
+                <label>上上限</label>
+                <input type="text" name="1" id="shangshangxian">
+                <br>
+
+                <label>上限</label>
+                <input type="text" name="2" id="shangxian">
+                <br>
+
+                <label>下限</label>
+                <input type="text" name="3" id="xiaxian">
+                <br>
+
+                <label>下下限</label>
+                <input type="text" name="4" id="xiaxiaxian">
+                <br>
+                
+                <fieldset>
+                  <legend>连续报警次数</legend>
+                  <input type="text">次
+                </fieldset>
+
+                <fieldset>
+                  <legend>连续危险次数</legend>
+                  <input type="text">次
+                </fieldset>
+              </fieldset>
+
+              <label>备注</label>
+              <br>
+              <textarea name="" id="" cols="30" rows="10">02193814124</textarea>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+
+  </div>
+  <script src="../layui/layui.js"></script>
