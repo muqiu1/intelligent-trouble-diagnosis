@@ -50,7 +50,7 @@
         <div class="layui-row">
           <div class="layui-col-md4">
             <form class="layui-form" action="">
-              <select id="sss" lay-filter="">
+              <select name="sss" lay-filter="">
               </select>
             </form>
           </div>
@@ -255,7 +255,7 @@
     </div> -->
 
   </div>
-  <script src="./layui/layui.js"></script>
+  <!-- <script src="./layui/layui.js"></script> -->
   <script>
     // function startTime() {
     //   var now = new Date();
@@ -274,18 +274,18 @@
     //   setInterval(startTime, 1000);
     // });
     initName();
-    function initName() {
-      var slct = document.getElementById("sss");
-      for (var i in checkedList) {
-        var op = document.createElement("option")
-        op.setAttribute('value', checkedList[i].id)
-        op.innerHTML = checkedList[i].title;
-        slct.appendChild(op)
-      }
-      layui.use(['form'], function () {
-        layui.form.render('select')
-      });
-    }
+    // function initName() {
+    //   var slct = document.getElementById("sss");
+    //   for (var i in checkedList) {
+    //     var op = document.createElement("option")
+    //     op.setAttribute('value', checkedList[i].id)
+    //     op.innerHTML = checkedList[i].title;
+    //     slct.appendChild(op)
+    //   }
+    //   layui.use(['form'], function () {
+    //     layui.form.render('select')
+    //   });
+    // }
     
     layui.use('laydate', function () {
       var laydate = layui.laydate;
