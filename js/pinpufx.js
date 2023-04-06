@@ -1,23 +1,23 @@
 initName();
-function initName() {
-  var slct = document.getElementById("sss1");
-  for (var i in checkedList) {
-    var op = document.createElement("option")
-    op.setAttribute('value', checkedList[i].id)
-    op.innerHTML = checkedList[i].title;
-    slct.appendChild(op)
-  }
-  slct = document.getElementById("sss2");
-  for (var i in checkedList) {
-    var op = document.createElement("option")
-    op.setAttribute('value', checkedList[i].id)
-    op.innerHTML = checkedList[i].title;
-    slct.appendChild(op)
-  }
-  layui.use(['form'], function () {
-    layui.form.render('select')
-  });
-}
+// function initName() {
+//   var slct = document.getElementById("sss1");
+//   for (var i in checkedList) {
+//     var op = document.createElement("option")
+//     op.setAttribute('value', checkedList[i].id)
+//     op.innerHTML = checkedList[i].title;
+//     slct.appendChild(op)
+//   }
+//   slct = document.getElementById("sss2");
+//   for (var i in checkedList) {
+//     var op = document.createElement("option")
+//     op.setAttribute('value', checkedList[i].id)
+//     op.innerHTML = checkedList[i].title;
+//     slct.appendChild(op)
+//   }
+//   layui.use(['form'], function () {
+//     layui.form.render('select')
+//   });
+// }
 
 layui.use('laydate', function () {
   var laydate = layui.laydate;

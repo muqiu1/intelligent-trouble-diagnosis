@@ -84,18 +84,18 @@ var datasetTrend = { "有效值": [] };
         });
         drawTrend();
         initName();
-        function initName() {
-            var slct = document.getElementById("sss");
-            for (var i in checkedList) {
-                var op = document.createElement("option")
-                op.setAttribute('value', checkedList[i].id)
-                op.innerHTML = checkedList[i].title;
-                slct.appendChild(op)
-            }
-            layui.use(['form'], function () {
-                layui.form.render('select')
-            });
-        }
+        // function initName() {
+        //     var slct = document.getElementById("sss");
+        //     for (var i in checkedList) {
+        //         var op = document.createElement("option")
+        //         op.setAttribute('value', checkedList[i].id)
+        //         op.innerHTML = checkedList[i].title;
+        //         slct.appendChild(op)
+        //     }
+        //     layui.use(['form'], function () {
+        //         layui.form.render('select')
+        //     });
+        // }
         function drawTrend() {
             tableTrend = echarts.init(document.getElementById("trend"))
             // echarts
