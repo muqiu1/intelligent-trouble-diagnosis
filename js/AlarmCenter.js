@@ -1,4 +1,3 @@
-// initName();
 var table1;
 var setTimeOutId;
 layui.use(['form', 'table', 'laydate'], function () {
