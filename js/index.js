@@ -1,6 +1,6 @@
 var checkedList = [];
 var now;
-var _target = 'paramTable'
+var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
 //JS 
@@ -32,6 +32,22 @@ function initName() {
         layui.form.render('radio')
     });
 }
+
+layui.use('laydate', function () {
+    var laydate = layui.laydate;
+    laydate.render({
+        elem: '#time1'
+        , value: '2019-10-10 06:01:00'
+        , isInitValue: true
+        , type: 'datetime'
+    });
+    laydate.render({
+        elem: '#time2'
+        , value: '2020-02-10 14:01:00'
+        , isInitValue: true
+        , type: 'datetime'
+    });
+});
 
 function loadPage(target) {
     if (target != '') {
@@ -182,7 +198,7 @@ layui.use(['tree'], function () {
 
             new Promise(function (resolve, reject) {
                 tree.render({
-                    elem: '#test12'
+                    elem: '#equipTree'
                     , data: treeData
                     , showCheckbox: true  //是否显示复选框
                     , id: 'demoId1'
@@ -218,3 +234,47 @@ layui.use(['tree'], function () {
 
 
 });
+
+layui.use('table', function(){
+    var table = layui.table;
+    
+    table.render({
+      elem: '#timeTable'
+    //   ,url: ''
+      ,toolbar: false
+      ,data: [
+        {'time':'2019-12-19 15:05:44'},
+        {'time':'2019-12-19 15:06:44'},
+        {'time':'2019-12-19 15:07:44'},
+        {'time':'2019-12-19 15:08:44'},
+        {'time':'2019-12-19 15:09:44'},
+        {'time':'2019-12-19 15:10:44'},
+        {'time':'2019-12-19 15:11:44'},
+        {'time':'2019-12-19 15:12:44'},
+        {'time':'2019-12-19 15:13:44'},
+        {'time':'2019-12-19 15:14:44'},
+        {'time':'2019-12-19 15:15:44'},
+        {'time':'2019-12-19 15:16:44'},
+        {'time':'2019-12-19 15:17:44'},
+        {'time':'2019-12-19 15:18:44'},
+        {'time':'2019-12-19 15:19:44'},
+      ]
+      ,cols: [[
+        {type:'radio'}
+        ,{field:'time', title: '时间', sort: true}
+      ]]
+      ,limit : 30
+      ,page: true
+    });
+    
+    //头工具栏事件
+    table.on('toolbar(test)', function(obj){
+      var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+      switch(obj.event){
+        case 'getCheckData':
+          var data = checkStatus.data;  //获取选中行数据
+          layer.alert(JSON.stringify(data));
+        break;
+      };
+    });
+  });
