@@ -1,40 +1,4 @@
 initName();
-// function initName() {
-//   var slct = document.getElementById("sss1");
-//   for (var i in checkedList) {
-//     var op = document.createElement("option")
-//     op.setAttribute('value', checkedList[i].id)
-//     op.innerHTML = checkedList[i].title;
-//     slct.appendChild(op)
-//   }
-//   slct = document.getElementById("sss2");
-//   for (var i in checkedList) {
-//     var op = document.createElement("option")
-//     op.setAttribute('value', checkedList[i].id)
-//     op.innerHTML = checkedList[i].title;
-//     slct.appendChild(op)
-//   }
-//   layui.use(['form'], function () {
-//     layui.form.render('select')
-//   });
-// }
-
-layui.use('laydate', function () {
-  var laydate = layui.laydate;
-  laydate.render({
-    elem: '#time1'
-    , value: '2022-11-22 17:03:22'
-    , isInitValue: true
-    , type: 'datetime'
-  });
-  laydate.render({
-    elem: '#time2'
-    , value: '2022-11-22 17:03:22'
-    , isInitValue: true
-    , type: 'datetime'
-  });
-});
-
 // echarts
 var _table1 = echarts.init(document.getElementById('table1'));
 

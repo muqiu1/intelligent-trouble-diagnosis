@@ -1,21 +1,4 @@
-layui.use('laydate', function () {
-    var laydate = layui.laydate;
-    laydate.render({
-        elem: '#time1'
-        , value: '2022-11-22 17:03:22'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-    laydate.render({
-        elem: '#time2'
-        , value: '2022-11-22 17:03:22'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-});
 drawFFT();
-
-
 initName();
 
 function drawFFT() {

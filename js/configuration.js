@@ -1,4 +1,4 @@
-var _target = 'userManage'
+var _target = 'measuringPoint'
 function setTime() {
     now = new Date();
     now = now.toLocaleString().split('/').join('-');

@@ -1,18 +1,4 @@
-layui.use('laydate', function () {
-    var laydate = layui.laydate;
-    laydate.render({
-        elem: '#time1'
-        , value: '2022-11-22 17:03:22'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-    laydate.render({
-        elem: '#time2'
-        , value: '2022-11-22 17:03:22'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-});
+initName()
 dataTable = {
         111: { "id": 1, 'username': '一号机组', 'pointname': '1#测点' }, 112: { "id": 2, 'username': '一号机组', 'pointname': '2#测点' }
         , 113: { "id": 3, 'username': '一号机组', 'pointname': '3#测点' }, 114: { "id": 4, 'username': '一号机组', 'pointname': '4#测点' }

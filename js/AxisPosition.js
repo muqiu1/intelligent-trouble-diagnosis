@@ -1,18 +1,3 @@
-layui.use('laydate', function () {
-    var laydate = layui.laydate;
-    laydate.render({
-        elem: '#time1'
-        , value: '2022-11-22 17:03:22'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-    laydate.render({
-        elem: '#time2'
-        , value: '2022-11-22 17:03:22'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-});
 initName();
 // echarts
 var _table1 = echarts.init(document.getElementById('table1'));

@@ -1,18 +1,4 @@
-layui.use('laydate', function () {
-    var laydate = layui.laydate;
-    laydate.render({
-        elem: '#time1'
-        , value: '2019-10-10 06:01:00'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-    laydate.render({
-        elem: '#time2'
-        , value: '2020-02-10 14:01:00'
-        , isInitValue: true
-        , type: 'datetime'
-    });
-});
+initName()
 new Promise(function (resolve, reject) {
     layui.use('laytpl', function () {
         var laytpl = layui.laytpl

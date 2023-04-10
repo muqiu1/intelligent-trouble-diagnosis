@@ -60,15 +60,6 @@ function loadPage(target) {
     }
 }
 
-function alarmLayer() { //报警参数弹窗页面
-    layer.open({
-        type: 2,
-        closeBtn: 1,
-        area: ['1000px', '700px'],
-        content: '../page/alarmParams.html' 
-    });
-}
-
 function updateAlarmText(id, string) {
     let e = document.getElementById("id");
     if (e) {
