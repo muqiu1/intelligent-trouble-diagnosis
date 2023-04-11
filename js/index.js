@@ -3,6 +3,7 @@ var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
+var host = '222.20.72.184'
 //JS 
 function setTime() {
     now = new Date();
@@ -106,85 +107,85 @@ layui.use(['tree'], function () {
         , layer = layui.layer
 
     var parameter = {}
-    // layui.$.ajax({
-    //     type: 'POST',
-    //     url: "http://192.168.10.105:8080/cms/field/list",
-    //     contentType: "application/json",
-    //     async: false,
-    //     dataType: "json",
-    //     data: parameter,
-    //     success: function (data) {
-    //         treeData = data.data.list
-    //         for (var i=0; i<treeData.length; i++){
-    //             treeData[i].title = treeData[i].fieldName
-    //             treeData[i].id = treeData[i].fieldID
-    //             treeData[i].spread = true
-    //             treeData[i].field = "1"
-    //             if (treeData[i].equipparamsList != null){
-    //                 treeData[i].children = treeData[i].equipparamsList
-    //                 for (var j=0; j<treeData[i].children.length; j++){
-    //                     treeData[i].children[j].title = treeData[i].children[j].equipName
-    //                     treeData[i].children[j].id = treeData[i].children[j].fieldID
-    //                     treeData[i].children[j].spread = true
-    //                     treeData[i].children[j].field = "2"
-    //                     if (treeData[i].children[j].mpparamsList != null){
-    //                         treeData[i].children[j].children = treeData[i].children[j].mpparamsList
-    //                         for (var k=0; k<treeData[i].children[j].children.length; k++){
-    //                             treeData[i].children[j].children[k].title = treeData[i].children[j].children[k].mPName
-    //                             treeData[i].children[j].children[k].id = treeData[i].children[j].children[k].mPID
-    //                             treeData[i].children[j].children[k].field = "3"
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-        //模拟数据
-        treeData = [{
-          title: '二期风电场'
-          , id: 3
-          , field: '1'
-          // , checked: true
-          , spread: true
-          , children: [{
-            title: '1#风机'
-            , id: 31
-            , field: '2'
-          }]
-        },{
-          title: '试验台'
-          , id: 1
-          , field: '1'
-          // , checked: true
-          , spread: true
-          , children: [{
-            title: '浆液循环泵'
-            , id: 21
-            , field: '2'
-          },{
-            title: '转子试验台'
-            , id: 11
-            , field: 'name11'
-            , spread: true
-            , children: [{
-              title: '电机侧位移x'
-              , id: 111
-              , field: '3'
-              // , checked: true
-            }, {
-              title: '电机侧位移y'
-              , id: 112
-              , field: '3'
-            }, {
-              title: '端侧位移x'
-              , id: 113
-              , field: '3'
-            }, {
-              title: '端侧位移y'
-              , id: 114
-              , field: '3'
-            }]
-          }]
-        }]
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + ":8080/cms/field/list",
+        contentType: "application/json",
+        async: false,
+        dataType: "json",
+        data: parameter,
+        success: function (data) {
+            treeData = data.data.list
+            for (var i = 0; i < treeData.length; i++) {
+                treeData[i].title = treeData[i].fieldName
+                treeData[i].id = treeData[i].fieldID
+                treeData[i].spread = true
+                treeData[i].field = "1"
+                if (treeData[i].equipparamsList != null) {
+                    treeData[i].children = treeData[i].equipparamsList
+                    for (var j = 0; j < treeData[i].children.length; j++) {
+                        treeData[i].children[j].title = treeData[i].children[j].equipName
+                        treeData[i].children[j].id = treeData[i].children[j].fieldID
+                        treeData[i].children[j].spread = true
+                        treeData[i].children[j].field = "2"
+                        if (treeData[i].children[j].mpparamsList != null) {
+                            treeData[i].children[j].children = treeData[i].children[j].mpparamsList
+                            for (var k = 0; k < treeData[i].children[j].children.length; k++) {
+                                treeData[i].children[j].children[k].title = treeData[i].children[j].children[k].mPName
+                                treeData[i].children[j].children[k].id = treeData[i].children[j].children[k].mPID
+                                treeData[i].children[j].children[k].field = "3"
+                            }
+                        }
+                    }
+                }
+            }
+            // //模拟数据
+            // treeData = [{
+            //   title: '二期风电场'
+            //   , id: 3
+            //   , field: '1'
+            //   // , checked: true
+            //   , spread: true
+            //   , children: [{
+            //     title: '1#风机'
+            //     , id: 31
+            //     , field: '2'
+            //   }]
+            // },{
+            //   title: '试验台'
+            //   , id: 1
+            //   , field: '1'
+            //   // , checked: true
+            //   , spread: true
+            //   , children: [{
+            //     title: '浆液循环泵'
+            //     , id: 21
+            //     , field: '2'
+            //   },{
+            //     title: '转子试验台'
+            //     , id: 11
+            //     , field: 'name11'
+            //     , spread: true
+            //     , children: [{
+            //       title: '电机侧位移x'
+            //       , id: 111
+            //       , field: '3'
+            //       // , checked: true
+            //     }, {
+            //       title: '电机侧位移y'
+            //       , id: 112
+            //       , field: '3'
+            //     }, {
+            //       title: '端侧位移x'
+            //       , id: 113
+            //       , field: '3'
+            //     }, {
+            //       title: '端侧位移y'
+            //       , id: 114
+            //       , field: '3'
+            //     }]
+            //   }]
+            // }]
             console.log(treeData)
 
             new Promise(function (resolve, reject) {
@@ -202,7 +203,7 @@ layui.use(['tree'], function () {
                                     l[i].title = f + ' ' + l[i].title
                                     checkedList.push(l[i]);
                                 }
-                                else if ( l[i].children != null ) {
+                                else if (l[i].children != null) {
                                     dfs(l[i].children, l[i].title);
                                 }
                             }
@@ -214,58 +215,58 @@ layui.use(['tree'], function () {
                 });
                 resolve();
             }).then(function () {
-                tree.setChecked('demoId1', [111, 112, 113, 114])
+                tree.setChecked('demoId1', [29, 30, 31, 32])
                 loadPage(_target);
             })
-    //     },
-    //     error: function () {
-    //         console.log(2)
-    //     }
-    // })
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    })
 
 
 });
 
-layui.use('table', function(){
+layui.use('table', function () {
     var table = layui.table;
-    
+
     table.render({
-      elem: '#timeTable'
-    //   ,url: ''
-      ,toolbar: false
-      ,data: [
-        {'time':'2019-12-19 15:05:44'},
-        {'time':'2019-12-19 15:06:44'},
-        {'time':'2019-12-19 15:07:44'},
-        {'time':'2019-12-19 15:08:44'},
-        {'time':'2019-12-19 15:09:44'},
-        {'time':'2019-12-19 15:10:44'},
-        {'time':'2019-12-19 15:11:44'},
-        {'time':'2019-12-19 15:12:44'},
-        {'time':'2019-12-19 15:13:44'},
-        {'time':'2019-12-19 15:14:44'},
-        {'time':'2019-12-19 15:15:44'},
-        {'time':'2019-12-19 15:16:44'},
-        {'time':'2019-12-19 15:17:44'},
-        {'time':'2019-12-19 15:18:44'},
-        {'time':'2019-12-19 15:19:44'},
-      ]
-      ,cols: [[
-        {type:'radio'}
-        ,{field:'time', title: '时间', sort: true}
-      ]]
-      ,limit : 30
-      ,page: true
+        elem: '#timeTable'
+        //   ,url: ''
+        , toolbar: false
+        , data: [
+            { 'time': '2019-12-19 15:05:44' },
+            { 'time': '2019-12-19 15:06:44' },
+            { 'time': '2019-12-19 15:07:44' },
+            { 'time': '2019-12-19 15:08:44' },
+            { 'time': '2019-12-19 15:09:44' },
+            { 'time': '2019-12-19 15:10:44' },
+            { 'time': '2019-12-19 15:11:44' },
+            { 'time': '2019-12-19 15:12:44' },
+            { 'time': '2019-12-19 15:13:44' },
+            { 'time': '2019-12-19 15:14:44' },
+            { 'time': '2019-12-19 15:15:44' },
+            { 'time': '2019-12-19 15:16:44' },
+            { 'time': '2019-12-19 15:17:44' },
+            { 'time': '2019-12-19 15:18:44' },
+            { 'time': '2019-12-19 15:19:44' },
+        ]
+        , cols: [[
+            { type: 'radio' }
+            , { field: 'time', title: '时间', sort: true }
+        ]]
+        , limit: 30
+        , page: true
     });
-    
+
     //头工具栏事件
-    table.on('toolbar(test)', function(obj){
-      var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
-      switch(obj.event){
-        case 'getCheckData':
-          var data = checkStatus.data;  //获取选中行数据
-          layer.alert(JSON.stringify(data));
-        break;
-      };
+    table.on('toolbar(test)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+        switch (obj.event) {
+            case 'getCheckData':
+                var data = checkStatus.data;  //获取选中行数据
+                layer.alert(JSON.stringify(data));
+                break;
+        };
     });
-  });
+});
