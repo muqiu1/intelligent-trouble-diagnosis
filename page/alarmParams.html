@@ -23,8 +23,8 @@
           <div class="layui-col-md5" style="margin-right: 30px ;">
 
             <div class="layui-row" style="margin-bottom: 10px;">
-              <label for="description">测点名称</label>
-              <input type="text" name="descript" id="description">
+              <div class="layui-col-md3">测点名称</div>
+              <input type="text" class="layui-col-md9">
             </div>
 
             <div class="layui-row" style="margin-bottom: 10px;">
@@ -37,9 +37,22 @@
 
             <div class="layui-row" style="margin-bottom: 10px;">
               <div class="layui-col-md3">传感器</div>
-              <div class="layui-col-md3">编号: 197</div>
-              <div class="layui-col-md4">灵敏度: 0.1V/g</div>
-              <button class="layui-col-md2">选择</button>
+
+              <div class="layui-col-md3">
+                <div class="layui-row layui-col-space1">
+                  <div class="layui-col-md5">编号:</div>
+                  <input type="text" id="bianhao" class="layui-col-md5">
+                </div>
+              </div>
+
+              <div class="layui-col-md4">
+                <div class="layui-row layui-col-space1">
+                  <div class="layui-col-md5">灵敏度:</div>
+                  <input type="text" id="lingmindu" class="layui-col-md5">
+                </div>
+              </div>
+              
+              <button class="layui-col-md2" id="select-btn">选择</button>
             </div>
 
             <div class="layui-row" style="margin-bottom: 10px;">
@@ -75,39 +88,43 @@
                   <input type="radio" name="methods" value="1" >定频采样
                   <fieldset>
                     <legend>定频参数</legend>
-                    <div>
-                      <label>分析频宽</label>
-                      <select name="" id="">
+                    <div class="layui-row" style="margin-bottom: 10px;">
+                      <div class="layui-col-md9">分析频宽</div>
+                      <select name="" id=""  class="layui-col-md3">
                         <option value="10kHz">10kHz</option>
                         <option value="20kHz">20kHz</option>
                       </select>
+                    <div/>
+                    <div class="layui-row">
                       <br>
-                      <label>谱线数</label>
-                      <select name="" id="">
+                      <div class="layui-col-md9">谱线数</div>
+                      <select name="" id="" class="layui-col-md3">
                         <option value="6400">6400</option>
                         <option value="3200">3200</option>
                       </select>
                     </div>
-                    <div></div>
                   </fieldset>
+
                   <br>
+
                   <input type="radio" name="methods" value="2" checked>同步整周期
                   <fieldset>
                     <legend>倍频参数</legend>
-                    <div>
-                      <label>采样倍频</label>
-                      <select name="" id="">
+                    <div class="layui-row" style="margin-bottom: 10px;">
+                      <div class="layui-col-md9">采样倍频</div>
+                      <select name="" id=""  class="layui-col-md3">
                         <option value="256">256</option>
                         <option value="128">128</option>
-                      </select>倍频
+                      </select>
+                    <div/>
+                    <div class="layui-row">
                       <br>
-                      <label>采样长度</label>
-                      <select name="" id="">
+                      <div class="layui-col-md9">采样长度</div>
+                      <select name="" id="" class="layui-col-md3">
                         <option value="16">16</option>
                         <option value="8">8</option>
-                      </select>周期
+                      </select>
                     </div>
-                    <div></div>
                   </fieldset>
                 </div>
               </fieldset>
@@ -118,42 +135,51 @@
             <form>
               <fieldset>
                 <legend>是否监测</legend>
-                <input type="radio" name="monitor" value="on" >启用
-                <input type="radio" name="monitor" value="off" checked>停用
+                <div class="layui-row">
+                  <input type="radio" name="monitor" value="on">启用
+                  <input type="radio" name="monitor" value="off" checked>停用
+                </div>
               </fieldset>
             </form>
-
+            <br>
             <form>
-              <fieldset>
+              <fieldset style="margin-bottom: 10px;">
                 <legend>报警策略</legend>
 
-                <label>报警指标</label>
-                <select name="" id="">
-                  <option value="1">峰峰值</option>
-                </select>
-
-                <label>报警策略</label>
-                <select name="" id="">
-                  <option value="2">不报警</option>
-                </select>
-                <br>
-
-                <label>上上限</label>
-                <input type="text" name="1" id="shangshangxian">
-                <br>
-
-                <label>上限</label>
-                <input type="text" name="2" id="shangxian">
-                <br>
-
-                <label>下限</label>
-                <input type="text" name="3" id="xiaxian">
-                <br>
-
-                <label>下下限</label>
-                <input type="text" name="4" id="xiaxiaxian">
-                <br>
+                <div class="layui-row" style="margin-bottom: 10px;">
+                  <div class="layui-col-md3">报警指标</div>
+                  <select name="" id="" class="layui-col-md2">
+                    <option value="1">峰峰值</option>
+                  </select>
+                </div>
                 
+                <div class="layui-row" style="margin-bottom: 10px;">
+                  <div class="layui-col-md3">报警策略</div>
+                  <select name="" id="" class="layui-col-md2">
+                    <option value="2">不报警</option>
+                  </select>
+                </div>
+
+                <div class="layui-row" style="margin-bottom: 10px;">
+                  <div class="layui-col-md3">上上限</div>
+                  <input type="text" name="1" id="shangshangxian" class="layui-col-md2">
+                </div>
+
+                <div class="layui-row" style="margin-bottom: 10px;">
+                  <div class="layui-col-md3">上限</div>
+                  <input type="text" name="2" id="shangxian" class="layui-col-md2">
+                </div>
+
+                <div class="layui-row" style="margin-bottom: 10px;">
+                  <div class="layui-col-md3">下限</div>
+                  <input type="text" name="3" id="xiaxian" class="layui-col-md2">
+                </div>
+
+                <div class="layui-row" style="margin-bottom: 10px;">
+                  <div class="layui-col-md3">下下限</div>
+                  <input type="text" name="4" id="xiaxiaxian" class="layui-col-md2">
+                </div>
+               
                 <fieldset>
                   <legend>连续报警次数</legend>
                   <input type="text">次
@@ -165,9 +191,10 @@
                 </fieldset>
               </fieldset>
 
-              <label>备注</label>
-              <br>
-              <textarea name="" id="" cols="30" rows="10">02193814124</textarea>
+              <div class="layui-row">
+                <div style="margin-bottom: 10px;">备注</div>
+                <textarea name="" id="" class="layui-col-md12">备注12345</textarea>
+              </div>
             </form>
 
           </div>
@@ -177,3 +204,4 @@
 
   </div>
   <script src="../layui/layui.js"></script>
+  <script src="../js/alarmParams.js"></script>
