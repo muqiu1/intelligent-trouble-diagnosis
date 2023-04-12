@@ -30,89 +30,82 @@ layui.use('form', function () {
     //监听提交
     form.on('select()', function (data) {
         var x = data.value.indexOf('_')
-        var id1 = data.value.substr(0,x)
-        var id2 = data.value.substr(x+1)
+        var id1 = data.value.substr(0, x)
+        var id2 = data.value.substr(x + 1)
         draw(id1)
     });
 });
 function draw(id) {
-    // echarts
-    var data = [];
-    for (let i = 0; i < 300; i++) {
-        if (i%19==0){ data[i] = [i/300, 0] }
-        else if (i%19==1){ data[i] = [i/300, 0.01] }
-        else if (i%19==2){ data[i] = [i/300, 0] }
-        else if (i%19==3){ data[i] = [i/300, 0.01 + (Math.random()-0.5)/500] }
-        else if (i%19==4){ data[i] = [i/300, 0.015 + (Math.random()-0.5)/500] }
-        else if (i%19==5){ data[i] = [i/300, 0.026 + (Math.random()-0.5)/500] }
-        else if (i%19==6){ data[i] = [i/300, 0.026 + (Math.random()-0.5)/500] }
-        else if (i%19==7){ data[i] = [i/300, 0] }
-        else if (i%19==8){ data[i] = [i/300, 0] }
-        else if (i%19==9){ data[i] = [i/300, 0] }
-        else if (i%19==10){ data[i] = [i/300, 0] }
-        else if (i%19==11){ data[i] = [i/300, 0] }
-        else if (i%19==12){ data[i] = [i/300, 0] }
-        else if (i%19==13){ data[i] = [i/300, 0] }
-        else if (i%19==14){ data[i] = [i/300, 0] }
-        else if (i%19==15){ data[i] = [i/300, 0] }
-        else if (i%19==16){ data[i] = [i/300, -0.02 + (Math.random()-0.5)/500] }
-        else if (i%19==17){ data[i] = [i/300, -0.023 + (Math.random()-0.5)/500] }
-        else if (i%19==18){ data[i] = [i/300, -0.06 + (Math.random()-0.5)/500] }
-    }
-    // 指定图表的配置项和数据
-    var option = {
-        tooltip: {},
-        xAxis: {
-            type: 'value',
-            name: "时间/s",
-            nameLocation: 'middle'
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + ":8080/cms/rWaveData/getRWaveData",
+        contentType: "application/x-www-form-urlencoded",
+        async: false,
+        dataType: "json",
+        data: {
+            MPID: id,
+            IndexNum: 1576753367
         },
-        yAxis: {
-            type: 'value',
-            name: "幅值/g",
-            nameLocation: 'middle',
-            max: 0.04,
-            min: -0.08,
-            nameGap: 40
-        },
-        series: [
-            {
-                data: data,
-                type: 'line',
-                lineStyle: {
-                    color: 'blue'
+        success: function (data) {
+            console.log(data.data)
+            // 指定图表的配置项和数据
+            var option = {
+                tooltip: {},
+                xAxis: {
+                    // type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle',
+                    data: data.data[1]
                 },
-                showSymbol: false,
-                markPoint: {
-                    data: [
-                        {
-                            x: '90%',
-                            y: '10%',
-                            value: "x=0.00s\ny=0.00g",
-                            symbol: 'roundRect',
-                            label: {
-                                color: '#000'
-                            },
-                            itemStyle: {
-                                color: 'rgba(255,255,255,0)',
-                            }
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameLocation: 'middle',
+                    nameGap: 40
+                },
+                series: [
+                    {
+                        data: data.data[0],
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
                         },
-                        {
-                            x: '15%',
-                            y: '10%',
-                            value: "峰值：0.026g 有效值0.129g",
-                            symbol: 'roundRect',
-                            label: {
-                                color: '#000'
-                            },
-                            itemStyle: {
-                                color: 'rgba(255,255,255,0)',
-                            }
-                        }
-                    ]
-                },
-            }
-        ]
-    };
-    echarts.init(document.getElementById(id)).setOption(option);
+                        showSymbol: false,
+                        // markPoint: {
+                        //     data: [
+                        //         {
+                        //             x: '90%',
+                        //             y: '10%',
+                        //             value: "x=0.00s\ny=0.00g",
+                        //             symbol: 'roundRect',
+                        //             label: {
+                        //                 color: '#000'
+                        //             },
+                        //             itemStyle: {
+                        //                 color: 'rgba(255,255,255,0)',
+                        //             }
+                        //         },
+                        //         {
+                        //             x: '15%',
+                        //             y: '10%',
+                        //             value: "峰值：0.026g 有效值0.129g",
+                        //             symbol: 'roundRect',
+                        //             label: {
+                        //                 color: '#000'
+                        //             },
+                        //             itemStyle: {
+                        //                 color: 'rgba(255,255,255,0)',
+                        //             }
+                        //         }
+                        //     ]
+                        // },
+                    }
+                ]
+            };
+            echarts.init(document.getElementById(id)).setOption(option);
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    })
 };

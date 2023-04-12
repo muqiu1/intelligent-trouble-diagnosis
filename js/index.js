@@ -3,7 +3,7 @@ var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
-var host = '222.20.72.184'
+var host = '81.69.242.66'
 //JS 
 function setTime() {
     now = new Date();
@@ -110,7 +110,7 @@ layui.use(['tree'], function () {
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + ":8080/cms/field/list",
-        contentType: "application/json",
+        contentType: "application/x-www-form-urlencoded",
         async: false,
         dataType: "json",
         data: parameter,
