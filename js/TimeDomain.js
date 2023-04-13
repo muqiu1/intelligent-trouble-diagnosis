@@ -49,13 +49,17 @@ function draw(id) {
         success: function (data) {
             console.log(data.data)
             // 指定图表的配置项和数据
+            let newData = [];
+            for (let i = 0; i < data.data[1].length; i++) {
+                newData.push(data.data[1][i].toFixed(2));
+              }
             var option = {
                 tooltip: {},
                 xAxis: {
-                    // type: 'value',
+                    type: 'category',
                     name: "时间/s",
                     nameLocation: 'middle',
-                    data: data.data[1]
+                    data: newData
                 },
                 yAxis: {
                     type: 'value',
