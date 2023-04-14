@@ -70,7 +70,9 @@ function draw(id) {
                             //   yAxisIndex: 'none'
                         },
                         restore: {},
-                        saveAsImage: {}
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
                     }
                 },
                 dataZoom: [
