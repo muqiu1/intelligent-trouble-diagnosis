@@ -52,9 +52,35 @@ function draw(id) {
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
                 newData.push([data.data[1][i], data.data[0][i]]);
-              }
+            }
             var option = {
-                tooltip: {},
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
                 xAxis: {
                     type: 'value',
                     name: "时间/s",
