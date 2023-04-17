@@ -51,15 +51,43 @@ function draw(id) {
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
-                newData.push(data.data[1][i].toFixed(2));
-              }
+                newData.push([data.data[1][i], data.data[0][i]]);
+            }
             var option = {
-                tooltip: {},
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
                 xAxis: {
-                    type: 'category',
+                    type: 'value',
                     name: "时间/s",
                     nameLocation: 'middle',
-                    data: newData
+                    // data: newData
                 },
                 yAxis: {
                     type: 'value',
@@ -69,7 +97,7 @@ function draw(id) {
                 },
                 series: [
                     {
-                        data: data.data[0],
+                        data: newData,
                         type: 'line',
                         lineStyle: {
                             color: 'blue'
