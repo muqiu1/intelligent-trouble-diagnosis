@@ -105,17 +105,17 @@
       <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <div id="equipTree" class="demo-tree-more"></div>
-        <div class="layui-form">
+        <form class="layui-form" lay-filter="getSearchTime">
           <div class="layui-form-item">
               <div class="layui-inline">
                   <div class="layui-input-inline">
-                      <input type="text" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
-                      <input type="text" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
-                      <button type="button" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-normal">检索</button>
+                      <input type="text" name="startTime" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
+                      <input type="text" name="endTime" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
+                      <button type="button" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-normal" onclick=getTimeList()>检索</button>
                   </div>
               </div>
           </div>
-        </div>
+        </form>
         <table id="timeTable" lay-filter="timeTable"></table>
       </div>
     </div>

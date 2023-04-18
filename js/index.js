@@ -1,9 +1,11 @@
 var checkedList = [];
+var checkedMPID = [];
 var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
 var host = '81.69.242.66'
+var checkedTime = 0;
 //JS 
 function setTime() {
     now = new Date();
@@ -102,7 +104,7 @@ layui.use(['element', 'layer', 'util'], function () {
         }
     });
 });
-layui.use(['tree'], function () {
+layui.use(['tree', 'form'], function () {
     var tree = layui.tree
         , layer = layui.layer
 
@@ -139,53 +141,6 @@ layui.use(['tree'], function () {
                     }
                 }
             }
-            // //模拟数据
-            // treeData = [{
-            //   title: '二期风电场'
-            //   , id: 3
-            //   , field: '1'
-            //   // , checked: true
-            //   , spread: true
-            //   , children: [{
-            //     title: '1#风机'
-            //     , id: 31
-            //     , field: '2'
-            //   }]
-            // },{
-            //   title: '试验台'
-            //   , id: 1
-            //   , field: '1'
-            //   // , checked: true
-            //   , spread: true
-            //   , children: [{
-            //     title: '浆液循环泵'
-            //     , id: 21
-            //     , field: '2'
-            //   },{
-            //     title: '转子试验台'
-            //     , id: 11
-            //     , field: 'name11'
-            //     , spread: true
-            //     , children: [{
-            //       title: '电机侧位移x'
-            //       , id: 111
-            //       , field: '3'
-            //       // , checked: true
-            //     }, {
-            //       title: '电机侧位移y'
-            //       , id: 112
-            //       , field: '3'
-            //     }, {
-            //       title: '端侧位移x'
-            //       , id: 113
-            //       , field: '3'
-            //     }, {
-            //       title: '端侧位移y'
-            //       , id: 114
-            //       , field: '3'
-            //     }]
-            //   }]
-            // }]
             console.log(treeData)
 
             new Promise(function (resolve, reject) {
@@ -201,6 +156,7 @@ layui.use(['tree'], function () {
                             for (var i = 0; i < l.length; i++) {
                                 if (l[i].field == "3") {
                                     l[i].title = f + ' ' + l[i].title
+                                    checkedMPID.push(l[i].mPID);
                                     checkedList.push(l[i]);
                                 }
                                 else if (l[i].children != null) {
@@ -208,6 +164,7 @@ layui.use(['tree'], function () {
                                 }
                             }
                         };
+                        checkedMPID = [];
                         checkedList = [];
                         dfs(checkedData, '');
                         loadPage(_target);
@@ -217,56 +174,71 @@ layui.use(['tree'], function () {
             }).then(function () {
                 tree.setChecked('demoId1', [29, 30, 31, 32])
                 loadPage(_target);
+                getTimeList()
             })
         },
         error: function () {
             console.log("AJAX ERROR!")
         }
     })
-
-
 });
 
-layui.use('table', function () {
-    var table = layui.table;
-
-    table.render({
-        elem: '#timeTable'
-        //   ,url: ''
-        , toolbar: false
-        , data: [
-            { 'time': '2019-12-19 15:05:44' },
-            { 'time': '2019-12-19 15:06:44' },
-            { 'time': '2019-12-19 15:07:44' },
-            { 'time': '2019-12-19 15:08:44' },
-            { 'time': '2019-12-19 15:09:44' },
-            { 'time': '2019-12-19 15:10:44' },
-            { 'time': '2019-12-19 15:11:44' },
-            { 'time': '2019-12-19 15:12:44' },
-            { 'time': '2019-12-19 15:13:44' },
-            { 'time': '2019-12-19 15:14:44' },
-            { 'time': '2019-12-19 15:15:44' },
-            { 'time': '2019-12-19 15:16:44' },
-            { 'time': '2019-12-19 15:17:44' },
-            { 'time': '2019-12-19 15:18:44' },
-            { 'time': '2019-12-19 15:19:44' },
-        ]
-        , cols: [[
-            { type: 'radio' }
-            , { field: 'time', title: '时间', sort: true }
-        ]]
-        , limit: 30
-        , page: true
+function getTimeList(){
+    layui.use(['table', 'form'], function () {
+        var table = layui.table
+        , form = layui.form
+        
+        let searchTime = form.val("getSearchTime");
+        
+        let parameter = {}
+        new Promise(function (resolve, reject) {
+            for (let i=0; i<checkedMPID.length; i++){
+                parameter[ "MPIDList[" + i + "]" ] = checkedMPID[i];
+            }
+            parameter[ "startTime" ] = (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000;
+            parameter[ "endTime" ] = (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000;
+            resolve();
+        }).then(function () {
+            table.render({
+                elem: '#timeTable'
+                , url: "http://" + host + ":8080/cms/rWaveData/list"
+                , where : parameter
+                , method : 'post'
+                , contentType: 'application/x-www-form-urlencoded'
+                , toolbar: false
+                , cols: [[
+                    // { type: 'radio' }, 
+                    { field: 'time', title: '时间'
+                        , templet: '<div><input type="radio" name="Time" value={{d.id}} title="{{d.time}}" lay-filter="time"></div>'
+                    }
+                ]]
+                , request: {
+                    pageName: 'pageNum' //页码的参数名称，默认：page
+                    , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                }
+                , parseData: function(res){
+                    console.log(res)
+                    let l = res.data.list.sort()
+                    let data = [];
+                    for (let i=0; i<l.length; i++){
+                        data.push({"time": new Date(l[i]*1000).toLocaleString().split('/').join('-'), "id": l[i]});
+                    }
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": l.length, //解析数据长度
+                        "data":data
+                    }
+                }
+                , limit: 15
+                , page: true
+                , loading : true
+            });
+            //监听行单击事件（双击事件为：rowDouble）
+            form.on('radio(time)', function(obj){
+                checkedTime = obj.value;
+                loadPage(_target);
+            });
+        });
     });
-
-    //头工具栏事件
-    table.on('toolbar(test)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
-        switch (obj.event) {
-            case 'getCheckData':
-                var data = checkStatus.data;  //获取选中行数据
-                layer.alert(JSON.stringify(data));
-                break;
-        };
-    });
-});
+}

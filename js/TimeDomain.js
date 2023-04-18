@@ -44,7 +44,7 @@ function draw(id) {
         dataType: "json",
         data: {
             MPID: id,
-            IndexNum: 1576753367
+            IndexNum: checkedTime
         },
         success: function (data) {
             console.log(data.data)
@@ -103,34 +103,6 @@ function draw(id) {
                             color: 'blue'
                         },
                         showSymbol: false,
-                        // markPoint: {
-                        //     data: [
-                        //         {
-                        //             x: '90%',
-                        //             y: '10%',
-                        //             value: "x=0.00s\ny=0.00g",
-                        //             symbol: 'roundRect',
-                        //             label: {
-                        //                 color: '#000'
-                        //             },
-                        //             itemStyle: {
-                        //                 color: 'rgba(255,255,255,0)',
-                        //             }
-                        //         },
-                        //         {
-                        //             x: '15%',
-                        //             y: '10%',
-                        //             value: "峰值：0.026g 有效值0.129g",
-                        //             symbol: 'roundRect',
-                        //             label: {
-                        //                 color: '#000'
-                        //             },
-                        //             itemStyle: {
-                        //                 color: 'rgba(255,255,255,0)',
-                        //             }
-                        //         }
-                        //     ]
-                        // },
                     }
                 ]
             };
