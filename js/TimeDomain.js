@@ -1,7 +1,16 @@
 initName()
-new Promise(function (resolve, reject) {
-    layui.use('laytpl', function () {
-        var laytpl = layui.laytpl
+var myCharts = {};
+layui.use(['laytpl', 'form', 'layer'], function () {
+    var laytpl = layui.laytpl
+        , $ = layui.$
+        , form = layui.form
+        , layer = layui.layer;
+    var loadingLayer;
+    new Promise(function (resolve, reject) {
+        loadingLayer = layer.load(2, {
+            shade: [0.5,'#fff'],
+            time: 5*1000
+        });
         var getTpl = demo.innerHTML
         var view = document.getElementById('view');
         var tableData = {
@@ -10,20 +19,24 @@ new Promise(function (resolve, reject) {
         laytpl(getTpl).render(tableData, function (html) {
             view.innerHTML = html;
         });
-    });
-    resolve();
-}).then(function () {
-    layui.use(['form'], function () {
-        var $ = layui.$
-        var form = layui.form;
+        resolve();
+    }).then(function () {
         form.render('select')
+        myCharts = {};
+        for (var i = 0; i < checkedList.length; i++) {
+            myCharts[checkedList[i].id] = echarts.init(document.getElementById(checkedList[i].id));
+        }
+    }).then(function () {
         $(document).ready(function () {
             for (var i = 0; i < checkedList.length; i++) {
-                draw(checkedList[i].id);
+                draw(checkedList[i].id, checkedList[i].id);
             }
         })
+    }).then(function () {
+        layer.close(loadingLayer)
     });
 })
+
 layui.use('form', function () {
     var form = layui.form;
 
@@ -32,10 +45,10 @@ layui.use('form', function () {
         var x = data.value.indexOf('_')
         var id1 = data.value.substr(0, x)
         var id2 = data.value.substr(x + 1)
-        draw(id1)
+        draw(parseInt(id1), parseInt(id2))
     });
 });
-function draw(id) {
+function draw(id, MPID) {
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + ":8080/cms/rWaveData/getRWaveData",
@@ -43,7 +56,7 @@ function draw(id) {
         async: false,
         dataType: "json",
         data: {
-            MPID: id,
+            MPID: MPID,
             IndexNum: checkedTime
         },
         success: function (data) {
@@ -106,7 +119,7 @@ function draw(id) {
                     }
                 ]
             };
-            echarts.init(document.getElementById(id)).setOption(option);
+            myCharts[id].setOption(option, true);
         },
         error: function () {
             console.log("AJAX ERROR!")

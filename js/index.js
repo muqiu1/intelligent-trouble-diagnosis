@@ -208,7 +208,7 @@ function getTimeList(){
                 , toolbar: false
                 , cols: [[
                     // { type: 'radio' }, 
-                    { field: 'time', title: '时间'
+                    { field: 'time', title: '时间', width: '200px'
                         , templet: '<div><input type="radio" name="Time" value={{d.id}} title="{{d.time}}" lay-filter="time"></div>'
                     }
                 ]]
@@ -226,12 +226,14 @@ function getTimeList(){
                     return {
                         "code": 0, //解析接口状态
                         "msg": res.msg, //解析提示文本
-                        "count": l.length, //解析数据长度
+                        "count": 200, //解析数据长度
                         "data":data
                     }
                 }
                 , limit: 15
-                , page: true
+                , page: {
+                    layout : ['prev', 'next', 'page']
+                }
                 , loading : true
             });
             //监听行单击事件（双击事件为：rowDouble）
