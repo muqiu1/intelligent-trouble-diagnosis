@@ -1,72 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 <body>
   <div class="layui-row">
     <div class="layui-col-md3">
-        <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+      <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
     </div>
     <div class="layui-col-md4">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <input type="radio" name="status" value="0" title="实时检测">
-                <input type="radio" name="status" value="1" title="当前查询" checked>
-                <input type="radio" name="status" value="2" title="历史查询">
-            </div>
-        </form>
+      <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <input type="radio" name="status" value="0" title="实时检测">
+          <input type="radio" name="status" value="1" title="当前查询" checked>
+          <input type="radio" name="status" value="2" title="历史查询">
+        </div>
+      </form>
     </div>
     <div class="layui-col-md5">
     </div>
   </div>
-  <div class="layui-row" id="pinpufx">
-    <div class="layui-col-md6" style="border-style: solid;">
-      <div class="layui-row">
-        <div class="layui-col-md4">
+  <div class="layui-row" id="view"></div>
+  <script id="demo" type="text/html">
+  {{#  layui.each(d.list, function(index, item){ }}
+      {{#
+        var _id = item.id;
+      }}
+      <div class="layui-col-md6" style="border-style: solid;">
+        <div class="layui-row">
+          <div class="layui-col-md4">
             <form class="layui-form" action="">
-                <select name="sss" lay-filter="">
-                </select>
+              <select lay-filter="">
+                {{#  layui.each(d.list, function(index, item){ }}
+                  {{#  if (_id == item.id){ }}
+                    <option value={{_id +'_' + item.id}} selected>{{item.title}}</option>
+                  {{#  }else{ }}
+                    <option value={{_id +'_' + item.id}}>{{item.title}}</option>
+                  {{#  } }}
+                {{#  }); }}
+              </select>
             </form>
+          </div>
+          <div class="layui-col-md3" id={{_id+"Time" }} >时间</div>
+          <div class="layui-col-md3">转速：0rpm</div>
+          <div class="layui-col-md2">
+            <button type="button" class="layui-btn" id={{"btn" + _id}} onclick="ppfxchild(id)">细化谱分析</button>
+          </div>
         </div>
-        <div class="layui-col-md4">2014/5/10 9:51:33</div>
-        <div class="layui-col-md4">转速：0rpm</div>
-        <!-- <div class="layui-col-md4" name="nowTime">时间</div> -->
-        <!-- <button type="button" class="layui-btn" lay-active="e1">细化谱分析</button>           -->
-        <button type="submit" id="btn" onclick="btn1()">细化谱分析</button>
-      </div>
-      <div class="layui-row">
-        <div class="layui-col-md4">选择频谱类型</div>
-        <div class="layui-col-md4">关联故障特征频率</div>
-        <div class="layui-col-md4">显示阶数</div>
-      </div>
-      <div class="layui-row">
-        <div class="layui-col-md12" id="table1" style=height:300px;></div>
-        <div class="layui-col-md12" id="table1_" style=height:300px;></div>
-      </div>
-    </div>
-    <div class="layui-col-md6" style="border-style: solid;">
-      <div class="layui-row">
-        <div class="layui-col-md4">
-            <form class="layui-form" action="">
-                <select name="sss" lay-filter="">
-                </select>
-            </form>
+        <div class="layui-row">
+          <div class="layui-col-md4">选择频谱类型</div>
+          <div class="layui-col-md4">关联故障特征频率</div>
+          <div class="layui-col-md4">显示阶数</div>
         </div>
-        <div class="layui-col-md4">2014/5/10 9:51:33</div>
-        <div class="layui-col-md4">转速：0rpm</div>
-        <!-- <div class="layui-col-md4" name="nowTime">时间</div> -->       
-        <!-- <button type="button" class="layui-btn" lay-active="e2">细化谱分析</button> -->
-        <button type="submit" id="btn" onclick="btn2()">细化谱分析</button>
+        <div class="layui-row">
+          <div class="layui-col-md12" id={{item.id + "_table1"}} style=height:300px;></div>
+          <div class="layui-col-md12" id={{item.id + "_table2"}} style=height:300px;></div>
+        </div>
       </div>
-      <div class="layui-row">
-        <div class="layui-col-md4">选择频谱类型</div>
-        <div class="layui-col-md4">关联故障特征频率</div>
-        <div class="layui-col-md4">显示阶数</div>
-      </div>
-      <div class="layui-row">
-        <div class="layui-col-md12" id="table2" style=height:300px;></div>
-        <div class="layui-col-md12" id="table2_" style=height:300px;></div>
-      </div>
-    </div>
-  </div>
+  {{#  }); }}
+  </script>
   <script src="../js/pinpufx.js"></script>
 </body>
+
 </html>

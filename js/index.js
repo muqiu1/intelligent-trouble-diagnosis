@@ -4,7 +4,7 @@ var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
-var host = '81.69.242.66'
+var host = '81.69.242.66:8888'
 var checkedTime = 0;
 //JS 
 function setTime() {
@@ -111,7 +111,7 @@ layui.use(['tree', 'form'], function () {
     var parameter = {}
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + ":8080/cms/field/list",
+        url: "http://" + host + "/cms/field/list",
         contentType: "application/x-www-form-urlencoded",
         async: false,
         dataType: "json",
@@ -201,7 +201,7 @@ function getTimeList(){
         }).then(function () {
             table.render({
                 elem: '#timeTable'
-                , url: "http://" + host + ":8080/cms/rWaveData/list"
+                , url: "http://" + host + "/cms/rWaveData/list"
                 , where : parameter
                 , method : 'post'
                 , contentType: 'application/x-www-form-urlencoded'

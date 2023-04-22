@@ -1,5 +1,5 @@
 initName()
-var myCharts = {};
+var TimeDomainCharts = {};
 layui.use(['laytpl', 'form', 'layer'], function () {
     var laytpl = layui.laytpl
         , $ = layui.$
@@ -22,9 +22,9 @@ layui.use(['laytpl', 'form', 'layer'], function () {
         resolve();
     }).then(function () {
         form.render('select')
-        myCharts = {};
+        TimeDomainCharts = {};
         for (var i = 0; i < checkedList.length; i++) {
-            myCharts[checkedList[i].id] = echarts.init(document.getElementById(checkedList[i].id));
+            TimeDomainCharts[checkedList[i].id] = echarts.init(document.getElementById(checkedList[i].id));
         }
     }).then(function () {
         $(document).ready(function () {
@@ -39,7 +39,6 @@ layui.use(['laytpl', 'form', 'layer'], function () {
 
 layui.use('form', function () {
     var form = layui.form;
-
     //监听提交
     form.on('select()', function (data) {
         var x = data.value.indexOf('_')
@@ -51,7 +50,7 @@ layui.use('form', function () {
 function draw(id, MPID) {
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + ":8080/cms/rWaveData/getRWaveData",
+        url: "http://" + host + "/cms/rWaveData/getRWaveData",
         contentType: "application/x-www-form-urlencoded",
         async: false,
         dataType: "json",
@@ -119,7 +118,8 @@ function draw(id, MPID) {
                     }
                 ]
             };
-            myCharts[id].setOption(option, true);
+            TimeDomainCharts[id].setOption(option, true);
+            document.getElementById(id+'Time').innerHTML = new Date(checkedTime*1000).toLocaleString().split('/').join('-');
         },
         error: function () {
             console.log("AJAX ERROR!")
