@@ -4,7 +4,7 @@ var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
-var host = '81.69.242.66:8888'
+var host = '81.69.242.66:8080'
 var checkedTime = 0;
 //JS 
 function setTime() {

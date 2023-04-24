@@ -1,5 +1,5 @@
 initName();
-var FFTCharts = {};
+var EnvolopeCharts = {};
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
         , form = layui.form
@@ -10,9 +10,9 @@ layui.use(['form', 'layer'], function () {
             shade: [0.5, '#fff'],
             time: 5 * 1000
         });
-        FFTCharts = {};
-        for (var i = 1; i <= 3; i++) {
-            FFTCharts[i] = echarts.init(document.getElementById("FFT" + i));
+        EnvolopeCharts = {};
+        for (var i = 1; i <= 4; i++) {
+            EnvolopeCharts[i] = echarts.init(document.getElementById("Envolope" + i));
         }
         resolve();
     }).then(function () {
@@ -31,7 +31,6 @@ layui.use('form', function () {
     });
 });
 
-// drawFFT(checkedList[0].id);
 function drawTF(MPID) {
     layui.$.ajax({
         type: 'POST',
@@ -103,7 +102,7 @@ function drawTF(MPID) {
                     }
                 ]
             };
-            FFTCharts[1].setOption(option, true);
+            EnvolopeCharts[1].setOption(option, true);
         },
         error: function () {
             console.log("AJAX ERROR!")
@@ -183,7 +182,7 @@ function drawTF(MPID) {
                     }
                 ]
             };
-            FFTCharts[2].setOption(option1, true);
+            EnvolopeCharts[2].setOption(option1, true);
         },
         error: function () {
             console.log("AJAX ERROR!")
@@ -193,73 +192,140 @@ function drawTF(MPID) {
     document.getElementById('Time').innerHTML = new Date(checkedTime * 1000).toLocaleString().split('/').join('-');
 };
 
-function drawFFT() {
-    let FFTparameter = layui.form.val("FFTparameter");
-    let FFTselect = layui.form.val("FFTselect");
+function drawEnvolope() {
+    let EnvolopeParameter = layui.form.val("EnvolopeParameter");
+    let EnvolopeSelect = layui.form.val("EnvolopeSelect");
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + "/cms/rWaveData/getStft",
+        url: "http://" + host + "/cms/rWaveData/envolope_show_new",
         contentType: "application/x-www-form-urlencoded",
         async: false,
         dataType: "json",
         data: {
-            MPID: parseInt(FFTselect.sss),
+            MPID: parseInt(EnvolopeSelect.sss),
             IndexNum: checkedTime,
-            windowWidth: parseInt(FFTparameter.windowWidth),
-            windowType: parseInt(FFTparameter.windowType),
+            lowFreq: parseFloat(EnvolopeParameter.f_low),
+            highFreq: parseFloat(EnvolopeParameter.f_high),
         },
         success: function (data) {
             console.log(data.data)
 
             let data3 = [];
+            let data4 = [];
             for (let i = 0; i < data.data[0].length; i++) {
-                for (let j = 0; j < data.data[0][i].length; j++) {
-                    data3.push([data.data[0][i][j], data.data[2][0][i], data.data[1][i][j]]);
-                }
+                data3.push([data.data[0][i], data.data[1][i]]);
             }
-            var option3d = {
-                tooltip: {},
-                xAxis3D: {
-                    type: 'value',
-                    name: "频率/s",
-                    nameLocation: 'middle'
-                },
-                yAxis3D: {
-                    type: 'value',
-                    name: "时间/s",
-                    nameLocation: 'middle'
-                },
-                zAxis3D: {
-                    type: 'value',
-                    name: "幅值/g",
-                    nameLocation: 'middle'
-                },
-                grid3D: {
-                    viewControl: {
-                        projection: 'orthographic'
+            for (let i = 0; i < data.data[2].length; i++) {
+                data4.push([data.data[2][i], data.data[3][i]]);
+            }
+            var option3 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
                     }
                 },
                 toolbox: {
                     show: true,
                     feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
                         restore: {},
                         saveAsImage: {
                             name: new Date().toLocaleString().split('/').join('-'),
                         }
                     }
                 },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle',
+                    // data: newData
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameLocation: 'middle',
+                    nameGap: 40
+                },
                 series: [
                     {
                         data: data3,
-                        type: 'line3D',
+                        type: 'line',
                         lineStyle: {
                             color: 'blue'
                         },
-                        showSymbol: false
+                        showSymbol: false,
                     }
                 ]
             };
-            FFTCharts[3].setOption(option3d, true);
+            var option4 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: "频率/Hz",
+                    nameLocation: 'middle',
+                    // data: newData
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/g",
+                    nameLocation: 'middle',
+                    nameGap: 40
+                },
+                series: [
+                    {
+                        data: data4,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            EnvolopeCharts[3].setOption(option3, true);
+            EnvolopeCharts[4].setOption(option4, true);
         },
         error: function () {
             console.log("AJAX ERROR!")

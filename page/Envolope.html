@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div class="layui-row">
+        <div class="layui-col-md3">
+            <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+        </div>
+        <div class="layui-col-md4">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <input type="radio" name="status" value="0" title="实时检测">
+                    <input type="radio" name="status" value="1" title="当前查询" checked>
+                    <input type="radio" name="status" value="2" title="历史查询">
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md5">
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12" style="border-style: solid;">
+            <div class="layui-row">
+                <div class="layui-col-md4" id="nameEnvolope">
+                    <form class="layui-form" action="" lay-filter="EnvolopeSelect">
+                        <select name="sss" lay-filter="changeMPID">
+                        </select>
+                    </form>
+                </div>
+                <div class="layui-col-md4" id="Time">时间</div>
+                <div class="layui-col-md4">转速</div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md5">
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="Envolope1" style=height:350px;></div>
+                        <div class="layui-col-md12" id="Envolope2" style=height:350px;></div>
+                    </div>
+                </div>
+                <div class="layui-col-md7">
+                    <div class="layui-row">
+                        <div class="layui-col-md12">
+                            <form class="layui-form" lay-filter="EnvolopeParameter" onsubmit="return false">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">最低频率</label>
+                                        <div class="layui-input-block">
+                                            <input type="number" name="f_low" lay-verify="required" lay-reqtext="最低频率是必填项" class="layui-input" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">最高频率</label>
+                                        <div class="layui-input-inline">
+                                            <input type="number" name="f_high" lay-verify="required" lay-reqtext="最高频率是必填项" class="layui-input" value="1000">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <div class="layui-input-inline">
+                                            <button type="submit" class="layui-btn" lay-submit="" onclick=drawEnvolope()>绘图</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="layui-col-md12" id="Envolope3" style=height:350px;></div>
+                        <div class="layui-col-md12" id="Envolope4" style=height:350px;></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/Envolope.js"></script>
+</body>

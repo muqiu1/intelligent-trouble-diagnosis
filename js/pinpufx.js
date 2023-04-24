@@ -50,150 +50,147 @@ layui.use('form', function () {
 });
 
 function draw(id, MPID) {
-  var data0 = [];
-  for (let i = 0; i < 50; i++) {
-    // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];  
-    alpha = 1
-    if (i == 0) {
-      alpha = 0.1 * (8 + Math.random())
-    } else {
-      alpha = 1 / i
+  layui.$.ajax({
+    type: 'POST',
+    url: "http://" + host + "/cms/rWaveData/fft_show_new",
+    contentType: "application/x-www-form-urlencoded",
+    async: false,
+    dataType: "json",
+    data: {
+      MPID: MPID,
+      IndexNum: checkedTime
+    },
+    success: function (data) {
+      console.log(data.data)
+      // 指定图表的配置项和数据
+      let data1 = [];
+      let data2 = [];
+      for (let i = 0; i < data.data[1].length; i++) {
+        data1.push([data.data[1][i], data.data[0][i]]);
+        data2.push([data.data[1][i], data.data[2][i]]);
+      }
+      var option1 = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataZoom: {
+              //   yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {
+              name: new Date().toLocaleString().split('/').join('-'),
+            }
+          }
+        },
+        dataZoom: [
+          {
+            id: 'dataZoomX',
+            type: 'inside',
+            xAxisIndex: [0],
+            filterMode: 'filter'
+          },
+        ],
+        xAxis: {
+          type: 'value',
+          name: "频率/Hz",
+          nameLocation: 'middle',
+          nameTextStyle: {
+            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+          },
+        },
+        yAxis: {
+          type: 'value',
+          name: "幅值/g",
+          nameLocation: 'middle',
+          nameTextStyle: {
+            padding: [0, 0, 30, 0]    // 四个数字分别为上右下左与原位置距离
+          },
+        },
+        series: [
+          {
+            data: data1,
+            type: 'line',
+            lineStyle: {
+              color: 'blue'
+            },
+            showSymbol: false,
+          }
+        ]
+      };
+      var option2 = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataZoom: {
+              //   yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {
+              name: new Date().toLocaleString().split('/').join('-'),
+            }
+          }
+        },
+        dataZoom: [
+          {
+            id: 'dataZoomX',
+            type: 'inside',
+            xAxisIndex: [0],
+            filterMode: 'filter'
+          },
+        ],
+        xAxis: {
+          type: 'value',
+          name: "频率/Hz",
+          nameLocation: 'middle',
+          nameTextStyle: {
+            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+          },
+        },
+        yAxis: {
+          type: 'value',
+          name: "相位/°",
+          nameTextStyle: {
+            padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
+          },
+          nameLocation: 'middle'
+        },
+        series: [
+          {
+            data: data2,
+            type: 'line',
+            lineStyle: {
+              color: 'blue'
+            },
+            showSymbol: false,
+          }
+        ]
+      };
+      myCharts[id + "_table1"].setOption(option1, true);
+      myCharts[id + "_table2"].setOption(option2, true);
+      document.getElementById(id + 'Time').innerHTML = new Date(checkedTime * 1000).toLocaleString().split('/').join('-');
+    },
+    error: function () {
+      console.log("AJAX ERROR!")
     }
-    data0[i * 8 + 0] = [(i * 4 + 0) * 25, 0.01 * alpha];
-    data0[i * 8 + 1] = [(i * 4 + 0) * 25, 0.0004 * alpha];
-    data0[i * 8 + 2] = [(i * 4 + 1) * 25, 0.0002 * alpha];
-    data0[i * 8 + 3] = [(i * 4 + 2) * 25, 0.0004 * alpha];
-    data0[i * 8 + 4] = [(i * 4 + 2) * 25, 0.005 * alpha];
-    data0[i * 8 + 5] = [(i * 4 + 2) * 25, 0.0004 * alpha];
-    data0[i * 8 + 6] = [(i * 4 + 3) * 25, 0.0002 * alpha];
-    data0[i * 8 + 7] = [(i * 4 + 4) * 25, 0.0004 * alpha];
-  }
-
-  // var max = Math.max.apply(Math,data1);
-  var data2 = [];
-  for (let i = 0; i < 400; i++) {
-    // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];    
-    data2[i] = [i * 12.5, Math.ceil(Math.random() * 300) - 150];
-  }
-  var option1 = {
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross',
-            label: {
-                backgroundColor: '#6a7985'
-            }
-        }
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            dataZoom: {
-                //   yAxisIndex: 'none'
-            },
-            restore: {},
-            saveAsImage: {
-                name: new Date().toLocaleString().split('/').join('-'),
-            }
-        }
-    },
-    dataZoom: [
-        {
-            id: 'dataZoomX',
-            type: 'inside',
-            xAxisIndex: [0],
-            filterMode: 'filter'
-        },
-    ],
-    xAxis: {
-      type: 'value',
-      name: "频率/Hz",
-      nameLocation: 'middle',
-      nameTextStyle: {
-        padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-      },
-    },
-    yAxis: {
-      type: 'value',
-      name: "幅值/g",
-      nameLocation: 'middle',
-      nameTextStyle: {
-        padding: [0, 0, 30, 0]    // 四个数字分别为上右下左与原位置距离
-      },
-      max: 0.012
-    },
-    series: [
-      {
-        data: data0,
-        type: 'line',
-        lineStyle: {
-          color: 'blue',
-          width: 1.2
-        },
-        showSymbol: false,
-      }
-    ]
-  };
-  var option2 = {
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross',
-            label: {
-                backgroundColor: '#6a7985'
-            }
-        }
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            dataZoom: {
-                //   yAxisIndex: 'none'
-            },
-            restore: {},
-            saveAsImage: {
-                name: new Date().toLocaleString().split('/').join('-'),
-            }
-        }
-    },
-    dataZoom: [
-        {
-            id: 'dataZoomX',
-            type: 'inside',
-            xAxisIndex: [0],
-            filterMode: 'filter'
-        },
-    ],
-    xAxis: {
-      type: 'value',
-      name: "频率/Hz",
-      nameLocation: 'middle',
-      nameTextStyle: {
-        padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-      },
-    },
-    yAxis: {
-      type: 'value',
-      name: "相位/g",
-      nameTextStyle: {
-        padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
-      },
-      nameLocation: 'middle'
-    },
-    series: [
-      {
-        data: data2,
-        type: 'line',
-        lineStyle: {
-          color: 'blue',
-          width: 1.5
-        },
-        showSymbol: false,
-      }
-    ]
-  };
-  myCharts[id+"_table1"].setOption(option1);
-  myCharts[id+"_table2"].setOption(option2);
+  })
 }
 
 function ppfxchild(id) {
