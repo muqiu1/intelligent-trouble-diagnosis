@@ -30,7 +30,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
   }).then(function () {
     $(document).ready(function () {
       for (var i = 0; i < checkedList.length; i++) {
-        draw(checkedList[i].id, checkedList[i].id);
+        drawFreq(checkedList[i].id, checkedList[i].id);
       }
     })
   }).then(function () {
@@ -41,15 +41,15 @@ layui.use(['laytpl', 'form', 'layer'], function () {
 layui.use('form', function () {
   var form = layui.form;
   //监听提交
-  form.on('select()', function (data) {
+  form.on('select(changeFreq)', function (data) {
     var x = data.value.indexOf('_')
     var id1 = data.value.substr(0, x)
     var id2 = data.value.substr(x + 1)
-    draw(parseInt(id1), parseInt(id2))
+    drawFreq(parseInt(id1), parseInt(id2))
   });
 });
 
-function draw(id, MPID) {
+function drawFreq(id, MPID) {
   layui.$.ajax({
     type: 'POST',
     url: "http://" + host + "/cms/rWaveData/fft_show_new",

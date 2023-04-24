@@ -25,7 +25,7 @@ layui.use(['form', 'layer'], function () {
 layui.use('form', function () {
     var form = layui.form;
     //监听提交
-    form.on('select(changeMPID)', function (data) {
+    form.on('select(changeFFT)', function (data) {
         var id1 = data.value
         drawTF(parseInt(id1))
     });

@@ -29,7 +29,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     }).then(function () {
         $(document).ready(function () {
             for (var i = 0; i < checkedList.length; i++) {
-                draw(checkedList[i].id, checkedList[i].id);
+                drawTimeDomain(checkedList[i].id, checkedList[i].id);
             }
         })
     }).then(function () {
@@ -40,14 +40,14 @@ layui.use(['laytpl', 'form', 'layer'], function () {
 layui.use('form', function () {
     var form = layui.form;
     //监听提交
-    form.on('select()', function (data) {
+    form.on('select(changeTimeDomain)', function (data) {
         var x = data.value.indexOf('_')
         var id1 = data.value.substr(0, x)
         var id2 = data.value.substr(x + 1)
-        draw(parseInt(id1), parseInt(id2))
+        drawTimeDomain(parseInt(id1), parseInt(id2))
     });
 });
-function draw(id, MPID) {
+function drawTimeDomain(id, MPID) {
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getRWaveData",

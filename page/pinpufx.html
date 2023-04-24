@@ -28,7 +28,7 @@
         <div class="layui-row">
           <div class="layui-col-md4">
             <form class="layui-form" action="">
-              <select lay-filter="">
+              <select lay-filter="changeFreq">
                 {{#  layui.each(d.list, function(index, item){ }}
                   {{#  if (_id == item.id){ }}
                     <option value={{_id +'_' + item.id}} selected>{{item.title}}</option>
