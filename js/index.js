@@ -1,12 +1,11 @@
 var checkedList = [];
-var checkedMPID = [];
 var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
 var host = '81.69.242.66:8888'
 var checkedTime = 0;
-var intervalId; //实时监测计时器
+var intervalId = 0; //实时监测计时器
 //JS 
 function setTime() {
     now = new Date();
@@ -158,7 +157,7 @@ layui.use(['tree', 'form'], function () {
                             for (var i = 0; i < l.length; i++) {
                                 if (l[i].field == "3") {
                                     l[i].title = f + ' ' + l[i].title
-                                    checkedMPID.push(l[i].mPID);
+                                    l[i].drawId = l[i].id
                                     checkedList.push(l[i]);
                                 }
                                 else if (l[i].children != null) {
@@ -166,7 +165,6 @@ layui.use(['tree', 'form'], function () {
                                 }
                             }
                         };
-                        checkedMPID = [];
                         checkedList = [];
                         dfs(checkedData, '');
                         loadPage(_target);
@@ -194,8 +192,8 @@ function getTimeList(){
         
         let parameter = {}
         new Promise(function (resolve, reject) {
-            for (let i=0; i<checkedMPID.length; i++){
-                parameter[ "MPIDList[" + i + "]" ] = checkedMPID[i];
+            for (let i=0; i<checkedList.length; i++){
+                parameter[ "MPIDList[" + i + "]" ] = checkedList[i].mPID;
             }
             parameter[ "startTime" ] = (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000;
             parameter[ "endTime" ] = (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000;
@@ -248,31 +246,23 @@ function getTimeList(){
 }
 
 
-
 //实时检测函数
-function startTimer() {
-    const inputElement = document.querySelector('input[name="status"][value="0"][type="radio"]');
-    if (inputElement && inputElement.checked) {
-        intervalId = setInterval(() => {
-            // 在这里发送网络请求
-            console.log('发送网络请求');
-          }, 5000);
-    } else if (inputElement) {
-      inputElement.addEventListener('change', () => {
-        if (inputElement.checked) {
-            intervalId = setInterval(() => {
-            // 在这里发送网络请求
-            console.log('发送网络请求');
-          }, 5000);
-        }
-      });
-    }
+function startTimer(Func) {
+    Func();
+    intervalId = setInterval(() => {
+        // 在这里发送网络请求
+        Func();
+    }, 5000);
 }
 
 //计时器清理函数
 function clearTimer() {
     if (intervalId) {
-        clearInterval(intervalId);
+        new Promise(function (resolve, reject) {
+            clearInterval(intervalId);
+            resolve();
+        }).then(function () {
+            intervalId = 0;
+        })
     }
 }
-  

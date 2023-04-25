@@ -221,7 +221,7 @@ function drawFFT() {
                 tooltip: {},
                 xAxis3D: {
                     type: 'value',
-                    name: "频率/s",
+                    name: "频率/Hz",
                     nameLocation: 'middle'
                 },
                 yAxis3D: {
