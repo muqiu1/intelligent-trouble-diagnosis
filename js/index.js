@@ -260,7 +260,7 @@ function startTimer() {
     } else if (inputElement) {
       inputElement.addEventListener('change', () => {
         if (inputElement.checked) {
-          setInterval(() => {
+            intervalId = setInterval(() => {
             // 在这里发送网络请求
             console.log('发送网络请求');
           }, 5000);
