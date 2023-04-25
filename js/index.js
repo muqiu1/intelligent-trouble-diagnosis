@@ -6,6 +6,7 @@ var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", 
 var treeData;
 var host = '81.69.242.66:8080'
 var checkedTime = 0;
+var intervalId; //实时监测计时器
 //JS 
 function setTime() {
     now = new Date();
@@ -53,6 +54,7 @@ layui.use('laydate', function () {
 });
 
 function loadPage(target) {
+    clearTimer();//新增清理计时器
     if (target != '') {
         _target = target;
         layui.use([], function () {
@@ -244,3 +246,33 @@ function getTimeList(){
         });
     });
 }
+
+
+
+//实时检测函数
+function startTimer() {
+    const inputElement = document.querySelector('input[name="status"][value="0"][type="radio"]');
+    if (inputElement && inputElement.checked) {
+        intervalId = setInterval(() => {
+            // 在这里发送网络请求
+            console.log('发送网络请求');
+          }, 5000);
+    } else if (inputElement) {
+      inputElement.addEventListener('change', () => {
+        if (inputElement.checked) {
+          setInterval(() => {
+            // 在这里发送网络请求
+            console.log('发送网络请求');
+          }, 5000);
+        }
+      });
+    }
+}
+
+//计时器清理函数
+function clearTimer() {
+    if (intervalId) {
+        clearInterval(intervalId);
+    }
+}
+  
