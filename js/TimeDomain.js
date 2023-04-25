@@ -46,6 +46,11 @@ layui.use('form', function () {
         var id2 = data.value.substr(x + 1)
         drawTimeDomain(parseInt(id1), parseInt(id2))
     });
+    form.on('radio(drawType', function (data) {
+        if (data.value == "0"){
+            console.log(data);
+        }
+    });
 });
 function drawTimeDomain(id, MPID) {
     layui.$.ajax({

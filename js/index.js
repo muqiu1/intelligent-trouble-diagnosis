@@ -4,7 +4,7 @@ var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
-var host = '81.69.242.66:8080'
+var host = '81.69.242.66:8888'
 var checkedTime = 0;
 //JS 
 function setTime() {
@@ -218,15 +218,15 @@ function getTimeList(){
                 }
                 , parseData: function(res){
                     console.log(res)
-                    let l = res.data.list.sort()
+                    let l = res.data.list;
                     let data = [];
                     for (let i=0; i<l.length; i++){
-                        data.push({"time": new Date(l[i]*1000).toLocaleString().split('/').join('-'), "id": l[i]});
+                        data.push({"time": new Date(l[i].indexNum*1000).toLocaleString().split('/').join('-'), "id": l[i].indexNum});
                     }
                     return {
                         "code": 0, //解析接口状态
                         "msg": res.msg, //解析提示文本
-                        "count": 200, //解析数据长度
+                        "count": res.data.total, //解析数据长度
                         "data":data
                     }
                 }

@@ -8,9 +8,9 @@
         <div class="layui-col-md4">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测">
-                    <input type="radio" name="status" value="1" title="当前查询" checked>
-                    <input type="radio" name="status" value="2" title="历史查询">
+                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawType">
+                    <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawType"checked>
+                    <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawType">
                 </div>
             </form>
         </div>
