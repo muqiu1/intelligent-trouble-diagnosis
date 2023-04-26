@@ -22,6 +22,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     resolve();
   }).then(function () {
     form.render('select')
+    form.render('radio')
     myCharts = {};
     for (var i = 0; i < checkedList.length; i++) {
       myCharts[checkedList[i].id + "_table1"] = echarts.init(document.getElementById(checkedList[i].id + "_table1"));
@@ -91,7 +92,7 @@ function drawFreq(id, MPID, urlRealTime='') {
       pageSize: 1,
     },
     success: function (data) {
-      console.log(data.name)
+      console.log(data.name, data.data[0].length)
       // 指定图表的配置项和数据
       let data1 = [];
       let data2 = [];
@@ -131,7 +132,7 @@ function drawFreq(id, MPID, urlRealTime='') {
         ],
         xAxis: {
           type: 'value',
-          name: "频率/Hz",
+          name: data.msg,
           nameLocation: 'middle',
           nameTextStyle: {
             padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
@@ -188,7 +189,7 @@ function drawFreq(id, MPID, urlRealTime='') {
         ],
         xAxis: {
           type: 'value',
-          name: "频率/Hz",
+          name: data.msg,
           nameLocation: 'middle',
           nameTextStyle: {
             padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离

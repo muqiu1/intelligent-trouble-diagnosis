@@ -90,7 +90,7 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
             pageSize: 1,
         },
         success: function (data) {
-            console.log(data.name)
+            console.log(data.name, data.data[0].length)
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {

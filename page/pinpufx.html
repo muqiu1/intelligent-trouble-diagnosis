@@ -41,14 +41,20 @@
           </div>
           <div class="layui-col-md3" id={{_id+"Time" }} >时间</div>
           <div class="layui-col-md3">转速：0rpm</div>
-          <div class="layui-col-md2">
+          <!-- <div class="layui-col-md2">
             <button type="button" class="layui-btn" id={{"btn" + _id}} onclick="ppfxchild(id)">细化谱分析</button>
-          </div>
+          </div> -->
         </div>
         <!-- <div class="layui-row">
-          <div class="layui-col-md4">选择频谱类型</div>
-          <div class="layui-col-md4">关联故障特征频率</div>
-          <div class="layui-col-md4">显示阶数</div>
+          <form class="layui-form" action="">
+            <div class="layui-form-item">
+              <label class="layui-form-label" style="width: 120px;">选择频谱类型</label>
+              <div class="layui-input-block">
+                <input type="radio" name="is_order" value="0" title="关联故障特征频率" checked>
+                <input type="radio" name="is_order" value="1" title="显示阶数">
+              </div>
+            </div>
+          </form>
         </div> -->
         <div class="layui-row">
           <div class="layui-col-md12" id={{item.id + "_table1"}} style=height:300px;></div>

@@ -44,7 +44,7 @@ function drawTF(MPID) {
             IndexNum: checkedTime
         },
         success: function (data) {
-            console.log(data.data)
+            console.log(data.name, data.data[0].length)
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -120,7 +120,7 @@ function drawTF(MPID) {
             IndexNum: checkedTime
         },
         success: function (data) {
-            console.log(data.data)
+            console.log(data.name, data.data[0].length)
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -158,7 +158,7 @@ function drawTF(MPID) {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: "频率/Hz",
+                    name: data.msg,
                     nameLocation: 'middle',
                     nameTextStyle: {
                         padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
@@ -209,7 +209,7 @@ function drawFFT() {
             windowType: parseInt(FFTparameter.windowType),
         },
         success: function (data) {
-            console.log(data.data)
+            console.log(data.name, data.data[0].length, data.data[0][0].length)
 
             let data3 = [];
             for (let i = 0; i < data.data[0].length; i++) {
