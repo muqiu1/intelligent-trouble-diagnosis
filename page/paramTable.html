@@ -8,9 +8,9 @@
         <div class="layui-col-md4">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测">
-                    <input type="radio" name="status" value="1" title="当前查询" checked>
-                    <input type="radio" name="status" value="2" title="历史查询">
+                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="paramTableType">
+                    <input type="radio" name="status" value="1" title="当前查询" lay-filter="paramTableType" checked>
+                    <input type="radio" name="status" value="2" title="历史查询" lay-filter="paramTableType">
                 </div>
             </form>
         </div>
@@ -18,12 +18,15 @@
         </div>
     </div>
     <div class="layui-row" id="paramTable">
-        <!-- <div class="layui-bg-blue">时域指标</div> -->
-        <!-- <div class="layui-col-md12" name="nowTime">时间</div> -->
-        <table id="table1" lay-filter="test"></table>
-        <!-- <div class="layui-bg-blue">频域指标</div> -->
-        <table id="table2" lay-filter="test"></table>
-        <!-- <div class="layui-col-md12" name="nowTime">时间</div> -->
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>时域指标</legend>
+          </fieldset>
+        <table id="paramTable1" lay-filter="test"></table>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>频域指标</legend>
+          </fieldset>
+        <table id="paramTable2" lay-filter="test"></table>
+        <div id="pageController"></div>
     </div>
 
 

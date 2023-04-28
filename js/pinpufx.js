@@ -25,6 +25,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     form.render('radio')
     myCharts = {};
     for (var i = 0; i < checkedList.length; i++) {
+      checkedList[i].drawId = checkedList[i].id;
       myCharts[checkedList[i].id + "_table1"] = echarts.init(document.getElementById(checkedList[i].id + "_table1"));
       myCharts[checkedList[i].id + "_table2"] = echarts.init(document.getElementById(checkedList[i].id + "_table2"));
     }
@@ -91,8 +92,9 @@ function drawFreq(id, MPID, urlRealTime='') {
       pageNum: 1,
       pageSize: 1,
     },
-    success: function (data) {
-      console.log(data.name, data.data[0].length)
+    success: function (res) {
+      let data = res.data;
+      console.log(data.indexNum, data.data[0].length)
       // 指定图表的配置项和数据
       let data1 = [];
       let data2 = [];
@@ -108,7 +110,8 @@ function drawFreq(id, MPID, urlRealTime='') {
             label: {
               backgroundColor: '#6a7985'
             }
-          }
+          },
+          valueFormatter: (value) => value.toFixed(3)
         },
         toolbox: {
           show: true,
@@ -132,19 +135,16 @@ function drawFreq(id, MPID, urlRealTime='') {
         ],
         xAxis: {
           type: 'value',
-          name: data.msg,
+          name: data.is_order?"阶次":"频率/Hz",
           nameLocation: 'middle',
-          nameTextStyle: {
-            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-          },
+          nameGap: 30,
+          max: data.is_order?20:'dataMax',
         },
         yAxis: {
           type: 'value',
-          name: "幅值/g",
+          name: "幅值/" + data.RangeUnit,
           nameLocation: 'middle',
-          nameTextStyle: {
-            padding: [0, 0, 30, 0]    // 四个数字分别为上右下左与原位置距离
-          },
+          nameGap: 30,
         },
         series: [
           {
@@ -165,7 +165,8 @@ function drawFreq(id, MPID, urlRealTime='') {
             label: {
               backgroundColor: '#6a7985'
             }
-          }
+          },
+          valueFormatter: (value) => value.toFixed(3)
         },
         toolbox: {
           show: true,
@@ -189,19 +190,16 @@ function drawFreq(id, MPID, urlRealTime='') {
         ],
         xAxis: {
           type: 'value',
-          name: data.msg,
+          name: data.is_order?"阶次":"频率/Hz",
           nameLocation: 'middle',
-          nameTextStyle: {
-            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-          },
+          nameGap: 30,
+          max: data.is_order?20:'dataMax',
         },
         yAxis: {
           type: 'value',
           name: "相位/°",
-          nameTextStyle: {
-            padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
-          },
-          nameLocation: 'middle'
+          nameLocation: 'middle',
+          nameGap: 30,
         },
         series: [
           {
@@ -216,7 +214,8 @@ function drawFreq(id, MPID, urlRealTime='') {
       };
       myCharts[id + "_table1"].setOption(option1, true);
       myCharts[id + "_table2"].setOption(option2, true);
-      document.getElementById(id + 'Time').innerHTML = new Date(parseInt(data.name)*1000).toLocaleString().split('/').join('-');
+      document.getElementById(id + 'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString().split('/').join('-');
+      document.getElementById(id+'rotSpeed').innerHTML = data.rotSpeed;
     },
     error: function () {
       console.log("AJAX ERROR!")

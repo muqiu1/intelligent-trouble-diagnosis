@@ -1,81 +1,174 @@
 initName()
-dataTable = {
-        111: { "id": 1, 'username': '一号机组', 'pointname': '1#测点' }, 112: { "id": 2, 'username': '一号机组', 'pointname': '2#测点' }
-        , 113: { "id": 3, 'username': '一号机组', 'pointname': '3#测点' }, 114: { "id": 4, 'username': '一号机组', 'pointname': '4#测点' }
-        , 115: { "id": 5, 'username': '一号机组', 'pointname': '5#测点' }
-        , 211: { "id": 6, 'username': '二号机组', 'pointname': '1#测点' }, 212: { "id": 7, 'username': '二号机组', 'pointname': '2#测点' }
-        , 213: { "id": 8, 'username': '二号机组', 'pointname': '3#测点' }, 214: { "id": 9, 'username': '二号机组', 'pointname': '4#测点' }
-        , 215: { "id": 10, 'username': '二号机组', 'pointname': '5#测点' }
-    }
-function passTableData(index) {
-    // console.log(index[0].id)
-    data = []
-    for (var i in index) {
-        // console.log(index[i].id)
-        data.push(dataTable[index[i].id])
-    }
-    // console.log(data)
-    return data
-}
-dataTb = passTableData(checkedList)
-drawTable()       
-function drawTable(){
-    layui.use('table', function () {
-    var table = layui.table;
-    //第一个实例
-    // table.render({
-    //     elem: '#table1'
-    //     , height: 200
-    //     // , data: dataTb
-    //     , data: [
-    //         {'id':1,'username':'一号机组','pointname':'1#测点','time':'2014-05-09 08:52:35','yyz':0.0125,'dfz':0.048,'ffz':0.0959,'fz_metric':7.6665,'mc_metric':13.0398,'yd_metric':21.442},
-    //         {'id':2,'username':'一号机组','pointname':'2#测点','time':'2014-05-09 08:52:35','yyz':0.0132,'dfz':0.048,'ffz':0.096,'fz_metric':7.2922,'mc_metric':11.9435,'yd_metric':17.5096}
-    //     ]
-    //     , cols: [[ //表头
-    //         { field: 'id', title: '序号', width: 80, fixed: 'left' }
-    //         , { field: 'username', title: '机组名称', width: 120 }
-    //         , { field: 'pointname', title: '测点名称', width: 120, }
-    //         , { field: 'time', title: '采集时间', width: 200 }
-    //         //, { field: 'yyz', title: '有效值/g', width: 120 }
-    //         //, { field: 'dfz', title: '单峰值/g', width: 120, }
-    //         , { field: 'ffz', title: '位移峰峰值/g', width: 120, }
-    //         , { field: 'fz_metric', title: '峰值指标', width: 120 }
-    //         , { field: 'mc_metric', title: '脉冲指标', width: 120, }
-    //         , { field: 'yd_metric', title: '裕度指标', width: 120, }
-    //         , { field: 'qd_metric', title: '峭度指标', width: 120, }
-    //         , { field: 'pd_coeffcient', title: '偏度系数', width: 120, }
-    //         , { field: 'bx_metric', title: '波形指标', width: 120 }
-    //         , { field: 'bx_metric', title: '重心频率/Hz', width: 180 }
-    //     ]]
-    // });
-    table.render({
-        elem: '#table2'
-        , height: 200
-        // , data: dataTb
-        , data: [
-            {'id':1,'username':'转子试验台','pointname':'电机侧位移x','time':'2019-12-19 15:05:44','ffz':55,'0.5amplitude':0,'0.5phase':'19∠134°','sex':'3∠243°','city':'2∠133°','sign':0,'experience':'..'},
-            {'id':2,'username':'转子试验台','pointname':'电机侧位移y','time':'2019-12-19 15:05:44','ffz':99,'0.5amplitude':0,'0.5phase':'31∠45°','sex':'4∠106°','city':'2∠122°','sign':0,'experience':'..'},
-            {'id':3,'username':'转子试验台','pointname':'端侧位移x','time':'2019-12-19 15:05:44','ffz':65,'0.5amplitude':0,'0.5phase':'33∠116°','sex':'7∠156°','city':'2∠94°','sign':0,'experience':'..'},
-            {'id':4,'username':'转子试验台','pointname':'端侧位移y','time':'2019-12-19 15:05:44','ffz':162,'0.5amplitude':0,'0.5phase':'51∠23°','sex':'4∠75°','city':'6∠156°','sign':1,'experience':'..'}
+let parameter = {}
+let paramTable = []
+let paramTime = [];
+let paramFreq = [];
+let urlRealTime = '';
+layui.use(['table', 'laypage', 'form'], function () {
+    var table = layui.table
+        , laypage = layui.laypage
+        , form = layui.form
+        , $ = layui.$
+    new Promise(function (resolve, reject) {
+        for (let i = 0; i < checkedList.length; i++) {
+            parameter["MPIDList[" + i + "]"] = checkedList[i].mPID;
+        }
+        parameter["IndexNum"] = checkedTime;
+        parameter["pageSize"] = 10;
+        parameter["pageNum"] = 1;
+        parameter["startTime"] = 1576753367;
+        resolve();
+    }).then(function () {
+        getParam();
+    }).then(function (resolve, reject) {
+        parseData();
+        laypage.render({
+            elem: 'pageController' //注意，这里的 test1 是 ID，不用加 # 号
+            , count: paramTable.data.total //数据总数，从服务端得到
+            , limit: parameter.pageSize
+            , jump: function (obj, first) {
+                //obj包含了当前分页的所有参数，比如：
+                // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                // console.log(obj.limit); //得到每页显示的条数
 
-        ]
-        , cols: [[ //表头
-            { field: 'id', title: '序号', width: 80, fixed: 'left' }
-            , { field: 'username', title: '机组名称', width: 120 }
-            , { field: 'pointname', title: '测点名称', width: 120 }
-            , { field: 'time', title: '采集时间', width: 200 }
-            , { field: 'ffz', title: '位移峰峰值/um', width: 140, }
-            , { field: '0.5amplitude', title: '0.5X幅值', width: 160 }
-            , { field: '0.5phase', title: '1X矢量', width: 160 }
-            , { field: 'sex', title: '2X矢量', width: 160 }
-            , { field: 'city', title: '3X矢量', width: 160 }
-            , { field: 'sign', title: '4X幅值', width: 160 }
-            , { field: 'experience', title: '间隙电压/V', width: 160 }
-            // , { field: 'score', title: '3X幅值/g', width: 160 }
-            // , { field: 'classify', title: '3X相位/°', width: 160 }
-            // , { field: '4amplitude', title: '4X幅值/g', width: 160 }
-            // , { field: '5amplitude', title: '5X幅值/g', width: 160 }
-        ]]
+                //首次不执行
+                if (!first) {
+                    //do something
+                    new Promise(function (resolve, reject) {
+                        parameter["pageNum"] = obj.curr;
+                        getParam();
+                        resolve();
+                    }).then(function () {
+                        parseData();
+                    }).then(function () {
+                        table.reload('paramTable1', {data: paramTime}, true);
+                        table.reload('paramTable2', {data: paramFreq}, true);
+                    });
+                }
+            }
+        });
+    }).then(function () {
+        table.render({
+            elem: '#paramTable1'
+            , data: paramTime
+            , cols: [[ //表头
+                { field: 'id', title: '序号', width: 80, fixed: 'left' }
+                , { field: 'pointname', title: '测点名称', width: 200, }
+                , { field: 'time', title: '采集时间', width: 200 }
+                , { field: 'PPV', title: '波形峰峰值', width: 120 }
+                , { field: 'FZYZ', title: '峰值因子', width: 120 }
+                , { field: 'PDYZ', title: '偏度因子', width: 120, }
+                , { field: 'QDYZ', title: '峭度因子', width: 120, }
+                , { field: 'YDYZ', title: '裕度因子', width: 120, }
+                , { field: 'MCYZ', title: '脉冲因子', width: 120 }
+                , { field: 'BXYZ', title: '波形因子', width: 120 }
+                , { field: 'Gap', title: '间隙', width: 120 }
+            ]]
+        });
+        table.render({
+            elem: '#paramTable2'
+            , data: paramFreq
+            , cols: [[ //表头
+                { field: 'id', title: '序号', width: 80, fixed: 'left' }
+                , { field: 'pointname', title: '测点名称', width: 200, }
+                , { field: 'time', title: '采集时间', width: 200 }
+                , { field: 'halfMag', title: '0.5倍频幅值', width: 120 }
+                , { field: 'halfP', title: '0.5倍频相位', width: 120 }
+                , { field: 'x1Mag', title: '1倍频幅值', width: 120 }
+                , { field: 'x1P', title: '1倍频相位', width: 120 }
+                , { field: 'x2Mag', title: '2倍频幅值', width: 120 }
+                , { field: 'x2P', title: '2倍频相位', width: 120 }
+                , { field: 'x3Mag', title: '3倍频幅值', width: 120 }
+                , { field: 'x3P', title: '3倍频相位', width: 120 }
+                , { field: 'x4Mag', title: '4倍频幅值', width: 120 }
+                , { field: 'x5Mag', title: '5倍频幅值', width: 120 }
+            ]]
+        });
+
+        function getParamTableRealTime() {
+            new Promise(function (resolve, reject) {
+                getParam();
+                resolve();
+            }).then(function () {
+                parseData();
+            }).then(function () {
+                table.reload('paramTable1', {data: paramTime}, true);
+                table.reload('paramTable2', {data: paramFreq}, true);
+            });
+        }
+
+        form.on('radio(paramTableType)', function (data) {
+            if (data.value == "0"){
+                urlRealTime = "_RealTime";
+                startTimer(getParamTableRealTime);
+            }
+            else{
+                urlRealTime = "";
+                clearTimer();
+            }
+        });
     });
 });
+
+function getParam() {
+    parameter["endTime"] = parseInt(new Date().getTime()/1000) + 40000;
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/rVibData/list" + urlRealTime,
+        data: parameter,
+        contentType: "application/x-www-form-urlencoded",
+        async: false,
+        dataType: "json",
+        success: function (data) {
+            console.log(data.data);
+            paramTable = data;
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    })
+}
+
+function parseData(){
+    let l = paramTable.data.list;
+    paramTime = [];
+    paramFreq = [];
+    for (let i = 0; i < l.length; i++) {
+        let dataTimeItem = {};
+        let dataFreqItem = {};
+        dataTimeItem["id"] = l[i].mPID;
+        dataFreqItem["id"] = l[i].mPID;
+        for (let j = 0; j < checkedList.length; j++) {
+            if (l[i].mPID == checkedList[j].mPID) {
+                dataTimeItem["pointname"] = checkedList[j].title;
+                dataFreqItem["pointname"] = checkedList[j].title;
+                break;
+            }
+        }
+        dataTimeItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
+        dataFreqItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
+
+        dataTimeItem["PPV"] = l[i].pPV;
+        dataTimeItem["FZYZ"] = l[i].fZYZ;
+        dataTimeItem["PDYZ"] = l[i].pDYZ;
+        dataTimeItem["QDYZ"] = l[i].qDYZ;
+        dataTimeItem["YDYZ"] = l[i].yDYZ;
+        dataTimeItem["MCYZ"] = l[i].mCYZ;
+        dataTimeItem["BXYZ"] = l[i].bXYZ;
+        dataTimeItem["Gap"] = l[i].gap;
+
+        dataFreqItem['halfMag'] = l[i].halfMag;
+        dataFreqItem['halfP'] = l[i].halfP;
+        dataFreqItem['x1Mag'] = l[i].x1Mag;
+        dataFreqItem['x1P'] = l[i].x1P;
+        dataFreqItem['x2Mag'] = l[i].x2Mag;
+        dataFreqItem['x2P'] = l[i].x2P;
+        dataFreqItem['x3Mag'] = l[i].x3Mag;
+        dataFreqItem['x3P'] = l[i].x3P;
+        dataFreqItem['x4Mag'] = l[i].x4Mag;
+        dataFreqItem['x5Mag'] = l[i].x5Mag;
+
+        paramTime.push(dataTimeItem);
+        paramFreq.push(dataFreqItem);
+    }
 }

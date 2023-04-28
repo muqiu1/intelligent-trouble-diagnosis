@@ -1,5 +1,6 @@
 initName();
 var EnvolopeCharts = {};
+var EnvolopeLowFreq = 0, EnvolopeHighFreq = 1000;
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
         , form = layui.form
@@ -16,40 +17,72 @@ layui.use(['form', 'layer'], function () {
         }
         resolve();
     }).then(function () {
-        drawTF(checkedList[0].id);
+        $(document).ready(function () {
+            drawEnvolopeTF();
+            drawEnvolope();
+        })
     }).then(function () {
         layer.close(loadingLayer)
     });
 })
 
+function updateEnvolope(){
+    let EnvolopeParameter = layui.form.val("EnvolopeParameter");
+    EnvolopeLowFreq = parseInt(EnvolopeParameter.f_low);
+    EnvolopeHighFreq = parseInt(EnvolopeParameter.f_high);
+    drawEnvolope();
+}
+
 layui.use('form', function () {
     var form = layui.form;
     //监听提交
     form.on('select(changeEnvolope)', function (data) {
-        var id1 = data.value
-        drawTF(parseInt(id1))
+        drawEnvolopeTF();
+        drawEnvolope();
+    });
+
+    function drawEnvolopeRealTime(){
+        drawEnvolopeTF();
+        drawEnvolope();
+    }
+
+    form.on('radio(drawEnvolopeType)', function (data) {
+        if (data.value == "0"){
+            startTimer(drawEnvolopeRealTime);
+        }
+        else{
+            clearTimer();
+        }
     });
 });
 
-function drawTF(MPID) {
+function drawEnvolopeTF() {
+    let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
+    let urlRealTime = intervalId == 0?"":"_RealTime";
+    let endTime = parseInt(new Date().getTime()/1000) + 40000;
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + "/cms/rWaveData/getRWaveData",
+        url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
         contentType: "application/x-www-form-urlencoded",
         // async: false,
         dataType: "json",
         data: {
             MPID: MPID,
-            IndexNum: checkedTime
+            IndexNum: checkedTime,
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
         },
-        success: function (data) {
-            console.log(data.name, data.data[0].length)
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
                 newData.push([data.data[1][i], data.data[0][i]]);
             }
-            var option = {
+            var option1 = {
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -57,7 +90,8 @@ function drawTF(MPID) {
                         label: {
                             backgroundColor: '#6a7985'
                         }
-                    }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
                 },
                 toolbox: {
                     show: true,
@@ -83,13 +117,15 @@ function drawTF(MPID) {
                     type: 'value',
                     name: "时间/s",
                     nameLocation: 'middle',
+                    nameGap: 30,
+                    // max: 'dataMax',
                     // data: newData
                 },
                 yAxis: {
                     type: 'value',
-                    name: "幅值/g",
+                    name: "幅值/" + data.RangeUnit,
                     nameLocation: 'middle',
-                    nameGap: 40
+                    nameGap: 30,
                 },
                 series: [
                     {
@@ -102,7 +138,7 @@ function drawTF(MPID) {
                     }
                 ]
             };
-            EnvolopeCharts[1].setOption(option, true);
+            EnvolopeCharts[1].setOption(option1, true);
         },
         error: function () {
             console.log("AJAX ERROR!")
@@ -110,22 +146,27 @@ function drawTF(MPID) {
     });
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + "/cms/rWaveData/fft_show_new",
+        url: "http://" + host + "/cms/rWaveData/fft_show_new" + urlRealTime,
         contentType: "application/x-www-form-urlencoded",
         // async: false,
         dataType: "json",
         data: {
             MPID: MPID,
-            IndexNum: checkedTime
+            IndexNum: checkedTime,
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
         },
-        success: function (data) {
-            console.log(data.name, data.data[0].length)
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {
                 data1.push([data.data[1][i], data.data[0][i]]);
             }
-            var option1 = {
+            var option2 = {
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -133,7 +174,8 @@ function drawTF(MPID) {
                         label: {
                             backgroundColor: '#6a7985'
                         }
-                    }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
                 },
                 toolbox: {
                     show: true,
@@ -157,19 +199,16 @@ function drawTF(MPID) {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.msg,
+                    name: data.is_order?"阶次":"频率/Hz",
                     nameLocation: 'middle',
-                    nameTextStyle: {
-                        padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-                    },
+                    nameGap: 30,
+                    max: data.is_order?20:'dataMax',
                 },
                 yAxis: {
                     type: 'value',
-                    name: "幅值/g",
+                    name: "幅值/" + data.RangeUnit,
                     nameLocation: 'middle',
-                    nameTextStyle: {
-                        padding: [0, 0, 30, 0]    // 四个数字分别为上右下左与原位置距离
-                    },
+                    nameGap: 30,
                 },
                 series: [
                     {
@@ -182,33 +221,39 @@ function drawTF(MPID) {
                     }
                 ]
             };
-            EnvolopeCharts[2].setOption(option1, true);
+            EnvolopeCharts[2].setOption(option2, true);
+            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
         },
         error: function () {
             console.log("AJAX ERROR!")
         }
     })
-
-    document.getElementById('Time').innerHTML = new Date(checkedTime * 1000).toLocaleString().split('/').join('-');
 };
 
 function drawEnvolope() {
-    let EnvolopeParameter = layui.form.val("EnvolopeParameter");
-    let EnvolopeSelect = layui.form.val("EnvolopeSelect");
+    let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
+    let urlRealTime = intervalId == 0?"":"_RealTime";
+    let endTime = parseInt(new Date().getTime()/1000) + 40000;
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + "/cms/rWaveData/envolope_show_new",
+        url: "http://" + host + "/cms/rWaveData/envolope_show_new" + urlRealTime,
         contentType: "application/x-www-form-urlencoded",
         async: false,
         dataType: "json",
         data: {
-            MPID: parseInt(EnvolopeSelect.sss),
+            MPID: MPID,
             IndexNum: checkedTime,
-            lowFreq: parseFloat(EnvolopeParameter.f_low),
-            highFreq: parseFloat(EnvolopeParameter.f_high),
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
+            lowFreq: EnvolopeLowFreq,
+            highFreq: EnvolopeHighFreq,
         },
-        success: function (data) {
-            console.log(data.name, data.data[0].length)
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
 
             let data3 = [];
             let data4 = [];
@@ -226,7 +271,8 @@ function drawEnvolope() {
                         label: {
                             backgroundColor: '#6a7985'
                         }
-                    }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
                 },
                 toolbox: {
                     show: true,
@@ -252,13 +298,15 @@ function drawEnvolope() {
                     type: 'value',
                     name: "时间/s",
                     nameLocation: 'middle',
+                    nameGap: 30,
+                    // max: 'dataMax',
                     // data: newData
                 },
                 yAxis: {
                     type: 'value',
-                    name: "幅值/g",
+                    name: "幅值/" + data.RangeUnit,
                     nameLocation: 'middle',
-                    nameGap: 40
+                    nameGap: 30,
                 },
                 series: [
                     {
@@ -279,7 +327,8 @@ function drawEnvolope() {
                         label: {
                             backgroundColor: '#6a7985'
                         }
-                    }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
                 },
                 toolbox: {
                     show: true,
@@ -303,15 +352,17 @@ function drawEnvolope() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: "频率/Hz",
+                    name: data.is_order?"阶次":"频率/Hz",
                     nameLocation: 'middle',
+                    nameGap: 30,
+                    max: data.is_order?20:'dataMax',
                     // data: newData
                 },
                 yAxis: {
                     type: 'value',
-                    name: "幅值/g",
+                    name: "幅值/" + data.RangeUnit,
                     nameLocation: 'middle',
-                    nameGap: 40
+                    nameGap: 30,
                 },
                 series: [
                     {

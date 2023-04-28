@@ -217,7 +217,7 @@ function getTimeList(){
                     , limitName: 'pageSize' //每页数据量的参数名，默认：limit
                 }
                 , parseData: function(res){
-                    console.log(res)
+                    console.log(res.data)
                     let l = res.data.list;
                     let data = [];
                     for (let i=0; i<l.length; i++){
@@ -248,6 +248,7 @@ function getTimeList(){
 
 //实时检测函数
 function startTimer(Func) {
+    intervalId = 1;
     Func();
     intervalId = setInterval(() => {
         // 在这里发送网络请求

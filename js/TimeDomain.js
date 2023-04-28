@@ -24,6 +24,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
         form.render('select')
         TimeDomainCharts = {};
         for (var i = 0; i < checkedList.length; i++) {
+            checkedList[i].drawId = checkedList[i].id;
             TimeDomainCharts[checkedList[i].id] = echarts.init(document.getElementById(checkedList[i].id));
         }
     }).then(function () {
@@ -89,8 +90,9 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
             pageNum: 1,
             pageSize: 1,
         },
-        success: function (data) {
-            console.log(data.name, data.data[0].length)
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -104,7 +106,8 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                         label: {
                             backgroundColor: '#6a7985'
                         }
-                    }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
                 },
                 toolbox: {
                     show: true,
@@ -130,14 +133,14 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                     type: 'value',
                     name: "时间/s",
                     nameLocation: 'middle',
-                    nameGap: 40
-                    // data: newData
+                    nameGap: 30,
+                    // max: 'dataMax',
                 },
                 yAxis: {
                     type: 'value',
-                    name: "幅值/g",
+                    name: "幅值/" + data.RangeUnit,
                     nameLocation: 'middle',
-                    nameGap: 40
+                    nameGap: 30
                 },
                 series: [
                     {
@@ -151,7 +154,8 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                 ]
             };
             TimeDomainCharts[id].setOption(option, true);
-            document.getElementById(id+'Time').innerHTML = new Date(parseInt(data.name)*1000).toLocaleString().split('/').join('-');
+            document.getElementById(id+'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString().split('/').join('-');
+            document.getElementById(id+'rotSpeed').innerHTML = data.rotSpeed;
         },
         error: function () {
             console.log("AJAX ERROR!")
