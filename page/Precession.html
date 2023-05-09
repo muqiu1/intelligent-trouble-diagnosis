@@ -8,9 +8,9 @@
         <div class="layui-col-md4">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测">
-                    <input type="radio" name="status" value="1" title="当前查询" checked>
-                    <input type="radio" name="status" value="2" title="历史查询">
+                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawPrecessionType">
+                    <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawPrecessionType" checked>
+                    <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawPrecessionType">
                 </div>
             </form>
         </div>
@@ -21,24 +21,33 @@
         <div class="layui-col-md12" style="border-style: solid;">
             <div class="layui-row">
                 <div class="layui-col-md4">
-                    <form class="layui-form" action="">
-                        <select name="sss" lay-filter="">
+                    <form class="layui-form" action="" lay-filter="PrecessionSelect">
+                        <select name="sss" lay-filter="changePrecession">
                         </select>
                     </form>
                 </div>
-                <div class="layui-col-md4" name="nowTime">时间</div>
-                <div class="layui-col-md4">转速</div>
+                <div class="layui-col-md4" id="Time">时间</div>
+                <div class="layui-col-md4">转速：<span id="rotSpeed"></span>&nbsp;rpm</div>
             </div>
             <div class="layui-row">
-                <div class="layui-col-md6" style="border-style: solid;">
+                <div class="layui-col-md6">
                     <div class="layui-row">
-                        <div class="layui-col-md12" id="table1" style=height:250px;></div>
-                        <div class="layui-col-md12" id="table1_" style=height:250px;></div>
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>X向频谱图</legend>
+                        </fieldset>
+                        <div class="layui-col-md12" id="Precession1" style=height:350px;></div>
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>Y向频谱图</legend>
+                        </fieldset>
+                        <div class="layui-col-md12" id="Precession2" style=height:350px;></div>
                     </div>
                 </div>
-                <div class="layui-col-md6" style="border-style: solid;">
+                <div class="layui-col-md6">
                     <div class="layui-row">
-                        <div class="layui-col-md12" id="table2" style=height:500px;></div>
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>进动谱</legend>
+                        </fieldset>
+                        <div class="layui-col-md12" id="Precession3" style=height:700px;></div>
                     </div>
                 </div>
             </div>

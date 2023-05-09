@@ -1,11 +1,34 @@
 var checkedList = [];
+var checkedGroup = {};
 var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
-var host = '81.69.242.66:8080'
+var host = '81.69.242.66:8888'
 var checkedTime = 0;
 var intervalId = 0; //实时监测计时器
+var rvibdataTable = {
+    "PPV" : "峰峰值",
+    "PV" : "峰值",
+    "RMS" : "有效值",
+    "Gap" : "偏置电压",
+    "FZYZ" : "峰值指标",
+    "PDYZ" : "偏度系数",
+    "QDYZ" : "峭度指标",
+    "YDYZ" : "裕度指标",
+    "MCYZ" : "脉冲指标",
+    "BXYZ" : "波形指标",
+    "HalfMag" : "0.5X幅值",
+    "HalfP" : "0.5X相位",
+    "X1Mag" : "1X幅值",
+    "X1P" : "1X相位",
+    "X2Mag" : "2X幅值",
+    "X2P" : "2X相位",
+    "X3Mag" : "3X幅值",
+    "X3P" : "3X相位",
+    "X4Mag" : "4X幅值",
+    "RotSpeed" : "转速",
+}
 //JS 
 function setTime() {
     now = new Date();
@@ -19,8 +42,8 @@ layui.use([], function () {
     setInterval(setTime, 1000);
 });
 
-function initName() {
-    var slct = document.getElementsByName("sss");
+function initName(SelectName = "sss") {
+    var slct = document.getElementsByName(SelectName);
     for (var k = 0; k < slct.length; k++) {
         for (var i = 0; i < checkedList.length; i++) {
             var op = document.createElement("option")
@@ -158,7 +181,12 @@ layui.use(['tree', 'form'], function () {
                                 if (l[i].field == "3") {
                                     l[i].title = f + ' ' + l[i].title
                                     l[i].drawId = l[i].id
+                                    l[i].groupName = f + ' ' + l[i].group
                                     checkedList.push(l[i]);
+                                    checkedGroup[ l[i].groupName ] = {
+                                        MPX : l[i].mPX,
+                                        MPY : l[i].mPY,
+                                    }
                                 }
                                 else if (l[i].children != null) {
                                     dfs(l[i].children, l[i].title);
@@ -243,6 +271,12 @@ function getTimeList(){
             });
         });
     });
+    if (_target == 'AxisPosition'){
+        drawAxisPosition();
+    }
+    else if (_target == 'XY_pic'){
+        drawXYpic();
+    }
 }
 
 

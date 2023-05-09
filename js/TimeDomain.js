@@ -75,7 +75,7 @@ layui.use('form', function () {
 });
 
 function drawTimeDomain(id, MPID, urlRealTime='') {
-    let endTime = parseInt(new Date().getTime()/1000) + 40000;
+    let endTime = parseInt(new Date().getTime()/1000) + 28800;
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,

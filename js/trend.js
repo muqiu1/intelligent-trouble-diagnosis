@@ -1,121 +1,172 @@
 initName();
 var datasetTrend = { "有效值": [] };
+var TrendCharts = null;
+layui.use(['form', 'layer'], function () {
+    var $ = layui.$
+        , form = layui.form
+        , layer = layui.layer;
+    var loadingLayer;
+    new Promise(function (resolve, reject) {
+        loadingLayer = layer.load(2, {
+            shade: [0.5, '#fff'],
+            time: 5 * 1000
+        });
+        TrendCharts = null;
+        TrendCharts = echarts.init(document.getElementById("trend"));
+        resolve();
+    }).then(function () {
+        $(document).ready(function () {
+            drawTrend();
+        })
+    }).then(function () {
+        layer.close(loadingLayer)
+    });
+})
 
-var tableTrend;
-layui.use(['form'], function () {
+layui.use('form', function () {
     var form = layui.form;
-    //此处即为 checkbox 的监听事件
-    form.on('checkbox(trend)', function (obj) {
-        var title = obj.elem.title
-        if (title == '峰峰值') {
-            var data = [];
-            var r = 10 * Math.random()
-            for (let i = 0; i < 1000; i++) {
-                data[i] = [datasetTrend['峰值'][i][0], datasetTrend['峰值'][i][1] * 2];
-            }
-            datasetTrend[title] = data;
+    //监听提交
+    form.on('select(trend)', function (data) {
+        drawTrend();
+    });
+  
+    form.on('checkbox(trend)', function (data) {
+        drawTrend();
+    });
+  
+    function drawTrendRealTime(){
+        drawTrend();
+    }
+  
+    form.on('radio(drawTrendType)', function (data) {
+        if (data.value == "0"){
+            startTimer(drawTrendRealTime);
         }
-        else if (datasetTrend[title] == null) {
-            var data = [];
-            var r = 0.045
-            for (let i = 0; i < 1000; i++) {
-                if (i > 650) {
-                    if (i < 730) {
-                        r = 0.051
-                    }
-                    else {
-                        r = 0.047
-                    }
-                }
-                data[i] = [new Date(1671000649685 + i * 50000).toLocaleString(), r + Math.random() * 0.005];
-            }
-            datasetTrend[title] = data;
+        else{
+            clearTimer();
         }
-        else {
-            delete datasetTrend[title];
-        }
-        var option = {
-            tooltip: {
-                trigger: 'none',
-                axisPointer: {
-                    type: 'cross'
-                }
-            },
-            xAxis: {
-                type: 'category',
-                name: "时间/年-月-日 时：分",
-                nameLocation: 'middle',
-                nameGap: 40
-            },
-            yAxis: {
-                type: 'value',
-                name: "值/g",
-                nameLocation: 'middle',
-                nameGap: 40,
-                min: 0,
-                max: 0.15
-            },
-            series: []
-        };
-        for (var key in datasetTrend) {
-            option.series.push({
-                name: key,
-                data: datasetTrend[key],
-                type: 'line',
-                showSymbol: false
-            })
-        }
-        tableTrend.setOption(option, true);
     });
 });
-drawTrend();
+
 function drawTrend() {
-    tableTrend = echarts.init(document.getElementById("trend"))
-    // echarts
-    var data = [];
-    var r = 0.045
-    for (let i = 0; i < 1000; i++) {
-        if (i > 650) {
-            if (i < 730) {
-                r = 0.051
-            }
-            else {
-                r = 0.047
-            }
+    let searchTime = layui.form.val("getSearchTime");
+    let YAxis = layui.form.val("trendY");
+    let MPID = parseInt(YAxis.sss);
+    var checkedY = document.getElementsByName("Y");
+    let y = [];
+    for (var i = 0; i< checkedY.length; i++){
+        if (checkedY[i].checked){
+            // y[ checkedY[i].value ] = checkedY[i].title;
+            y.push(checkedY[i].value);
         }
-        data[i] = [new Date(1671000649685 + i * 50000).toLocaleString(), r + Math.random() * 0.005];
     }
-    datasetTrend["有效值"] = data;
-    // 指定图表的配置项和数据
-    var option = {
-        tooltip: {
-            trigger: 'none',
-            axisPointer: {
-                type: 'cross'
+    let endTime = intervalId == 0? (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000 : parseInt(new Date().getTime()/1000) + 28800;
+    let startTime = intervalId == 0? (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000 : endTime - 3600;
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/rVibData/getTrend",
+        contentType: "application/x-www-form-urlencoded",
+        // async: false,
+        dataType: "json",
+        traditional: true,
+        data: {
+            MPID: MPID,
+            yAxisList : y,
+            startTime : startTime,
+            endTime: endTime,
+        },
+        success: function (res) {
+            let data = res.data;
+            console.log(data.data.length)
+            // 指定图表的配置项和数据
+            document.getElementById('sTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('eTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            let seriesList = [];
+            for (let i = 0; i < y.length; i++) {
+                seriesList.push(
+                    {
+                        type: 'line',
+                        name: rvibdataTable[ y[i] ],
+                        lineStyle: {
+                            // color: 'blue'
+                        },
+                        showSymbol: false,
+                        encode: {
+                            x : "IndexNum",
+                            y : y[i]
+                        }
+                    })
             }
-        },
-        xAxis: {
-            type: 'category',
-            name: "时间/年-月-日 时：分",
-            nameLocation: 'middle',
-            nameGap: 40
-        },
-        yAxis: {
-            type: 'value',
-            name: "值/g",
-            nameLocation: 'middle',
-            nameGap: 40,
-            min: 0,
-            max: 0.15
-        },
-        series: [
-            {
-                name: "有效值",
-                data: data,
-                type: 'line',
-                showSymbol: false,
+            for (let i = 0; i < data.data.length; i++) {
+                data.data[i].IndexNum = data.data[i].IndexNum*1000;
             }
-        ]
-    };
-    tableTrend.setOption(option);
+            var option1 = {
+                legend: {
+                    show : true,
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 10,
+                    top: 30,
+                    bottom: 20,
+                },
+                dataset: {
+                    source: data.data,
+                },                
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            precision : 3,
+                            backgroundColor: '#6a7985'
+                        }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'time',
+                    name: "时间",
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "值",
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    // max: function (value) {
+                    //   return Math.ceil(value.max * 10) / 10;
+                    // },
+                    // min: function (value) {
+                    //   return Math.floor(value.min * 10) / 10;
+                    // }
+                },
+                series: seriesList
+            };
+            TrendCharts.setOption(option1, true);
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    });
 };

@@ -1,106 +1,151 @@
-initName();
-var _table1 = echarts.init(document.getElementById('table1'));
+initName("sssX");
+initName("sssY");
+var XYpicCharts = null;
+layui.use(['form', 'layer'], function () {
+    var $ = layui.$
+        , form = layui.form
+        , layer = layui.layer;
+    var loadingLayer;
+    new Promise(function (resolve, reject) {
+        loadingLayer = layer.load(2, {
+            shade: [0.5, '#fff'],
+            time: 5 * 1000
+        });
+        XYpicCharts = null;
+        XYpicCharts = echarts.init(document.getElementById("XYpic"));
+        resolve();
+    }).then(function () {
+        $(document).ready(function () {
+            drawXYpic();
+        })
+    }).then(function () {
+        layer.close(loadingLayer)
+    });
+})
 
-    var data1 = [];
-    for (let i = 0; i < 400; i++) {
-      // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-      if (i<20){
-        data1[i] = [i, Math.random() * 7+1];
-      }else{
-        data1[i]=[i,(10.6-1)/(400-20)*(i-20)+1];
-        delta=0;
-        if(Math.random()<0.4){
-          if(Math.random()<0.1){
-            delta=Math.random()/2+0.5
-          }else if(Math.random()<0.9){
-            delta=Math.random()/3
-          }else{
-            delta=-Math.random()/3
-          }
-        }
-        data1[i]=[i,data1[i][1]+delta]
+layui.use('form', function () {
+  var form = layui.form;
+  //监听提交
+  form.on('select(XY)', function (data) {
+    drawXYpic();
+  });
+
+  form.on('radio(XY)', function (data) {
+    drawXYpic();
+  });
+
+  function drawXYpicRealTime(){
+    drawXYpic();
+  }
+
+  form.on('radio(drawXYpicType)', function (data) {
+      if (data.value == "0"){
+          startTimer(drawXYpicRealTime);
       }
-      
-    }
-    // var max = Math.max.apply(Math,data1);
-    var data2 = [];
-    for (let i = 0; i < 300; i++) {
-      // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-      data2[i] = [i, Math.ceil(Math.random() * 300) - 150];
-    }
-    // 指定图表的配置项和数据
-    var option1 = {
-      xAxis: {
-        type: 'value',
-        //name: "频率/Hz",
-        nameLocation: 'middle'
+      else{
+          clearTimer();
+      }
+  });
+});
+
+function drawXYpic() {
+  let searchTime = layui.form.val("getSearchTime");
+  let XYAxis = layui.form.val("XYAxis");
+  let MPX = parseInt(XYAxis.sssX);
+  let MPY = parseInt(XYAxis.sssY);
+  let endTime = intervalId == 0? (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000 : parseInt(new Date().getTime()/1000) + 28800;
+  let startTime = intervalId == 0? (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000 : endTime - 3600;
+  layui.$.ajax({
+      type: 'POST',
+      url: "http://" + host + "/cms/rVibData/getXYpic",
+      contentType: "application/x-www-form-urlencoded",
+      // async: false,
+      dataType: "json",
+      data: {
+          MPX: MPX,
+          MPY: MPY,
+          xAxis : XYAxis.xAxis,
+          yAxis : XYAxis.yAxis,
+          startTime : startTime,
+          endTime: endTime,
       },
-      yAxis: {
-        type: 'value',
-        //name: "幅值/g",
-        nameLocation: 'middle',
-        max: 14.5
-      },
-      series: [
-        {
-          data: data1,
-          type: 'line',
-          lineStyle: {
-            color: 'blue',
-            width: 1.2
-          },
-          showSymbol: false,
-          markPoint: {
-            data: [
-              {
-                x: '90%',
-                y: '10%',
-                value: "x=2.286\ny=1.1772",
-                symbol: 'roundRect',
-                label: {
-                  color: '#000'
-                },
-                itemStyle: {
-                  color: 'rgba(255,255,255,0)',
-                }
+      success: function (res) {
+          let data = res.data;
+          console.log(data.data.length)
+          // 指定图表的配置项和数据
+          document.getElementById('sTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
+          document.getElementById('eTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+          var option1 = {
+              tooltip: {
+                  trigger: 'axis',
+                  axisPointer: {
+                      type: 'cross',
+                      label: {
+                          backgroundColor: '#6a7985'
+                      }
+                  },
+                  valueFormatter: (value) => value.toFixed(3)
               },
-            ]
-          },
-        }
-      ]
-    };
-    // 使用刚指定的配置项和数据显示图表。
-    _table1.setOption(option1);
-    // layui.use(['layer', 'form'], function () {
-    //   var form = layui.form;
-    //   //此处即为 radio 的监听事件
-    //   form.on('radio(*)', function (obj) {
-    //     //layer.msg('触发了事件3');
-    //     var $ = layui.$
-    //     var data = $(obj.elem);
-    //     var axis_name = data[0].title
-    //     var axis = data[0].name
-    //     var data = option1.series[0].data     //注意此处要加上[0]
-    //     var data_rest = [];
-    //     //生成随机数组    
-    //     for (let i = 0; i < 300; i++) {
-    //       data_rest[i] = Math.ceil(Math.random() * 15);
-    //     }
-    //     for (let i = 0; i < 300; i++) {
-    //       // if (axis =='X'){
-    //       //   data[i]=[data_rest[i],data[i][1]]   //更换X轴数据
-    //       // }
-    //       // else if (axis =='Y'){
-    //       //   data[i]=[data[i][0],data_rest[i]]   //更换Y轴数据
-    //       // }
-    //       // else{
-    //       //   console.log('条件语句error!')
-    //       // }
-    //       data[i] = [data[i][0], data_rest[i]]   //更换Y轴数据
-    //       // option1.series.data = data  
-    //       // _table1.setOption(option1);
-    //     }
-    //     option1.series[0].data = data
-    //     _table1.setOption(option1);
-    //   });
-    // });
+              toolbox: {
+                  show: true,
+                  feature: {
+                      dataZoom: {
+                          //   yAxisIndex: 'none'
+                      },
+                      restore: {},
+                      saveAsImage: {
+                          name: new Date().toLocaleString().split('/').join('-'),
+                      }
+                  }
+              },
+              dataZoom: [
+                  {
+                      id: 'dataZoomX',
+                      type: 'inside',
+                      xAxisIndex: [0],
+                      filterMode: 'filter'
+                  },
+              ],
+              xAxis: {
+                  type: 'value',
+                  name: rvibdataTable[ XYAxis.xAxis ],
+                  nameLocation: 'middle',
+                  nameGap: 30,
+                  max: function (value) {
+                    return Math.ceil(value.max * 10) / 10;
+                  },
+                  min: function (value) {
+                    return Math.floor(value.min * 10) / 10;
+                  }
+              },
+              yAxis: {
+                  type: 'value',
+                  name: rvibdataTable[ XYAxis.yAxis ],
+                  nameLocation: 'middle',
+                  nameGap: 30,
+                  max: function (value) {
+                    return Math.ceil(value.max * 10) / 10;
+                  },
+                  min: function (value) {
+                    return Math.floor(value.min * 10) / 10;
+                  }
+              },
+              series: [
+                  {
+                      data: data.data,
+                      type: 'line',
+                      name: rvibdataTable[ XYAxis.yAxis ],
+                      lineStyle: {
+                          color: 'blue'
+                      },
+                      showSymbol: false,
+                  }
+              ]
+          };
+          XYpicCharts.setOption(option1, true);
+      },
+      error: function () {
+          console.log("AJAX ERROR!")
+      }
+  });
+};

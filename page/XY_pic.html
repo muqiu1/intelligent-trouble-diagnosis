@@ -9,224 +9,97 @@
       <div class="layui-col-md4">
           <form class="layui-form" action="">
               <div class="layui-form-item">
-                  <input type="radio" name="status" value="0" title="实时检测">
-                  <input type="radio" name="status" value="1" title="当前查询" checked>
-                  <input type="radio" name="status" value="2" title="历史查询">
+                  <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawXYpicType">
+                  <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawXYpicType" checked>
+                  <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawXYpicType">
               </div>
           </form>
       </div>
       <div class="layui-col-md5">
       </div>
     </div>
-    <div class="layui-row" id="XY_pic">
+    <div class="layui-row">
       <div class="layui-col-md12" style="border-style: solid;">
         <div class="layui-row">
-          <div class="layui-col-md4">
-            <form class="layui-form" action="">
-              <select name="sss" lay-filter="">
-              </select>
-            </form>
-          </div>
-          <!-- <div class="layui-col-md4" name="nowTime">时间</div> -->
-          <div class="layui-col-md4" >2016-02-15 22:15     到     2016-04-13 22:15</div>
-          <!-- <button type="button" class="layui-btn" lay-active="e1">细化谱分析</button>           -->
+          <div class="layui-col-md12" id="Time"><span id="sTime"></span>&nbsp;到&nbsp;<span id="eTime"></span></div>
         </div>
         <div class="layui-row">
-          <div class="layui-col-md8" id="table1" style=height:600px;></div>
-          <div class="layui-col-md4" style=height:600px;>
-            <div class="layui-row" name="X_axis">
-              <div class="layui-col-md1" name="X_axis">X轴:</div>
-              <div class="layui-col-md4" >
-                <div class="layui-input-block">
-                  <select name="userZw" lay-verify="required">
-                    <!-- <option value="分析员">新试验台1：电机侧x位移</option> -->
-                    <option value="分析员">新试验台1：电机侧x位移</option>
-                    <option value="销售员">销售员</option>
-                    <option value="采购员">采购员</option>
-                  </select>
+          <div class="layui-col-md9" id="XYpic" style=height:700px;></div>
+          <form class="layui-form layui-col-md3" action="" lay-filter="XYAxis">
+            <div class="layui-form-item">
+              <label class="layui-form-label">X轴</label>
+              <div class="layui-input-block">
+                <select name="sssX" lay-search lay-filter="XY">
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block layui-row">
+                <div class="layui-col-md6 layui-row">
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="峰峰值" value="PPV" lay-filter="XY" checked></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="有效值" value="RMS" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="峰值指标" value="FZYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="峭度指标" value="QDYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="脉冲指标" value="MCYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="0.5X幅值" value="HalfMag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="1X幅值" value="X1Mag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="2X幅值" value="X2Mag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="3X幅值" value="X3Mag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="4X幅值" value="X4Mag" lay-filter="XY"></div>
+                </div>
+                <div class="layui-col-md6 layui-row">
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="峰值" value="PV" lay-filter="XY" checked></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="偏置电压" value="Gap" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="偏度系数" value="PDYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="裕度指标" value="YDYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="波形指标" value="BXYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="0.5X相位" value="HalfP" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="1X相位" value="X1P" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="2X相位" value="X2P" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="3X相位" value="X3P" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="xAxis" title="转速" value="RotSpeed" lay-filter="XY"></div>
                 </div>
               </div>
             </div>
-            <!-- <div class="layui-row" name="X_axis">X轴:</div> -->
-            <div class="layui-row" name="X_axis">
-              <div class="layui-col-md1" name="X_axis">X轴:</div>
-              <div class="layui-col-md4" >
-                <div class="layui-input-block">
-                  <select name="userZw" lay-verify="required">
-                    <!-- <option value="分析员">新试验台1：电机侧x位移</option> -->
-                    <option value="分析员">新试验台1：电机侧x位移</option>
-                    <option value="销售员">销售员</option>
-                    <option value="采购员">采购员</option>
-                  </select>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Y轴</label>
+              <div class="layui-input-block">
+                <select name="sssY" lay-search lay-filter="XY">
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block layui-row">
+                <div class="layui-col-md6 layui-row">
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="峰峰值" value="PPV" lay-filter="XY" checked></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="有效值" value="RMS" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="峰值指标" value="FZYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="峭度指标" value="QDYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="脉冲指标" value="MCYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="0.5X幅值" value="HalfMag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="1X幅值" value="X1Mag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="2X幅值" value="X2Mag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="3X幅值" value="X3Mag" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="4X幅值" value="X4Mag" lay-filter="XY"></div>
+                </div>
+                <div class="layui-col-md6 layui-row">
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="峰值" value="PV" lay-filter="XY" checked></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="偏置电压" value="Gap" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="偏度系数" value="PDYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="裕度指标" value="YDYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="波形指标" value="BXYZ" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="0.5X相位" value="HalfP" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="1X相位" value="X1P" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="2X相位" value="X2P" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="3X相位" value="X3P" lay-filter="XY"></div>
+                  <div class="layui-col-md12"><input type="radio" name="yAxis" title="转速" value="RotSpeed" lay-filter="XY"></div>
                 </div>
               </div>
             </div>
-            <form class="layui-form" action="">
-              <div class="layui-form-item">
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="0" title="峰峰值" lay-active="e3" lay-filter="*" id='ffz1'
-                      style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="1" title="峰值" lay-filter="*" id='fz1' style="width: 10px;"
-                      checked>
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="有效值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="偏置电压" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="峰值指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="偏度系数" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="峭度指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="裕度指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="脉冲指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="波形指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="0.5X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="0.5X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="1X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="1X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="2X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="2X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="3X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="3X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="4X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="X" value="2" title="转速" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-              </div>
-            </form>
-            <div class="layui-row" name="Y_axis">Y轴:</div>
-            <form class="layui-form" action="">
-              <div class="layui-form-item">
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="0" title="峰峰值" lay-filter="*" style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="1" title="峰值" lay-filter="*" style="width: 10px;" checked>
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="有效值" lay-filter="*" style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="偏置电压" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="峰值指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="偏度系数" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="峭度指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="裕度指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="脉冲指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="波形指标" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="0.5X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="0.5X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="1X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="1X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="2X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="2X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="3X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="3X相位" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-                <div class="layui-row">
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="4X幅值" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                  <div class="layui-col-xs4">
-                    <input type="radio" name="Y" value="2" title="转速" lay-filter="*" id='yxz1' style="width: 10px;">
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-    <!-- </div>
-    </div> -->
-
   </div>
   <script src="../js/XY_pic.js"></script>
 </body>

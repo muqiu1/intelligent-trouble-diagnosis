@@ -1,158 +1,329 @@
-initName();
-
-// echarts
-var _table1 = echarts.init(document.getElementById('table1'));
-var _table1_ = echarts.init(document.getElementById('table1_'));
-var _table2 = echarts.init(document.getElementById('table2'));
-
-var data1 = [];
-for (let i = 0; i < 300; i++) {
-    // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-    data1[i] = [i, Math.ceil(Math.random() * 15)];
-}
-// var max = Math.max.apply(Math,data1);
-var data2 = [];
-for (let i = 0; i < 300; i++) {
-    // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-    data2[i] = [i, Math.ceil(Math.random() * 300) - 150];
-}
-// 指定图表的配置项和数据
-var option1 = {
-    xAxis: {
-        type: 'value',
-        name: "时间/s",
-        nameLocation: 'middle',
-
-    },
-    yAxis: {
-        type: 'value',
-        name: "幅值/mm",
-        nameLocation: 'middle',
-        max: 18
-    },
-    series: [
-        {
-            data: data1,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-            markPoint: {
-                data: [
-                    {
-                        x: '15%',
-                        y: '5%',
-                        value: "X相时域波形 ",
-                        symbol: 'roundRect',
-                        label: {
-                            color: '#000'
-                        },
-                        itemStyle: {
-                            color: 'rgba(255,255,255,0)',
-                        }
-                    }
-                ]
-            },
+// initName();
+var AxisTrajectoryCharts = {};
+var TrajectoryType = 0
+layui.use(['form', 'layer'], function () {
+    var $ = layui.$
+        , form = layui.form
+        , layer = layui.layer;
+    var loadingLayer;
+    new Promise(function (resolve, reject) {
+        loadingLayer = layer.load(2, {
+            shade: [0.5, '#fff'],
+            time: 5 * 1000
+        });
+        var slct = document.getElementsByName("sss");
+        for (var k = 0; k < slct.length; k++) {
+            for (var key in checkedGroup) {
+                var op = document.createElement("option")
+                op.setAttribute('value', key)
+                op.innerHTML = key;
+                slct[k].appendChild(op)
+            }
         }
-    ]
-};
-var option2 = {
-    xAxis: {
-        type: 'value',
-        name: "时间/s",
-        nameLocation: 'middle',
+        AxisTrajectoryCharts = {};
+        for (var i = 1; i <= 3; i++) {
+            AxisTrajectoryCharts[i] = echarts.init(document.getElementById("AxisTrajectory" + i));
+        }
+        layui.use(['form'], function () {
+            layui.form.render('select')
+            layui.form.render('checkbox')
+            layui.form.render('radio')
+        });
+        resolve();
+    }).then(function () {
+        $(document).ready(function () {
+            drawAxisTrajectory();
+        })
+    }).then(function () {
+        layer.close(loadingLayer)
+    });
+})
 
-    },
-    yAxis: {
-        type: 'value',
-        name: "幅值/mm",
-        nameLocation: 'middle',
-        max: 18
-    },
-    series: [
-        {
-            data: data1,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-            markPoint: {
-                data: [
-                    {
-                        x: '15%',
-                        y: '5%',
-                        value: "Y相时域波形 ",
-                        symbol: 'roundRect',
-                        label: {
-                            color: '#000'
-                        },
-                        itemStyle: {
-                            color: 'rgba(255,255,255,0)',
-                        }
-                    }
-                ]
-            },
-        }
-    ]
-};
-var data = [];
-for (let i = 0; i <= 360; i++) {
-    //data[i]=[10 * (1 - Math.sin((Math.PI / 180) * i)), i];
-    data[i] = [15 * Math.cos((Math.PI / 180) * i), 10 * Math.sin((Math.PI / 180) * i)];    //此处生成椭圆数据
-}
-var option3 = {
-    xAxis: {
-        type: 'value',
-        name: "X幅值/s",
-        nameLocation: 'middle',
-        max: 18,
-        min: -18
-    },
-    yAxis: {
-        type: 'value',
-        name: "Y幅值/mm",
-        nameLocation: 'middle',
-        max: 12,
-        min: -12
-    },
-    series: [
-        {
-            data: data,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-        }
-    ]
-};
-// 使用刚指定的配置项和数据显示图表。
-_table1.setOption(option1);
-_table1_.setOption(option2);
-_table2.setOption(option3);
-layui.use(['layer', 'form'], function () {
+layui.use('form', function () {
     var form = layui.form;
-    //此处即为 radio 的监听事件
-    form.on('radio(*)', function (obj) {
-        // layer.msg('触发了事件3');
-        // var $ = layui.$
-        // var data = $(obj.elem);
-        // var axis_name = data[0].title
-        // var axis = data[0].name
-        // var data = option1.series[0].data     //注意此处要加上[0]
-        // var data_rest = [];  
-        //生成随机数组    
-        data = [];
-        r1 = 15 * Math.random()
-        r2 = 10 * Math.random()
-        for (let i = 0; i <= 360; i++) {
-            data[i] = [r1 * Math.cos((Math.PI / 180) * i), r2 * Math.sin((Math.PI / 180) * i)];    //此处生成椭圆数据
-        }
-        option3.series[0].data = data
-        _table2.clear();
-        _table2.setOption(option3, true);
+    //监听提交
+    form.on('select(changeAxisTrajectory)', function (data) {
+        drawAxisTrajectory();
+    });
+
+    function drawAxisTrajectoryRealTime(){
+        drawAxisTrajectory();
     }
-    );
+
+    form.on('radio(drawAxisTrajectoryType)', function (data) {
+        if (data.value == "0"){
+            startTimer(drawAxisTrajectoryRealTime);
+        }
+        else{
+            clearTimer();
+        }
+    });
+
+    form.on('radio(TrajectoryType)', function (data) {
+        let AxisTrajectoryParameter = layui.form.val("AxisTrajectoryParameter");
+        TrajectoryType = parseInt(AxisTrajectoryParameter.status);
+        drawAxisTrajectory();
+    });
 });
+
+function drawAxisTrajectory() {
+    let MPX = checkedGroup[layui.form.val("AxisTrajectorySelect").sss].MPX;
+    let MPY = checkedGroup[layui.form.val("AxisTrajectorySelect").sss].MPY;
+    let urlRealTime = intervalId == 0?"":"_RealTime";
+    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
+        contentType: "application/x-www-form-urlencoded",
+        // async: false,
+        dataType: "json",
+        data: {
+            MPID: MPX,
+            IndexNum: checkedTime,
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
+        },
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
+            // 指定图表的配置项和数据
+            let newData = [];
+            for (let i = 0; i < data.data[1].length; i++) {
+                newData.push([data.data[1][i], data.data[0][i]]);
+            }
+            var option1 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    // max: 'dataMax',
+                    // data: newData
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/" + data.RangeUnit,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: newData,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            AxisTrajectoryCharts[1].setOption(option1, true);
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    });
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
+        contentType: "application/x-www-form-urlencoded",
+        // async: false,
+        dataType: "json",
+        data: {
+            MPID: MPY,
+            IndexNum: checkedTime,
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
+        },
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
+            // 指定图表的配置项和数据
+            let data1 = [];
+            for (let i = 0; i < data.data[1].length; i++) {
+                data1.push([data.data[1][i], data.data[0][i]]);
+            }
+            var option2 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: "时间/s",
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    // max: 'dataMax',
+                    // data: newData
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/" + data.RangeUnit,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: data1,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            AxisTrajectoryCharts[2].setOption(option2, true);
+            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    })
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/rWaveData/getob" + urlRealTime,
+        contentType: "application/x-www-form-urlencoded",
+        // async: false,
+        dataType: "json",
+        data: {
+            MPX: MPX,
+            MPY: MPY,
+            TrajectoryType : TrajectoryType,
+            IndexNum: checkedTime,
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
+        },
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
+            // 指定图表的配置项和数据
+            let data1 = [];
+            for (let i = 0; i < data.data[1].length; i++) {
+                data1.push([data.data[0][i], data.data[1][i]]);
+            }
+            var option3 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    },
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                // dataZoom: [
+                //     {
+                //         id: 'dataZoomX',
+                //         type: 'inside',
+                //         xAxisIndex: [0],
+                //         filterMode: 'filter'
+                //     },
+                // ],
+                xAxis: {
+                    type: 'value',
+                    name: "幅值/" + data.RangeUnit,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    // max: 'dataMax',
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "幅值/" + data.RangeUnit,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: data1,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            AxisTrajectoryCharts[3].setOption(option3, true);
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    })
+};

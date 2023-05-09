@@ -1,200 +1,327 @@
-initName();
+var VectorCharts = {};
+layui.use(['form', 'layer'], function () {
+    var $ = layui.$
+        , form = layui.form
+        , layer = layui.layer;
+    var loadingLayer;
+    new Promise(function (resolve, reject) {
+        loadingLayer = layer.load(2, {
+            shade: [0.5, '#fff'],
+            time: 5 * 1000
+        });
+        var slct = document.getElementsByName("sss");
+        for (var k = 0; k < slct.length; k++) {
+            for (var key in checkedGroup) {
+                var op = document.createElement("option")
+                op.setAttribute('value', key)
+                op.innerHTML = key;
+                slct[k].appendChild(op)
+            }
+        }
+        VectorCharts = {};
+        for (var i = 1; i <= 4; i++) {
+            VectorCharts[i] = echarts.init(document.getElementById("Vector" + i));
+        }
+        layui.use(['form'], function () {
+            layui.form.render('select')
+            layui.form.render('checkbox')
+            layui.form.render('radio')
+        });
+        resolve();
+    }).then(function () {
+        $(document).ready(function () {
+            drawVector();
+        })
+    }).then(function () {
+        layer.close(loadingLayer)
+    });
+})
 
-// echarts
-var _table1 = echarts.init(document.getElementById('table1'));
+layui.use('form', function () {
+    var form = layui.form;
+    //监听提交
+    form.on('select(changeVector)', function (data) {
+        drawVector();
+    });
 
-var data1 = [];
-for (let i = 0; i < 300; i++) {
-    // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-    data1[i] = [i, Math.ceil(Math.random() * 10000)];
-}
-// var max = Math.max.apply(Math,data1);
-var data2 = [];
-for (let i = 0; i < 300; i++) {
-    // data[i] = [i, 2 * Math.sin(i*Math.PI/10) -1];
-    data2[i] = [i, Math.ceil(Math.random() * 300) - 150];
-}
-// 指定图表的配置项和数据
-var option1 = {
-    xAxis: {
-        type: 'value',
-        name: "阶次",
-        nameTextStyle: {
-            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
+    function drawVectorRealTime(){
+        drawVector();
+    }
+
+    form.on('radio(drawVectorType)', function (data) {
+        if (data.value == "0"){
+            startTimer(drawVectorRealTime);
+        }
+        else{
+            clearTimer();
+        }
+    });
+});
+function drawVector() {
+    let MPX = checkedGroup[layui.form.val("VectorSelect").sss].MPX;
+    let MPY = checkedGroup[layui.form.val("VectorSelect").sss].MPY;
+    let urlRealTime = intervalId == 0?"":"_RealTime";
+    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    layui.$.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/rWaveData/getVectorspectrum" + urlRealTime,
+        contentType: "application/x-www-form-urlencoded",
+        // async: false,
+        dataType: "json",
+        data: {
+            MPX: MPX,
+            MPY: MPY,
+            IndexNum: checkedTime,
+            startTime : 1576753367,
+            endTime: endTime,
+            pageNum: 1,
+            pageSize: 1,
         },
-        nameLocation: 'middle'
-    },
-    yAxis: {
-        type: 'value',
-        name: "主振矢幅值mm",
-        nameTextStyle: {
-            padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    series: [
-        {
-            data: data1,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-            markPoint: {
-                data: [
-                    {
-                        x: '90%',
-                        y: '10%',
-                        value: "X=11.3288\nY=0.3773mm",
-                        symbol: 'roundRect',
+        success: function (res) {
+            let data = res.data;
+            console.log(data.indexNum, data.data[0].length)
+            // 指定图表的配置项和数据
+            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
+            let data1 = [];
+            let data2 = [];
+            let data3 = [];
+            let data4 = [];
+            for (let i = 0; i < data.data[0].length; i++) {
+                data1.push([data.data[0][i], data.data[1][i]]);
+                data2.push([data.data[0][i], data.data[2][i]]);
+                data3.push([data.data[0][i], data.data[3][i]]);
+                data4.push([data.data[0][i], data.data[4][i]]);
+            }
+            let xAxisName = data.is_order?"阶次":"频率/Hz";
+            let max = data.is_order? 20: "dataMax";
+            var option1 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
                         label: {
-                            color: '#000'
-                        },
-                        itemStyle: {
-                            color: 'rgba(255,255,255,0)',
+                            backgroundColor: '#6a7985'
                         }
                     },
-                ]
-            },
-        }
-    ]
-};
-
-var option2 = {
-    xAxis: {
-        type: 'value',
-        name: "阶次",
-        nameTextStyle: {
-            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    yAxis: {
-        type: 'value',
-        name: "振矢角",
-        nameTextStyle: {
-            padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    series: [
-        {
-            data: data2,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-            markPoint: {
-                data: [
-                    {
-                        x: '90%',
-                        y: '10%',
-                        value: "X=12.378\nY=21.5256",
-                        symbol: 'roundRect',
-                        label: {
-                            color: '#000'
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
                         },
-                        itemStyle: {
-                            color: 'rgba(255,255,255,0)',
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: xAxisName,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    max: max,
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "主振矢幅值/" + data.RangeUnit,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: data1,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            var option2 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
                         }
                     },
-                ]
-            },
-        }
-    ]
-};
-var option3 = {
-    xAxis: {
-        type: 'value',
-        name: "阶次",
-        nameTextStyle: {
-            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    yAxis: {
-        type: 'value',
-        name: "副振矢幅值mm",
-        nameTextStyle: {
-            padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    series: [
-        {
-            data: data2,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-            markPoint: {
-                data: [
-                    {
-                        x: '90%',
-                        y: '10%',
-                        value: "X:12.378\nY:0.1533",
-                        symbol: 'roundRect',
-                        label: {
-                            color: '#000'
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
                         },
-                        itemStyle: {
-                            color: 'rgba(255,255,255,0)',
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: xAxisName,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    max: max,
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "副振矢幅值/" + data.RangeUnit,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: data2,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            var option3 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
                         }
                     },
-                ]
-            },
-        }
-    ]
-};
-var option4 = {
-    xAxis: {
-        type: 'value',
-        name: "阶次",
-        nameTextStyle: {
-            padding: [10, 0, 0, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    yAxis: {
-        type: 'value',
-        name: "矢功率谱/dB",
-        nameTextStyle: {
-            padding: [0, 0, 10, 0]    // 四个数字分别为上右下左与原位置距离
-        },
-        nameLocation: 'middle'
-    },
-    series: [
-        {
-            data: data2,
-            type: 'line',
-            lineStyle: {
-                color: 'blue'
-            },
-            showSymbol: false,
-            markPoint: {
-                data: [
-                    {
-                        x: '90%',
-                        y: '10%',
-                        value: "X:0\nY:0dB",
-                        symbol: 'roundRect',
-                        label: {
-                            color: '#000'
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
                         },
-                        itemStyle: {
-                            color: 'rgba(255,255,255,0)',
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: xAxisName,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    max: max,
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "振矢角/°",
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: data3,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
+                ]
+            };
+            var option4 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
                         }
                     },
+                    valueFormatter: (value) => value.toFixed(3)
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            //   yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {
+                            name: new Date().toLocaleString().split('/').join('-'),
+                        }
+                    }
+                },
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                ],
+                xAxis: {
+                    type: 'value',
+                    name: xAxisName,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    max: max,
+                },
+                yAxis: {
+                    type: 'value',
+                    name: "矢功率谱/dB",
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                },
+                series: [
+                    {
+                        data: data4,
+                        type: 'line',
+                        lineStyle: {
+                            color: 'blue'
+                        },
+                        showSymbol: false,
+                    }
                 ]
-            },
+            };
+            VectorCharts[1].setOption(option1, true);
+            VectorCharts[2].setOption(option2, true);
+            VectorCharts[3].setOption(option3, true);
+            VectorCharts[4].setOption(option4, true);
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
         }
-    ]
+    });
 };
-// 使用刚指定的配置项和数据显示图表。
-_table1.setOption(option1);
-
-var _table1_ = echarts.init(document.getElementById('table1_')).setOption(option2);
-var _table2 = echarts.init(document.getElementById('table2')).setOption(option3);
-var _table2_ = echarts.init(document.getElementById('table2_')).setOption(option4);

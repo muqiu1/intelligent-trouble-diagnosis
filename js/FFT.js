@@ -59,7 +59,7 @@ layui.use('form', function () {
 function drawFFTTF() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 40000;
+    let endTime = parseInt(new Date().getTime()/1000) + 28800;
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
@@ -234,12 +234,12 @@ function drawFFTTF() {
 function drawFFT() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 40000;
+    let endTime = parseInt(new Date().getTime()/1000) + 28800;
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getStft" + urlRealTime,
         contentType: "application/x-www-form-urlencoded",
-        async: false,
+        // async: false,
         dataType: "json",
         data: {
             MPID: MPID,

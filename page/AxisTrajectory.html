@@ -8,9 +8,9 @@
         <div class="layui-col-md4">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测">
-                    <input type="radio" name="status" value="1" title="当前查询" checked>
-                    <input type="radio" name="status" value="2" title="历史查询">
+                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawAxisTrajectoryType">
+                    <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawAxisTrajectoryType" checked>
+                    <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawAxisTrajectoryType">
                 </div>
             </form>
         </div>
@@ -21,58 +21,50 @@
         <div class="layui-col-md12" style="border-style: solid;">
             <div class="layui-row">
                 <div class="layui-col-md4">
-                    <form class="layui-form" action="">
-                        <select name="sss" lay-filter="">
+                    <form class="layui-form" action="" lay-filter="AxisTrajectorySelect">
+                        <select name="sss" lay-filter="changeAxisTrajectory">
                         </select>
                     </form>
                 </div>
-                <div class="layui-col-md4" name="nowTime">时间</div>
-                <div class="layui-col-md4">转速</div>
+                <div class="layui-col-md4" id="Time">时间</div>
+                <div class="layui-col-md4">转速：<span id="rotSpeed"></span>&nbsp;rpm</div>
             </div>
             <div class="layui-row">
-                <div class="layui-col-md5" style="border-style: solid;">
+                <div class="layui-col-md5">
                     <div class="layui-row">
-                        <div class="layui-col-md12" id="table1" style=height:250px;></div>
-                        <div class="layui-col-md12" id="table1_" style=height:250px;></div>
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>X向时域波形</legend>
+                        </fieldset>
+                        <div class="layui-col-md12" id="AxisTrajectory1" style=height:350px;></div>
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>Y向时域波形</legend>
+                        </fieldset>
+                        <div class="layui-col-md12" id="AxisTrajectory2" style=height:350px;></div>
                     </div>
                 </div>
-                <div class="layui-col-md6" style="border-style: solid;">
-                    <!-- <div class="layui-col-md5"> -->
+                <div class="layui-col-md6">
                     <div class="layui-row">
-                        <div class="layui-row">
-                            <div class="layui-col-md5">
-                                <!-- <div class="grid-demo grid-demo-bg1">轴心轨迹11</div> -->
-                                <div class="layui-bg-red"></div>
-                            </div>
-                            <div class="layui-col-md2">
-                                <div class="grid-demo grid-demo-bg1">轴心轨迹</div>
-                            </div>
-                            <div class="layui-col-md5">
-                                <div class="layui-bg-white"></div>
-                            </div>
-                        </div>
-                        <form class="layui-form" action="">
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>轴心轨迹</legend>
+                        </fieldset>
+                        <form class="layui-form" lay-filter="AxisTrajectoryParameter" style="margin-left: 50px;">
                             <div class="layui-form-item">
-                                <input type="radio" name="status" value="0" title="原始轨迹" lay-filter="*"
-                                    style="width: 10px;">
-                                <input type="radio" name="status" value="1" title="一阶轨迹" lay-filter="*"
-                                    style="margin-top: 5px;" checked>
-                                <input type="radio" name="status" value="2" title="二阶轨迹" lay-filter="*"
-                                    style="margin-top: 5px;">
-                                <input type="radio" name="status" value="2" title="一二阶合成轨迹" lay-filter="*"
-                                    style="margin-top: 5px;">
+                                <input type="radio" name="status" value="0" title="原始轨迹" style="width: 10px;" lay-filter="TrajectoryType" checked>
+                                <input type="radio" name="status" value="1" title="一阶轨迹" style="margin-top: 5px;" lay-filter="TrajectoryType">
+                                <input type="radio" name="status" value="2" title="二阶轨迹" style="margin-top: 5px;" lay-filter="TrajectoryType">
+                                <input type="radio" name="status" value="2" title="一二阶合成轨迹" style="margin-top: 5px;" lay-filter="TrajectoryType">
                             </div>
                         </form>
-                        <div class="layui-col-md12" id="table2" style=height:430px;></div>
+                        <div class="layui-col-md12" id="AxisTrajectory3" style=height:650px;></div>
                     </div>
                 </div>
                 <div class="layui-col-md1">
                     <div class="grid-demo grid-demo-bg1" style=height:60px;>从驱动侧</div>
                     <div class="grid-demo grid-demo-bg1" style=height:100px;>轴转动方向</div>
                     <div class="grid-demo grid-demo-bg1" style=height:100px;>轴心轨迹方向</div>
-                    <div class="grid-demo grid-demo-bg1" style=height:40px;>峰峰值</div>
+                    <!-- <div class="grid-demo grid-demo-bg1" style=height:40px;>峰峰值</div>
                     <div class="grid-demo grid-demo-bg1" style=height:30px;>X:62</div>
-                    <div class="grid-demo grid-demo-bg1" style=height:170px;>Y:62</div>
+                    <div class="grid-demo grid-demo-bg1" style=height:170px;>Y:62</div> -->
                 </div>
             </div>
         </div>

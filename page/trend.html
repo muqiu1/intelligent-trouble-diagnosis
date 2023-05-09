@@ -8,88 +8,57 @@
         <div class="layui-col-md4">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测">
-                    <input type="radio" name="status" value="1" title="当前查询" checked>
-                    <input type="radio" name="status" value="2" title="历史查询">
+                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawTrendType">
+                    <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawTrendType" checked>
+                    <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawTrendType">
                 </div>
             </form>
         </div>
         <div class="layui-col-md5">
         </div>
     </div>
-    <div class="layui-row" id="viewTrend">
-        <div class="layui-col-md8" style="border-style: solid;">
+    <div class="layui-row" style="border-style: solid;">
+        <div class="layui-col-md9">
             <div class="layui-row">
-                <div class="layui-col-md4" name="nowTime">时间</div>
-                <div class="layui-col-md4">转速</div>
+                <div class="layui-col-md6" id="Time"><span id="sTime"></span>&nbsp;到&nbsp;<span id="eTime"></span></div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12" id="trend" style=height:600px;></div>
             </div>
         </div>
-        <div class="layui-col-md4" style="border-style: solid;">
-            <form class="layui-form" action="">
+        <div class="layui-col-md3">
+            <form class="layui-form" action="" lay-filter="trendY">
                 <div class="layui-form-item layui-row">
                     <div class="layui-col-md12">
-                        <form class="layui-form" action="">
-                            <select name="sss" lay-filter="">
-                            </select>
-                        </form>
+                        <select name="sss" lay-filter="trend">
+                        </select>
+                        <label class="layui-form-label">振动指标</label>
                     </div>
 
-                    <div class="layui-col-md12">振动指标</div>
-
                     <div class="layui-col-md4 layui-row">
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="有效值" lay-skin="primary"
-                                lay-filter="trend" checked></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="峰峰值" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="峰值" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="峰值指标" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="峭度指标" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="偏度系数" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="裕度指标" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="脉冲指标" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="波形指标" lay-skin="primary"
-                                lay-filter="trend"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="有效值" value="RMS" lay-filter="trend" lay-skin="primary" checked></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰峰值" value="PPV" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰值" value="PV" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="转速" value="RotSpeed" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="气隙Gap" value="Gap" lay-filter="trend" lay-skin="primary"></div>
                     </div>
                     <div class="layui-col-md4 layui-row">
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="0.5X幅值" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="0.5X相位" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="1X幅值" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="1X相位" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="2X幅值" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="2X相位" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="3X幅值" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="3X相位" lay-skin="primary"
-                                lay-filter="trend"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰值指标" value="FZYZ" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峭度指标" value="QDYZ" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="偏度系数" value="PDYZ" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="裕度指标" value="YDYZ" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="脉冲指标" value="MCYZ" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="波形指标" value="BXYZ" lay-filter="trend" lay-skin="primary"></div>
                     </div>
                     <div class="layui-col-md4 layui-row">
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="重心频率" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="均方频率" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="均方根频率" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="频率方案" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="频率标准差" lay-skin="primary"
-                                lay-filter="trend"></div>
-                        <div class="layui-col-md12"><input type="checkbox" name="" title="气隙Gap" lay-skin="primary"
-                                lay-filter="trend"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="0.5X幅值" value="HalfMag" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="0.5X相位" value="HalfP" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="1X幅值" value="X1Mag" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="1X相位" value="X1P" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="2X幅值" value="X2Mag" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="2X相位" value="X2P" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="3X幅值" value="X3Mag" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="3X相位" value="X3P" lay-filter="trend" lay-skin="primary"></div>
                     </div>
                 </div>
             </form>

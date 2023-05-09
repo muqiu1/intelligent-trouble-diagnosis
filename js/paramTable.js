@@ -1,6 +1,6 @@
 initName()
 let parameter = {}
-let paramTable = []
+let paramTable = {};
 let paramTime = [];
 let paramFreq = [];
 let urlRealTime = '';
@@ -111,7 +111,7 @@ layui.use(['table', 'laypage', 'form'], function () {
 });
 
 function getParam() {
-    parameter["endTime"] = parseInt(new Date().getTime()/1000) + 40000;
+    parameter["endTime"] = parseInt(new Date().getTime()/1000) + 28800;
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rVibData/list" + urlRealTime,
