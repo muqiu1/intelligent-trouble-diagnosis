@@ -30,15 +30,18 @@ layui.use(['form', 'layer'], function () {
         resolve();
     }).then(function () {
         $(document).ready(function () {
-            drawVector();
+            form.val("drawVectorTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(drawVectorRealTime);
+            }
+            else{
+                drawVector();
+            }
         })
     }).then(function () {
         layer.close(loadingLayer)
     });
-})
-
-layui.use('form', function () {
-    var form = layui.form;
+    
     //监听提交
     form.on('select(changeVector)', function (data) {
         drawVector();
@@ -49,6 +52,7 @@ layui.use('form', function () {
     }
 
     form.on('radio(drawVectorType)', function (data) {
+        drawType = data.value;
         if (data.value == "0"){
             startTimer(drawVectorRealTime);
         }

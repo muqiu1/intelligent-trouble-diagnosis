@@ -29,17 +29,20 @@ layui.use(['laytpl', 'form', 'layer'], function () {
         }
     }).then(function () {
         $(document).ready(function () {
-            for (var i = 0; i < checkedList.length; i++) {
-                drawTimeDomain(checkedList[i].id, checkedList[i].id);
+            form.val("drawTimeDomainTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(drawTimeDomainRealTime);
+            }
+            else{
+                for (var i = 0; i < checkedList.length; i++) {
+                    drawTimeDomain(checkedList[i].id, checkedList[i].id);
+                }
             }
         })
     }).then(function () {
         layer.close(loadingLayer)
     });
-})
-
-layui.use('form', function () {
-    var form = layui.form;
+    
     //监听提交
     form.on('select(changeTimeDomain)', function (data) {
         var x = data.value.indexOf('_')
@@ -65,6 +68,7 @@ layui.use('form', function () {
     }
 
     form.on('radio(drawTimeDomainType)', function (data) {
+        drawType = data.value;
         if (data.value == "0"){
             startTimer(drawTimeDomainRealTime);
         }
@@ -80,7 +84,7 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
         contentType: "application/x-www-form-urlencoded",
-        async: false,
+        // async: false,
         dataType: "json",
         data: {
             MPID: MPID,

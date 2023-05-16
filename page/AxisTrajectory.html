@@ -6,9 +6,9 @@
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
         </div>
         <div class="layui-col-md4">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" lay-filter="drawAxisTrajectoryTypeForm">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawAxisTrajectoryType">
+                    <input type="radio" name="status" value="0" title="实时监测" lay-filter="drawAxisTrajectoryType">
                     <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawAxisTrajectoryType" checked>
                     <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawAxisTrajectoryType">
                 </div>
@@ -55,13 +55,15 @@
                                 <input type="radio" name="status" value="2" title="一二阶合成轨迹" style="margin-top: 5px;" lay-filter="TrajectoryType">
                             </div>
                         </form>
-                        <div class="layui-col-md12" id="AxisTrajectory3" style=height:650px;></div>
+                        <div class="layui-col-md12" id="AxisTrajectory3" style="height:650px;"></div>
                     </div>
                 </div>
                 <div class="layui-col-md1">
-                    <div class="grid-demo grid-demo-bg1" style=height:60px;>从驱动侧</div>
-                    <div class="grid-demo grid-demo-bg1" style=height:100px;>轴转动方向</div>
-                    <div class="grid-demo grid-demo-bg1" style=height:100px;>轴心轨迹方向</div>
+                    <div class="grid-demo grid-demo-bg1" style="height:60px;">从驱动侧</div>
+                    <div class="grid-demo grid-demo-bg1" style="margin-top :100px;">轴转动方向</div>
+                    <img name="AxisTrajectoryDirection" src="" style="height: 60px;">
+                    <div class="grid-demo grid-demo-bg1" style="margin-top :100px;">轴心轨迹方向</div>
+                    <img name="AxisTrajectoryDirection" src="" style="height: 60px;">
                     <!-- <div class="grid-demo grid-demo-bg1" style=height:40px;>峰峰值</div>
                     <div class="grid-demo grid-demo-bg1" style=height:30px;>X:62</div>
                     <div class="grid-demo grid-demo-bg1" style=height:170px;>Y:62</div> -->

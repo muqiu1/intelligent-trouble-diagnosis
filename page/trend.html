@@ -6,9 +6,9 @@
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
         </div>
         <div class="layui-col-md4">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" lay-filter="drawTrendTypeForm">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawTrendType">
+                    <input type="radio" name="status" value="0" title="实时监测" lay-filter="drawTrendType">
                     <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawTrendType" checked>
                     <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawTrendType">
                 </div>
@@ -17,13 +17,18 @@
         <div class="layui-col-md5">
         </div>
     </div>
-    <div class="layui-row" style="border-style: solid;">
+    <div class="layui-row">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        </fieldset>
         <div class="layui-col-md9">
             <div class="layui-row">
                 <div class="layui-col-md6" id="Time"><span id="sTime"></span>&nbsp;到&nbsp;<span id="eTime"></span></div>
             </div>
-            <div class="layui-row">
-                <div class="layui-col-md12" id="trend" style=height:600px;></div>
+            <div class="layui-row" style="height: 800px; overflow-y:auto">
+                <div class="layui-col-md12" id="trend1" style="height:600px; display: block;"></div>
+                <div class="layui-col-md12" id="trend2" style="height:600px; display: block;"></div>
+                <div class="layui-col-md12" id="trend3" style="height:600px; display: block;"></div>
+                <div class="layui-col-md12" id="trend4" style="height:600px; display: block;"></div>
             </div>
         </div>
         <div class="layui-col-md3">
@@ -37,10 +42,9 @@
 
                     <div class="layui-col-md4 layui-row">
                         <div class="layui-col-md12"><input type="checkbox"  name="Y" title="有效值" value="RMS" lay-filter="trend" lay-skin="primary" checked></div>
-                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰峰值" value="PPV" lay-filter="trend" lay-skin="primary"></div>
-                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰值" value="PV" lay-filter="trend" lay-skin="primary"></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰峰值" value="PPV" lay-filter="trend" lay-skin="primary" checked></div>
+                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰值" value="PV" lay-filter="trend" lay-skin="primary" checked></div>
                         <div class="layui-col-md12"><input type="checkbox"  name="Y" title="转速" value="RotSpeed" lay-filter="trend" lay-skin="primary"></div>
-                        <div class="layui-col-md12"><input type="checkbox"  name="Y" title="气隙Gap" value="Gap" lay-filter="trend" lay-skin="primary"></div>
                     </div>
                     <div class="layui-col-md4 layui-row">
                         <div class="layui-col-md12"><input type="checkbox"  name="Y" title="峰值指标" value="FZYZ" lay-filter="trend" lay-skin="primary"></div>

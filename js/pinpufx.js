@@ -31,17 +31,20 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     }
   }).then(function () {
     $(document).ready(function () {
-      for (var i = 0; i < checkedList.length; i++) {
-        drawFreq(checkedList[i].id, checkedList[i].id);
+      form.val("drawFreqTypeForm", { status: drawType});
+      if ( drawType == "0"){
+        startTimer(drawFreqRealTime);
+      }
+      else{
+        for (var i = 0; i < checkedList.length; i++) {
+          drawFreq(checkedList[i].id, checkedList[i].id);
+        }
       }
     })
   }).then(function () {
     layer.close(loadingLayer)
   });
-})
-
-layui.use('form', function () {
-  var form = layui.form;
+  
   //监听提交
   form.on('select(changeFreq)', function (data) {
     var x = data.value.indexOf('_')
@@ -67,6 +70,7 @@ layui.use('form', function () {
   }
 
   form.on('radio(drawFreqType)', function (data) {
+    drawType = data.value;
     if (data.value == "0"){
       startTimer(drawFreqRealTime);
     }

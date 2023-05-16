@@ -18,23 +18,19 @@ layui.use(['form', 'layer'], function () {
         resolve();
     }).then(function () {
         $(document).ready(function () {
-            drawEnvolopeTF();
-            drawEnvolope();
+            form.val("drawEnvolopeTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(drawEnvolopeRealTime);
+            }
+            else{
+                drawEnvolopeTF();
+                drawEnvolope();
+            }
         })
     }).then(function () {
         layer.close(loadingLayer)
     });
-})
-
-function updateEnvolope(){
-    let EnvolopeParameter = layui.form.val("EnvolopeParameter");
-    EnvolopeLowFreq = parseInt(EnvolopeParameter.f_low);
-    EnvolopeHighFreq = parseInt(EnvolopeParameter.f_high);
-    drawEnvolope();
-}
-
-layui.use('form', function () {
-    var form = layui.form;
+    
     //监听提交
     form.on('select(changeEnvolope)', function (data) {
         drawEnvolopeTF();
@@ -47,6 +43,7 @@ layui.use('form', function () {
     }
 
     form.on('radio(drawEnvolopeType)', function (data) {
+        drawType = data.value;
         if (data.value == "0"){
             startTimer(drawEnvolopeRealTime);
         }
@@ -55,6 +52,15 @@ layui.use('form', function () {
         }
     });
 });
+
+function updateEnvolope(){
+    let EnvolopeParameter = layui.form.val("EnvolopeParameter");
+    if (EnvolopeParameter.f_low != "" && EnvolopeParameter.f_high != "") {
+        EnvolopeLowFreq = parseInt(EnvolopeParameter.f_low);
+        EnvolopeHighFreq = parseInt(EnvolopeParameter.f_high);
+        drawEnvolope();
+    }
+}
 
 function drawEnvolopeTF() {
     let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
@@ -76,6 +82,7 @@ function drawEnvolopeTF() {
         },
         success: function (res) {
             let data = res.data;
+            // console.log(data.data)
             console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
             let newData = [];
@@ -160,6 +167,7 @@ function drawEnvolopeTF() {
         },
         success: function (res) {
             let data = res.data;
+            // console.log(data.data)
             console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
             let data1 = [];

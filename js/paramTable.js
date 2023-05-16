@@ -41,8 +41,8 @@ layui.use(['table', 'laypage', 'form'], function () {
                     }).then(function () {
                         parseData();
                     }).then(function () {
-                        table.reload('paramTable1', {data: paramTime}, true);
-                        table.reload('paramTable2', {data: paramFreq}, true);
+                        table.reload('paramTable1', { data: paramTime }, true);
+                        table.reload('paramTable2', { data: paramFreq }, true);
                     });
                 }
             }
@@ -84,34 +84,35 @@ layui.use(['table', 'laypage', 'form'], function () {
                 , { field: 'x5Mag', title: '5倍频幅值', width: 120 }
             ]]
         });
+    });
 
-        function getParamTableRealTime() {
-            new Promise(function (resolve, reject) {
-                getParam();
-                resolve();
-            }).then(function () {
-                parseData();
-            }).then(function () {
-                table.reload('paramTable1', {data: paramTime}, true);
-                table.reload('paramTable2', {data: paramFreq}, true);
-            });
-        }
-
-        form.on('radio(paramTableType)', function (data) {
-            if (data.value == "0"){
-                urlRealTime = "_RealTime";
-                startTimer(getParamTableRealTime);
-            }
-            else{
-                urlRealTime = "";
-                clearTimer();
-            }
+    function getParamTableRealTime() {
+        new Promise(function (resolve, reject) {
+            getParam();
+            resolve();
+        }).then(function () {
+            parseData();
+        }).then(function () {
+            table.reload('paramTable1', { data: paramTime }, true);
+            table.reload('paramTable2', { data: paramFreq }, true);
         });
+    }
+
+    form.on('radio(paramTableType)', function (data) {
+        drawType = data.value;
+        if (data.value == "0") {
+            urlRealTime = "_RealTime";
+            startTimer(getParamTableRealTime);
+        }
+        else {
+            urlRealTime = "";
+            clearTimer();
+        }
     });
 });
 
 function getParam() {
-    parameter["endTime"] = parseInt(new Date().getTime()/1000) + 28800;
+    parameter["endTime"] = parseInt(new Date().getTime() / 1000) + 28800;
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rVibData/list" + urlRealTime,
@@ -129,7 +130,7 @@ function getParam() {
     })
 }
 
-function parseData(){
+function parseData() {
     let l = paramTable.data.list;
     paramTime = [];
     paramFreq = [];

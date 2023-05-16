@@ -31,15 +31,18 @@ layui.use(['form', 'layer'], function () {
         resolve();
     }).then(function () {
         $(document).ready(function () {
-            drawPrecession();
+            form.val("drawPrecessionTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(drawPrecessionRealTime);
+            }
+            else{
+                drawPrecession();
+            }
         })
     }).then(function () {
         layer.close(loadingLayer)
     });
-})
-
-layui.use('form', function () {
-    var form = layui.form;
+    
     //监听提交
     form.on('select(changePrecession)', function (data) {
         drawPrecession();
@@ -50,6 +53,7 @@ layui.use('form', function () {
     }
 
     form.on('radio(drawPrecessionType)', function (data) {
+        drawType = data.value;
         if (data.value == "0"){
             startTimer(drawPrecessionRealTime);
         }

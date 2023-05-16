@@ -1,6 +1,6 @@
-// initName();
-var AxisPositionCharts = {};
-var AxisPositionStartTime = [];
+initName();
+var BodeCharts = {};
+var BodeStartTime = [];
 layui.use(['form', 'layer', 'laydate'], function () {
     var $ = layui.$
         , form = layui.form
@@ -13,20 +13,10 @@ layui.use(['form', 'layer', 'laydate'], function () {
             shade: [0.5, '#fff'],
             time: 5 * 1000
         });
-        var slct = document.getElementsByName("sss");
-        for (var k = 0; k < slct.length; k++) {
-            for (var key in checkedGroup) {
-                var op = document.createElement("option")
-                op.setAttribute('value', key)
-                op.innerHTML = key;
-                slct[k].appendChild(op)
-            }
-        }
-        AxisPositionCharts = {};
+        BodeCharts = {};
         for (var i = 1; i <= 3; i++) {
-            AxisPositionCharts[i] = echarts.init(document.getElementById("AxisPosition" + i));
+            BodeCharts[i] = echarts.init(document.getElementById("Bode" + i));
         }
-        
         laydate.render({
             elem: '#index-range',
             range: ['#StartIndex', '#EndIndex'],
@@ -38,34 +28,29 @@ layui.use(['form', 'layer', 'laydate'], function () {
             endTime : searchTime.endTime
         })
 
-        AxisPositionStartTime.push({
+        BodeStartTime.push({
             startTime: (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000,
             endTime: (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000,
         })
 
-        let slct2 = document.getElementsByName('start-end');
-        for (var k = 0; k < slct2.length; k++) {
+        let slct = document.getElementsByName('start-end');
+        for (var k = 0; k < slct.length; k++) {
             var op1 = document.createElement("option");
             op1.setAttribute('value', 0)
             op1.setAttribute('selected', true);
             op1.innerHTML = searchTime.startTime + " ~ " + searchTime.endTime;
-            slct2[k].appendChild(op1);
+            slct[k].appendChild(op1);
         }
-
-        layui.use(['form'], function () {
-            layui.form.render('select')
-            layui.form.render('checkbox')
-            layui.form.render('radio')
-        });
         resolve();
     }).then(function () {
+        form.render('select');
         $(document).ready(function () {
-            form.val("drawAxisPositionTypeForm", { status: drawType});
+            form.val("drawBodeTypeForm", { status: drawType});
             if ( drawType == "0"){
-                startTimer(drawAxisPositionRealTime);
+                startTimer(drawBodeRealTime);
             }
             else{
-                drawAxisPosition();
+                drawBode();
             }
         })
     }).then(function () {
@@ -73,21 +58,21 @@ layui.use(['form', 'layer', 'laydate'], function () {
     });
     
     //监听提交
-    form.on('select(changeAxisPosition)', function (data) {
-        drawAxisPosition();
+    form.on('select(changeBode)', function (data) {
+        drawBode();
     });
-    form.on('select(changeAxisPositionStartTime)', function (data) {
-        drawAxisPosition();
+    form.on('select(changeBodeStartTime)', function (data) {
+        drawBode();
     });
 
-    function drawAxisPositionRealTime(){
-        drawAxisPosition();
+    function drawBodeRealTime(){
+        drawBode();
     }
 
-    form.on('radio(drawAxisPositionType)', function (data) {
+    form.on('radio(drawBodeType)', function (data) {
         drawType = data.value;
         if (data.value == "0"){
-            startTimer(drawAxisPositionRealTime);
+            startTimer(drawBodeRealTime);
         }
         else{
             clearTimer();
@@ -95,36 +80,33 @@ layui.use(['form', 'layer', 'laydate'], function () {
     });
 });
 
-function drawAxisPosition() {
+function drawBode() {
     let startSearchTime = layui.form.val("getStartSearchTime");
-    let MPX = checkedGroup[layui.form.val("AxisPositionSelect").sss].MPX;
-    let MPY = checkedGroup[layui.form.val("AxisPositionSelect").sss].MPY;
-    let endTime = intervalId == 0? AxisPositionStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
-    let startTime = intervalId == 0? AxisPositionStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
+    let MPID = parseInt(layui.form.val("BodeSelect").sss);
+    let endTime = intervalId == 0? BodeStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
+    let startTime = intervalId == 0? BodeStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
     layui.$.ajax({
         type: 'POST',
-        url: "http://" + host + "/cms/rWaveData/getShaftLoc",
+        url: "http://" + host + "/cms/rVibData/getBode",
         contentType: "application/x-www-form-urlencoded",
         // async: false,
         dataType: "json",
         data: {
-            MPX: MPX,
-            MPY: MPY,
+            MPID: MPID,
             startTime : startTime,
             endTime: endTime,
         },
         success: function (res) {
             let data = res.data;
-            console.log(data.indexNum, data.data[0].length)
+            // console.log(data)
+            console.log(data.data.length)
             // 指定图表的配置项和数据
             document.getElementById('sTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
             document.getElementById('eTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
-            let data1 = [];
-            for (let i = 0; i < data.xTime.length; i++) {
-                data1.push([data.xTime[i]*1000, data.gapx[i]]);
-            }
             var option1 = {
+                dataset: {
+                    source: data.data,
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -133,7 +115,10 @@ function drawAxisPosition() {
                             backgroundColor: '#6a7985'
                         }
                     },
-                    valueFormatter: (value) => value.toFixed(3)
+                    formatter: function (params) {
+                        params = params[0];
+                        return params.value[params.dimensionNames[params.encode.y[0]]].toFixed(3)
+                    },
                 },
                 toolbox: {
                     show: true,
@@ -156,36 +141,39 @@ function drawAxisPosition() {
                     },
                 ],
                 xAxis: {
-                    type: 'time',
-                    name: "时间",
+                    type: 'value',
+                    name: "转速/rpm",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: 'dataMax',
+                    // max: 'dataMax',
                     min: 'dataMin',
                 },
                 yAxis: {
                     type: 'value',
-                    name: "电压/V",
+                    name: "相位/°",
                     nameLocation: 'middle',
                     nameGap: 30,
                 },
                 series: [
                     {
-                        data: data1,
                         type: 'line',
+                        name: '相位',
                         lineStyle: {
                             color: 'blue'
                         },
                         showSymbol: false,
+                        encode: {
+                            x : "RotSpeed",
+                            y : "X1P"
+                        }
                     }
                 ]
             };
-            AxisPositionCharts[1].setOption(option1, true);
-            let data2 = [];
-            for (let i = 0; i < data.xTime.length; i++) {
-                data2.push([data.xTime[i]*1000, data.gapy[i]]);
-            }
+            BodeCharts[1].setOption(option1, true);
             var option2 = {
+                dataset: {
+                    source: data.data,
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -194,7 +182,10 @@ function drawAxisPosition() {
                             backgroundColor: '#6a7985'
                         }
                     },
-                    valueFormatter: (value) => value.toFixed(3)
+                    formatter: function (params) {
+                        params = params[0];
+                        return params.value[params.dimensionNames[params.encode.y[0]]].toFixed(3)
+                    },
                 },
                 toolbox: {
                     show: true,
@@ -217,48 +208,60 @@ function drawAxisPosition() {
                     },
                 ],
                 xAxis: {
-                    type: 'time',
-                    name: "时间",
+                    type: 'value',
+                    name: "转速/rpm",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: 'dataMax',
+                    // max: 'dataMax',
                     min: 'dataMin',
                 },
                 yAxis: {
                     type: 'value',
-                    name: "电压/V",
+                    name: "幅值/"+ data.RangeUnit,
                     nameLocation: 'middle',
                     nameGap: 30,
                 },
                 series: [
                     {
-                        data: data2,
                         type: 'line',
+                        name: '幅值',
                         lineStyle: {
                             color: 'blue'
                         },
                         showSymbol: false,
+                        encode: {
+                            x : "RotSpeed",
+                            y : "X1Mag"
+                        }
                     }
                 ]
             };
-            AxisPositionCharts[2].setOption(option2, true);
-            let data3 = [];
-            for (let i = 0; i < data.data[0].length; i++) {
-                data3.push([data.data[1][i], data.data[0][i]]);
-            }
+            BodeCharts[2].setOption(option2, true);
+            echarts.connect([BodeCharts[1], BodeCharts[2]]);
             var option3 = {
                 polar: {
                     center: ["50%", "50%"]
                 },
+                dataset: {
+                    source: data.data,
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
                         type: 'cross',
                         label: {
+                            precision : 3,
                             backgroundColor: '#6a7985'
                         }
                     },
-                    valueFormatter: (value) => value.toFixed(3)
+                    formatter: function (params) {
+                        params = params[0];
+                        return (
+                            '转速：' + params.value['RotSpeed'].toFixed(3) + 'rpm<br>' + 
+                            '幅值：' + params.value['X1Mag'].toFixed(3) + data.RangeUnit + '<br>'
+                            + '相位：' + params.value['X1P'] + '°'
+                        );
+                    }
                 },
                 toolbox: {
                     show: true,
@@ -273,7 +276,8 @@ function drawAxisPosition() {
                     type: "value",
                     startAngle: 270,
                     // splitNumber: 36,
-                    clockwise: false //刻度增长逆时针
+                    clockwise: false, //刻度增长逆时针
+                    max: 360,
                 },
                 radiusAxis: {
                     min: 0,
@@ -282,7 +286,6 @@ function drawAxisPosition() {
                 series: [
                     {
                         coordinateSystem: "polar",
-                        name: "轴心轨迹",
                         type: "line",
                         showSymbol: false,
                         emphasis: {
@@ -292,11 +295,14 @@ function drawAxisPosition() {
                                 borderWidth: 8
                             }
                         },
-                        data: data3
+                        encode: {
+                            radius: 'X1Mag',
+                            angle: 'X1P'
+                        }
                     },
                 ]
             };
-            AxisPositionCharts[3].setOption(option3, true);
+            BodeCharts[3].setOption(option3, true);
         },
         error: function () {
             console.log("AJAX ERROR!")
@@ -317,8 +323,8 @@ function getStartTimeList(){
         op1.setAttribute('selected', true);
         op1.innerHTML = searchTime.startTime + " ~ " + searchTime.endTime;
 
-        AxisPositionStartTime = [];
-        AxisPositionStartTime.push({
+        BodeStartTime = [];
+        BodeStartTime.push({
             startTime: (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000,
             endTime: (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000,
         })
@@ -340,7 +346,7 @@ function getStartTimeList(){
             success: function (res) {
                 // console.log(res.data);
                 for (var i = 0; i < res.data.length; i++) {
-                    AxisPositionStartTime.push({
+                    BodeStartTime.push({
                         startTime: res.data[i].StartIndex,
                         endTime: res.data[i].EndIndex,
                     })

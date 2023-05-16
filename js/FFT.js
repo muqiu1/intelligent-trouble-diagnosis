@@ -18,23 +18,19 @@ layui.use(['form', 'layer'], function () {
         resolve();
     }).then(function () {
         $(document).ready(function () {
-            drawFFTTF();
-            drawFFT();
+            form.val("drawFFTTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(drawFFTRealTime);
+            }
+            else{
+                drawFFTTF();
+                drawFFT();
+            }
         })
     }).then(function () {
         layer.close(loadingLayer)
     });
-})
-
-function updateFFT(){
-    let FFTparameter = layui.form.val("FFTparameter");
-    FFTwindowType = parseInt(FFTparameter.windowType);
-    FFTwindowWidth = parseInt(FFTparameter.windowWidth);
-    drawFFT();
-}
-
-layui.use('form', function () {
-    var form = layui.form;
+    
     //监听提交
     form.on('select(changeFFT)', function (data) {
         drawFFTTF();
@@ -47,6 +43,7 @@ layui.use('form', function () {
     }
 
     form.on('radio(drawFFTType)', function (data) {
+        drawType = data.value;
         if (data.value == "0"){
             startTimer(drawFFTRealTime);
         }
@@ -55,6 +52,13 @@ layui.use('form', function () {
         }
     });
 });
+
+function updateFFT(){
+    let FFTparameter = layui.form.val("FFTparameter");
+    FFTwindowType = parseInt(FFTparameter.windowType);
+    FFTwindowWidth = parseInt(FFTparameter.windowWidth);
+    drawFFT();
+}
 
 function drawFFTTF() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
@@ -276,6 +280,7 @@ function drawFFT() {
                 xAxis3D: {
                     type: 'value',
                     name: data.is_order?"阶次":"频率/Hz",
+                    interval: data.is_order? 1: null,
                     nameLocation: 'middle',
                     max: data.is_order?20:'dataMax',
                 },

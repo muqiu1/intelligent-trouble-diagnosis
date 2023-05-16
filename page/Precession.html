@@ -6,9 +6,9 @@
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
         </div>
         <div class="layui-col-md4">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" lay-filter="drawPrecessionTypeForm">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawPrecessionType">
+                    <input type="radio" name="status" value="0" title="实时监测" lay-filter="drawPrecessionType">
                     <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawPrecessionType" checked>
                     <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawPrecessionType">
                 </div>
@@ -45,7 +45,7 @@
                 <div class="layui-col-md6">
                     <div class="layui-row">
                         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                            <legend>进动谱</legend>
+                            <legend>全频谱</legend>
                         </fieldset>
                         <div class="layui-col-md12" id="Precession3" style=height:700px;></div>
                     </div>

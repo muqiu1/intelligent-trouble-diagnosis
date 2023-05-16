@@ -6,9 +6,9 @@
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
         </div>
         <div class="layui-col-md4">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" lay-filter="drawEnvolopeTypeForm">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawEnvolopeType">
+                    <input type="radio" name="status" value="0" title="实时监测" lay-filter="drawEnvolopeType">
                     <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawEnvolopeType" checked>
                     <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawEnvolopeType">
                 </div>

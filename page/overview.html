@@ -1,99 +1,105 @@
 <!DOCTYPE html>
 <html>
-
-<!-- <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>框架</title>
-    <link rel="stylesheet" href="../layui/css/layui.css">
-    <script src="../echarts.js"></script>
-    <script src="../echarts-gl.js"></script>
-</head> -->
-
 <body>
-    <div class="layui-row">
-        
-      <div class="layui-col-md9">
-        <select >
-          <option value="one">一号机组</option>
-          <option value="two" selected>二号机组</option>
-          <option value="three">三号机组</option>
-          <option value="four" disabled>四号机组</option>
+  <div class="layui-row">
+
+    <div class="layui-col-md2">
+      <form class="layui-form" action="" lay-filter="FFTselect">
+        <select lay-filter="changeFFT">
+          <option value="1">转子试验台</option>
         </select>
-
-        
-        <button type="button" class="layui-btn">启动</button>
-        <button type="button" class="layui-btn">暂停</button>
-      </div>
-
-      <div class="layui-col-md3">
-        <div style="text-align:center; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
-      </div>
+      </form>
     </div>
-    <div class="layui-row" id="view-overview">
-      <div class="layui-col-md9">
-        <img src="../img1.PNG">
-      </div>
-      <div class="layui-col-md3">
-        <h6>电机参数</h6>
-        <h5 style="text-align: center; color: white; background-color: rgb(17, 24, 164);">基本信息</h5>
-        <div class="layui-col-md4">
-          <div style="border: 1px solid white">编号</div>
-          <div style="border: 1px solid white">电机名称</div>
-          <div style="border: 1px solid white">电机类型</div>
-          <div style="border: 1px solid white">所属区域</div>
-          <div style="border: 1px solid white">制造商</div>
-          <div style="border: 1px solid white">安装位置</div>
-        </div>
-        <div class="layui-col-md8">
-          <div style="border: 1px solid white">003号</div>
-          <div style="border: 1px solid white">一号机组</div>
-          <div style="border: 1px solid white">三相异步电机</div>
-          <div style="border: 1px solid white">实验1</div>
-          <div style="border: 1px solid white">神秘人</div>
-          <div style="border: 1px solid white">位置1</div>
-        </div>
-      </div>
-      <div class="layui-col-md3">
-        <h5 style="text-align: center; color: white; background-color: rgb(17, 24, 164);"">采样参数</h5>
-        <div class="layui-col-md4">
-          <div style="border: 1px solid white">采集器状态</div>
-          <div style="border: 1px solid white">采样方式</div>
-          <div style="border: 1px solid white">分析频宽</div>
-          <div style="border: 1px solid white">谱线数</div>
-        </div>
-
-        <div class="layui-col-md8">
-          <div style="border: 1px solid white">正在工作</div>
-          <div style="border: 1px solid white">定频采样</div>
-          <div style="border: 1px solid white">10000 Hz</div>
-          <div style="border: 1px solid white">6400</div>
-        </div>
-      </div>
-
-        <div class="layui-col-md3">
-          <h5 style="text-align: center; color: white; background-color: rgb(17, 24, 164);"">工艺参数</h5>
-          <table class="layui-table">
-            <thead>
-              <tr>
-                <th>序号</th>
-                <th>名称</th>
-                <th>数值</th>
-                <th>单位</th>
-                <th>状态</th>
-              </tr> 
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>转速...</td>
-                <td>--</td>
-                <td>rpm</td>
-                <td>缺值</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+    <div class="layui-col-md7">
+      <button type="button" class="layui-btn">启动</button>
+      <button type="button" class="layui-btn">暂停</button>
     </div>
+
+    <div class="layui-col-md3">
+      <div style="text-align:center; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+    </div>
+  </div>
+  <div class="layui-row" id="view-overview">
+    <div class="layui-col-md9">
+      <img src="../img/overview.png">
+    </div>
+    <div class="layui-col-md3">
+      <table class=" layui-table">
+        <thead>
+          <th colspan="2" style="background-color: #79C48C; color: white; text-align: center;">基本信息</th>
+        </thead>
+        <tbody>
+          <tr>
+            <th>编号</th>
+            <th>DB401</th>
+          </tr>
+          <tr>
+            <th>电机名称</th>
+            <th>转子实验台</th>
+          </tr>
+          <tr>
+            <th>电机类型</th>
+            <th>4</th>
+          </tr>
+          <tr>
+            <th>所属区域</th>
+            <th>16</th>
+          </tr>
+          <tr>
+            <th>制造商</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>安装位置</th>
+            <th></th>
+          </tr>
+        </tbody>
+      </table>
+      <table class=" layui-table">
+        <thead>
+          <th colspan="2" style="background-color: #79C48C; color: white; text-align: center;">采样参数</th>
+        </thead>
+        <tbody>
+          <tr>
+            <th>采集器状态</th>
+            <th>2</th>
+          </tr>
+          <tr>
+            <th>采样方式</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>分析频宽</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>谱线数</th>
+            <th></th>
+          </tr>
+        </tbody>
+      </table>
+      <table class=" layui-table">
+        <thead>
+          <th colspan="5" style="background-color: #79C48C; color: white; text-align: center;">工艺参数</th>
+        </thead>
+        <tbody>
+          <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>数值</th>
+            <th>单位</th>
+            <th>状态</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>转速...</td>
+            <td>--</td>
+            <td>rpm</td>
+            <td>缺值</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="../js/overview.js"></script>
 </body>

@@ -6,9 +6,9 @@
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
         </div>
         <div class="layui-col-md4">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" lay-filter="drawFFTTypeForm">
                 <div class="layui-form-item">
-                    <input type="radio" name="status" value="0" title="实时检测" lay-filter="drawFFTType">
+                    <input type="radio" name="status" value="0" title="实时监测" lay-filter="drawFFTType">
                     <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawFFTType" checked>
                     <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawFFTType">
                 </div>
@@ -20,7 +20,7 @@
     <div class="layui-row">
         <div class="layui-col-md12" style="border-style: solid;">
             <div class="layui-row">
-                <div class="layui-col-md4" id="nameFFT">
+                <div class="layui-col-md4">
                     <form class="layui-form" action="" lay-filter="FFTselect">
                         <select name="sss" lay-filter="changeFFT">
                         </select>

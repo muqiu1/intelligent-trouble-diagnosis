@@ -1,6 +1,7 @@
 // initName();
 var AxisTrajectoryCharts = {};
-var TrajectoryType = 0
+var TrajectoryType = 0;
+var direction = -1;
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
         , form = layui.form
@@ -32,15 +33,18 @@ layui.use(['form', 'layer'], function () {
         resolve();
     }).then(function () {
         $(document).ready(function () {
-            drawAxisTrajectory();
+            form.val("drawAxisTrajectoryTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(drawAxisTrajectoryRealTime);
+            }
+            else{
+                drawAxisTrajectory();
+            }
         })
     }).then(function () {
         layer.close(loadingLayer)
     });
-})
-
-layui.use('form', function () {
-    var form = layui.form;
+    
     //监听提交
     form.on('select(changeAxisTrajectory)', function (data) {
         drawAxisTrajectory();
@@ -51,6 +55,7 @@ layui.use('form', function () {
     }
 
     form.on('radio(drawAxisTrajectoryType)', function (data) {
+        drawType = data.value;
         if (data.value == "0"){
             startTimer(drawAxisTrajectoryRealTime);
         }
@@ -317,10 +322,31 @@ function drawAxisTrajectory() {
                             color: 'blue'
                         },
                         showSymbol: false,
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 15,
+                            itemStyle: {
+                                color: 'red',
+                            },
+                            data: [{
+                                coord: data1[0],
+                                // itemStyle: {
+                                //     color: 'red',
+                                //     borderWidth: 10,
+                                // }
+                            }]
+                        }                
                     }
                 ]
             };
             AxisTrajectoryCharts[3].setOption(option3, true);
+            if (direction != data.direction) {
+                direction = data.direction;
+                let img = document.getElementsByName("AxisTrajectoryDirection");
+                for (let i = 0; i < img.length; i++) {
+                    img[i].src = "../img/direction" + direction + ".png";
+                }
+            }
         },
         error: function () {
             console.log("AJAX ERROR!")

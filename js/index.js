@@ -7,6 +7,7 @@ var treeData;
 var host = '81.69.242.66:8888'
 var checkedTime = 0;
 var intervalId = 0; //实时监测计时器
+var drawType = "1";
 var rvibdataTable = {
     "PPV" : "峰峰值",
     "PV" : "峰值",
@@ -103,31 +104,6 @@ function setAlarm() {
 }
 
 
-layui.use(['element', 'layer', 'util'], function () {
-    var element = layui.element
-        , layer = layui.layer
-        , util = layui.util
-        , $ = layui.$;
-
-
-    //头部事件
-    util.event('lay-header-event', {
-        //左侧菜单事件
-        menuLeft: function (othis) {
-            layer.msg('展开左侧菜单的操作', { icon: 0 });
-        }
-        , menuRight: function () {
-            layer.open({
-                type: 1
-                , content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
-                , area: ['260px', '100%']
-                , offset: 'rt' //右上角
-                , anim: 5
-                , shadeClose: true
-            });
-        }
-    });
-});
 layui.use(['tree', 'form'], function () {
     var tree = layui.tree
         , layer = layui.layer
@@ -277,17 +253,26 @@ function getTimeList(){
     else if (_target == 'XY_pic'){
         drawXYpic();
     }
+    else if (_target == 'trend'){
+        drawTrend();
+    }
+    else if (_target == 'Bode'){
+        drawBode();
+    }
+    else if (_target == 'WaterfallPlot'){
+        drawWaterfallPlot();
+    }
 }
 
 
-//实时检测函数
+//实时监测函数
 function startTimer(Func) {
     intervalId = 1;
     Func();
     intervalId = setInterval(() => {
         // 在这里发送网络请求
         Func();
-    }, 5000);
+    }, 2000);
 }
 
 //计时器清理函数

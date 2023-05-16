@@ -10,198 +10,252 @@
 
 <body>
   <div class="layui-layout layui-layout-admin">
-    <!-- <div class="layui-body" style="top: 10px;"> -->
-      <!-- 内容主体区域 -->
-      <div style="padding: 15px;">
-        <div class="layui-row">
-          <div class="layui-col-md11">
-            <button type="button" class="layui-btn">保存</button>
-          </div>
-          <div class="layui-col-md1">关闭前注意保存</div>
+    <form class="layui-form" style="padding: 15px;">
+      <div class="layui-row">
+        <div class="layui-col-md10">
+          <button type="button" class="layui-btn">保存</button>
         </div>
-        <div class="layui-row">
-          <div class="layui-col-md5" style="margin-right: 30px ;">
-
-            <div class="layui-row" style="margin-bottom: 10px;">
-              <div class="layui-col-md3">测点名称</div>
-              <input type="text" class="layui-col-md9">
+        <div class="layui-col-md2">关闭前注意保存</div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label">测点名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="m40lr" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off"
+                class="layui-input">
             </div>
-
-            <div class="layui-row" style="margin-bottom: 10px;">
-              <div class="layui-col-md3">测点位置</div>
-              <select class="layui-col-md9">
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">测点位置</label>
+            <div class="layui-input-block">
+              <select name="" lay-verify="required" lay-search>
                 <option value="电机端x">电机端x</option>
                 <option value="电机端y">电机端y</option>
               </select>
             </div>
+          </div>
 
-            <div class="layui-row" style="margin-bottom: 10px;">
-              <div class="layui-col-md3">传感器</div>
-
-              <div class="layui-col-md3">
-                <div class="layui-row layui-col-space1">
-                  <div class="layui-col-md5">编号:</div>
-                  <input type="text" id="bianhao" class="layui-col-md5">
-                </div>
-              </div>
-
-              <div class="layui-col-md4">
-                <div class="layui-row layui-col-space1">
-                  <div class="layui-col-md5">灵敏度:</div>
-                  <input type="text" id="lingmindu" class="layui-col-md5">
-                </div>
-              </div>
-              
-              <button class="layui-col-md2" id="select-btn">选择</button>
+          <div class="layui-row" style="margin-bottom: 10px;">
+            <div class="layui-col-md3">
+              <label class="layui-form-label">传感器</label>
             </div>
 
-            <div class="layui-row" style="margin-bottom: 10px;">
-              <div class="layui-col-md3">信号来源</div>
-              <select class="layui-col-md9">
+            <div class="layui-col-md3">
+              <div class="layui-row layui-col-space1">
+                <div class="layui-col-md5">编号:</div>
+                <input type="text" id="bianhao" class="layui-col-md5">
+              </div>
+            </div>
+
+            <div class="layui-col-md4">
+              <div class="layui-row layui-col-space1">
+                <div class="layui-col-md5">灵敏度:</div>
+                <input type="text" id="lingmindu" class="layui-col-md5">
+              </div>
+            </div>
+
+            <button class="layui-col-md2" id="select-btn">选择</button>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">信号来源</label>
+            <div class="layui-input-block">
+              <select name="" lay-verify="required" lay-search disabled>
                 <option value="模拟通道">模拟通道</option>
               </select>
             </div>
-
-            <div class="layui-row" style="margin-bottom: 10px;">
-              <div class="layui-col-md3">采集器通道ID</div>
-              <select class="layui-col-md9">
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label" style="width: 100px;">采集器通道ID</label>
+              <div class="layui-input-inline" style="width: 30%;">
+                <select name="" lay-verify="required" lay-search>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
             </div>
-
-            <div class="layui-row" style="margin-bottom: 10px;">
-              <div class="layui-col-md3">键相信号通道</div>
-              <select class="layui-col-md3">
-                <option value="1">1</option>
-              </select>
-              <div class="layui-col-md3" style="text-align: right;">速比</div>
-              <select class="layui-col-md3">
-                <option value="1">1</option>
-              </select>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline" style="width: 40%;">
+              <label class="layui-form-label" style="width: 100px;">键相信号通道</label>
+              <div class="layui-input-inline" style="width: 35%;">
+                <select name="" lay-verify="required" lay-search>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
             </div>
-
-            <form>
-              <fieldset>
-                <legend>采样方式</legend>
-                <div>
-                  <input type="radio" name="methods" value="1" >定频采样
-                  <fieldset>
-                    <legend>定频参数</legend>
-                    <div class="layui-row" style="margin-bottom: 10px;">
-                      <div class="layui-col-md9">分析频宽</div>
-                      <select name="" id=""  class="layui-col-md3">
-                        <option value="10kHz">10kHz</option>
-                        <option value="20kHz">20kHz</option>
-                      </select>
-                    <div/>
-                    <div class="layui-row">
-                      <br>
-                      <div class="layui-col-md9">谱线数</div>
-                      <select name="" id="" class="layui-col-md3">
-                        <option value="6400">6400</option>
-                        <option value="3200">3200</option>
-                      </select>
-                    </div>
-                  </fieldset>
-
-                  <br>
-
-                  <input type="radio" name="methods" value="2" checked>同步整周期
-                  <fieldset>
-                    <legend>倍频参数</legend>
-                    <div class="layui-row" style="margin-bottom: 10px;">
-                      <div class="layui-col-md9">采样倍频</div>
-                      <select name="" id=""  class="layui-col-md3">
-                        <option value="256">256</option>
-                        <option value="128">128</option>
-                      </select>
-                    <div/>
-                    <div class="layui-row">
-                      <br>
-                      <div class="layui-col-md9">采样长度</div>
-                      <select name="" id="" class="layui-col-md3">
-                        <option value="16">16</option>
-                        <option value="8">8</option>
-                      </select>
-                    </div>
-                  </fieldset>
-                </div>
-              </fieldset>
-            </form>
+            <div class="layui-inline">
+              <label class="layui-form-label">速比</label>
+              <div class="layui-input-inline" style="width: 30%;">
+                <input type="number" lay-verify="required" class="layui-input" value="1">
+              </div>
+            </div>
           </div>
 
-          <div class="layui-col-md6">
-            <form>
-              <fieldset>
-                <legend>是否监测</legend>
-                <div class="layui-row">
-                  <input type="radio" name="monitor" value="on">启用
-                  <input type="radio" name="monitor" value="off" checked>停用
+          <fieldset>
+            <legend>采样方式</legend>
+            <div class="layui-row">
+              <div class="layui-col-md3">
+                <div class="layui-form-item">
+                  <input type="radio" name="采样方式" value="定频采样" title="定频采样" checked>
                 </div>
-              </fieldset>
-            </form>
-            <br>
-            <form>
-              <fieldset style="margin-bottom: 10px;">
-                <legend>报警策略</legend>
-
-                <div class="layui-row" style="margin-bottom: 10px;">
-                  <div class="layui-col-md3">报警指标</div>
-                  <select name="" id="" class="layui-col-md2">
+              </div>
+              <div class="layui-col-md9">
+                <fieldset>
+                  <legend>定频参数</legend>
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">分析频宽</label>
+                      <div class="layui-input-inline">
+                        <select name="" lay-verify="required" lay-search>
+                          <option value="10kHz">10kHz</option>
+                          <option value="20kHz">20kHz</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">谱线数</label>
+                      <div class="layui-input-inline">
+                        <select name="" lay-verify="required" lay-search>
+                          <option value="6400">6400</option>
+                          <option value="3200">3200</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-md3">
+                <div class="layui-form-item">
+                  <input type="radio" name="采样方式" value="同步整周期" title="同步整周期">
+                </div>
+              </div>
+              <div class="layui-col-md9">
+                <fieldset>
+                  <legend>倍频参数</legend>
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">采样倍率</label>
+                      <div class="layui-input-inline">
+                        <select name="" lay-verify="required" lay-search>
+                          <option value="256">256倍频</option>
+                          <option value="128">128倍频</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <label class="layui-form-label">采样长度</label>
+                      <div class="layui-input-inline">
+                        <select name="" lay-verify="required" lay-search>
+                          <option value="16">16周期</option>
+                          <option value="8">8周期</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="layui-col-md6" style="padding: 20px;">
+          <div class="layui-form-item">
+            <label class="layui-form-label">是否监测</label>
+            <div class="layui-input-inline">
+              <input type="radio" name="monitor" value="启用" title="启用">
+              <input type="radio" name="monitor" value="停用" title="停用" checked>
+            </div>
+          </div>
+          <fieldset style="margin-bottom: 10px;">
+            <legend>报警策略</legend>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">报警指标</label>
+                <div class="layui-input-inline">
+                  <select name="" lay-verify="required" lay-search>
                     <option value="1">峰峰值</option>
                   </select>
                 </div>
-                
-                <div class="layui-row" style="margin-bottom: 10px;">
-                  <div class="layui-col-md3">报警策略</div>
-                  <select name="" id="" class="layui-col-md2">
-                    <option value="2">不报警</option>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">报警策略</label>
+                <div class="layui-input-inline">
+                  <select name="" lay-verify="required" lay-search>
+                    <option value="0">不报警</option>
+                    <option value="1">报警</option>
                   </select>
                 </div>
-
-                <div class="layui-row" style="margin-bottom: 10px;">
-                  <div class="layui-col-md3">上上限</div>
-                  <input type="text" name="1" id="shangshangxian" class="layui-col-md2">
-                </div>
-
-                <div class="layui-row" style="margin-bottom: 10px;">
-                  <div class="layui-col-md3">上限</div>
-                  <input type="text" name="2" id="shangxian" class="layui-col-md2">
-                </div>
-
-                <div class="layui-row" style="margin-bottom: 10px;">
-                  <div class="layui-col-md3">下限</div>
-                  <input type="text" name="3" id="xiaxian" class="layui-col-md2">
-                </div>
-
-                <div class="layui-row" style="margin-bottom: 10px;">
-                  <div class="layui-col-md3">下下限</div>
-                  <input type="text" name="4" id="xiaxiaxian" class="layui-col-md2">
-                </div>
-               
-                <fieldset>
-                  <legend>连续报警次数</legend>
-                  <input type="text">次
-                </fieldset>
-
-                <fieldset>
-                  <legend>连续危险次数</legend>
-                  <input type="text">次
-                </fieldset>
-              </fieldset>
-
-              <div class="layui-row">
-                <div style="margin-bottom: 10px;">备注</div>
-                <textarea name="" id="" class="layui-col-md12">备注12345</textarea>
               </div>
-            </form>
-
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">上上限</label>
+                <div class="layui-input-inline">
+                  <input type="number" lay-verify="required" class="layui-input" value="0.00">
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">上限</label>
+                <div class="layui-input-inline">
+                  <input type="number" lay-verify="required" class="layui-input" value="0.00">
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">下限</label>
+                <div class="layui-input-inline">
+                  <input type="number" lay-verify="required" class="layui-input" value="0.00">
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">下下限</label>
+                <div class="layui-input-inline">
+                  <input type="number" lay-verify="required" class="layui-input" value="0.00">
+                </div>
+              </div>
+            </div>
+            
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px;">连续报警次数</label>
+                <div class="layui-input-inline">
+                  <input type="number" lay-verify="required" class="layui-input" value="3">
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px;">连续危险次数</label>
+                <div class="layui-input-inline">
+                  <input type="number" lay-verify="required" class="layui-input" value="3">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="layui-row">
+            <div style="margin-bottom: 10px;">备注</div>
+            <textarea name="" id="" class="layui-col-md12">备注12345</textarea>
           </div>
+
         </div>
       </div>
-    <!-- </div> -->
-
+    </form>
   </div>
   <script src="../layui/layui.js"></script>
   <script src="../js/alarmParams.js"></script>
