@@ -5,7 +5,7 @@ layui.use(['table', 'laypage', 'form'], function () {
 
     $.ajax({
         type: 'POST',
-        url: "http://" + host + "/cms/faultdiagnosis/characterList",
+        url: "http://" + host + "/cms/rule/list",
         data: {},
         contentType: "application/x-www-form-urlencoded",
         async: false,
@@ -14,19 +14,25 @@ layui.use(['table', 'laypage', 'form'], function () {
             let data = res.data;
             console.log(data.data.length, data.data[0]);
             table.render({
-                elem: '#KnowledgeManagement'
-                , toolbar: '#toolbar'
+                elem: '#RuleManagement'
+                , toolbar: '#Toolbar'
                 , data: data.data
                 , limit: data.data.length
                 , cols: [[ //表头
-                    { field: 'CharacterID', title: '序号', width: '10%', fixed: 'left', align: 'center' }
-                    , { field: 'CharacterName', title: '征兆名称', width: '20%', align: 'center' }
-                    , { field: 'Detail', title: '征兆描述', width: '53%', align: 'center' }
-                    , { title: '操作', width: '17%', templet: '#Management', align: 'center' }
+                    { field: 'RuleID', title: '序号', width: '7%', fixed: 'left', align: 'center'}
+                    , { field: 'RuleName', title: '规则名称', width: '15%', align: 'center'}
+                    , { field: 'IF', title: '规则前提', width: '20%', align: 'center'}
+                    , { field: 'Then', title: '规则结论', width: '8%', align: 'center'}
+                    , { field: 'Reliability', title: '可信度', width: '5%', align: 'center'}
+                    , { field: 'Priority', title: '优先级', width: '5%', align: 'center'}
+                    , { field: 'ActiveThre', title: '激活阈值', width: '7%', align: 'center'}
+                    , { field: 'Explain', title: '规则解释', width: '13%', align: 'center'}
+                    , { title: '操作', width: '12%', templet: '#Management', align: 'center' }
+                    , { field: 'ActiveTimes', title: 'ActiveTimes', width: '8%', align: 'center'}
                 ]]
             });
 
-            table.on('toolbar(KnowledgeManagement)', function(obj){
+            table.on('toolbar(RuleManagement)', function(obj){
                 console.log(obj); // 查看对象所有成员
                 
                 // 根据不同的事件名进行相应的操作
@@ -37,70 +43,55 @@ layui.use(['table', 'laypage', 'form'], function () {
                             area: '640px',
                             resize: false,
                             shadeClose: true,
-                            title: '新建征兆',
+                            title: '新建规则',
                             content: `
                                 <form class="layui-form" lay-filter="Management-layer" style="margin: 16px; padding-right: 32px">
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆名称</label>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>规则名称</label>
                                         <div class="layui-input-block">
-                                            <input type="text" name="CharacterName" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                            <input type="text" name="RuleName" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>人工征兆</label>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>规则前提</label>
                                         <div class="layui-input-block">
-                                            <input type="checkbox" name="IsManual" lay-skin="switch" title="否|是">
+                                            <input type="text" name="IF" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>规则结论</label>
                                         <div class="layui-input-block">
-                                        <select name="CharacterType" required lay-verify="required">
-                                            <option value="0">固定特征</option>
-                                            <option value="1">频谱特征</option>
-                                            <option value="2">相位特征</option>
-                                            <option value="3">轴心轨迹特征</option>
-                                            <option value="4">转动特征</option>
-                                            <option value="5">振动方向</option>
-                                            <option value="6">过临界振动特征</option>
-                                            <option value="7">非线性特征</option>
-                                            <option value="8">其他特征</option>
-                                        </select>
+                                            <input type="text" name="Then" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">相关参数</label>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>可信度</label>
                                         <div class="layui-input-block">
-                                            <input type="text" name="Params" autocomplete="off" class="layui-input">
+                                            <input type="text" name="Reliability" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label"><span class="layui-badge-dot"></span>级数</label>
-                                            <div class="layui-input-inline" style="width: 30%;">
-                                                <input type="number" name="Leve" required lay-verify="required" class="layui-input" value="1">
-                                            </div>
-                                        </div>
-                                        <div class="layui-inline" style="width: 40%;">
-                                            <label class="layui-form-label">判断运算符</label>
-                                            <div class="layui-input-inline" style="width: 35%;">
-                                                <select name="Operator">
-                                                    <option value="&lt;">&lt;</option>
-                                                    <option value="&gt;">&gt;</option>
-                                                </select>
-                                            </div>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>优先级</label>
+                                        <div class="layui-input-block">
+                                            <input type="number" name="Priority" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">多级阈值</label>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>激活阈值</label>
                                         <div class="layui-input-block">
-                                            <input type="text" name="Threshold" autocomplete="off" class="layui-input">
+                                            <input type="text" name="ActiveThre" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>详细描述</label>
+                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>规则解释</label>
                                         <div class="layui-input-block">
-                                            <textarea placeholder="请输入内容" name="Detail" class="layui-textarea" required lay-verify="required"></textarea>
+                                            <input type="text" name="Explain" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" style="padding: 9px 0px; width: 110px;"><span class="layui-badge-dot"></span>ActiveTimes</label>
+                                        <div class="layui-input-block">
+                                            <input type="number" name="ActiveTimes" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <button class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
@@ -112,12 +103,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 // 表单提交事件
                                 form.on('submit(Management-submit)', function (data) {
                                     var field = data.field; // 获取表单字段值
-                                    field.IsManual = field.IsManual == "on" ? 1 : 0
                                     console.log(field)
                                     // 此处可执行 Ajax 等操作
                                     $.ajax({
                                         type: 'POST',
-                                        url: "http://" + host + "/cms/faultdiagnosis/characterAdd",
+                                        url: "http://" + host + "/cms/rule/add",
                                         data: field,
                                         contentType: "application/x-www-form-urlencoded",
                                         async: false,
@@ -126,7 +116,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             if (res.data == 1){
                                                 layer.closeAll('page');
                                                 layer.msg('新建成功');
-                                                loadPage('KnowledgeManagement');
+                                                field.RuleID = parseInt(res.msg);
+                                                obj.config.data.push(field);
+                                                table.reload('RuleManagement', {
+                                                    data: obj.config.data
+                                                    , limit: obj.config.data.length
+                                                });
                                             }
                                             else {
                                                 layer.msg('新建失败');
@@ -144,7 +139,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                 };
             });
 
-            table.on('tool(KnowledgeManagement)', function (obj) {
+            table.on('tool(RuleManagement)', function (obj) {
                 var data = obj.data; // 得到当前行数据
                 var index = obj.index; // 得到当前行索引
                 var layEvent = obj.event; // 获得元素对应的 lay-event 属性值
@@ -159,74 +154,59 @@ layui.use(['table', 'laypage', 'form'], function () {
                         area: '640px',
                         resize: false,
                         shadeClose: true,
-                        title: '查看征兆',
+                        title: '查看规则',
                         content: `
                             <form class="layui-form" lay-filter="Management-layer" style="margin: 16px; padding-right: 32px">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆名称</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则名称</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="CharacterName" autocomplete="off" class="layui-input" disabled>
+                                        <input type="text" name="RuleName" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>人工征兆</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则前提</label>
                                     <div class="layui-input-block">
-                                        <input type="checkbox" name="IsManual" lay-skin="switch" title="否|是" disabled>
+                                        <input type="text" name="IF" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则结论</label>
                                     <div class="layui-input-block">
-                                    <select name="CharacterType" disabled>
-                                        <option value="0">固定特征</option>
-                                        <option value="1">频谱特征</option>
-                                        <option value="2">相位特征</option>
-                                        <option value="3">轴心轨迹特征</option>
-                                        <option value="4">转动特征</option>
-                                        <option value="5">振动方向</option>
-                                        <option value="6">过临界振动特征</option>
-                                        <option value="7">非线性特征</option>
-                                        <option value="8">其他特征</option>
-                                    </select>
+                                        <input type="text" name="Then" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">相关参数</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>可信度</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="Params" autocomplete="off" class="layui-input" disabled>
+                                        <input type="text" name="Reliability" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <div class="layui-inline">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>级数</label>
-                                        <div class="layui-input-inline" style="width: 30%;">
-                                            <input type="number" name="Leve" class="layui-input" value="1" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="layui-inline" style="width: 40%;">
-                                        <label class="layui-form-label">判断运算符</label>
-                                        <div class="layui-input-inline" style="width: 35%;">
-                                            <select name="Operator" disabled>
-                                                <option value="&lt;">&lt;</option>
-                                                <option value="&gt;">&gt;</option>
-                                            </select>
-                                        </div>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>优先级</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" name="Priority" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">多级阈值</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>激活阈值</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="Threshold" autocomplete="off" class="layui-input" disabled>
+                                        <input type="text" name="ActiveThre" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>详细描述</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则解释</label>
                                     <div class="layui-input-block">
-                                        <textarea name="Detail" class="layui-textarea" disabled></textarea>
+                                        <input type="text" name="Explain" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="padding: 9px 0px; width: 110px;"><span class="layui-badge-dot"></span>ActiveTimes</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" name="ActiveTimes" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                             </form>
-                          `,
+                        `,
                         success: function () {
                             // 对弹层中的表单进行初始化渲染
                             form.render();
@@ -237,9 +217,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                     layer.confirm('确定删除吗？', function (index) {
                         $.ajax({
                             type: 'POST',
-                            url: "http://" + host + "/cms/faultdiagnosis/characterDelete",
+                            url: "http://" + host + "/cms/rule/delete",
                             data: {
-                                CharacterID: obj.data.CharacterID
+                                RuleID: obj.data.RuleID
                             },
                             contentType: "application/x-www-form-urlencoded",
                             async: false,
@@ -266,75 +246,60 @@ layui.use(['table', 'laypage', 'form'], function () {
                         area: '640px',
                         resize: false,
                         shadeClose: true,
-                        title: '修改征兆',
+                        title: '修改规则',
                         content: `
                             <form class="layui-form" lay-filter="Management-layer" style="margin: 16px; padding-right: 32px">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆名称</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则名称</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="CharacterName" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                        <input type="text" name="RuleName" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>人工征兆</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则前提</label>
                                     <div class="layui-input-block">
-                                        <input type="checkbox" name="IsManual" lay-skin="switch" title="否|是">
+                                        <input type="text" name="IF" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则结论</label>
                                     <div class="layui-input-block">
-                                    <select name="CharacterType" required lay-verify="required">
-                                        <option value="0">固定特征</option>
-                                        <option value="1">频谱特征</option>
-                                        <option value="2">相位特征</option>
-                                        <option value="3">轴心轨迹特征</option>
-                                        <option value="4">转动特征</option>
-                                        <option value="5">振动方向</option>
-                                        <option value="6">过临界振动特征</option>
-                                        <option value="7">非线性特征</option>
-                                        <option value="8">其他特征</option>
-                                    </select>
+                                        <input type="text" name="Then" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">相关参数</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>可信度</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="Params" autocomplete="off" class="layui-input">
+                                        <input type="text" name="Reliability" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <div class="layui-inline">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>级数</label>
-                                        <div class="layui-input-inline" style="width: 30%;">
-                                            <input type="number" name="Leve" required lay-verify="required" class="layui-input" value="1">
-                                        </div>
-                                    </div>
-                                    <div class="layui-inline" style="width: 40%;">
-                                        <label class="layui-form-label">判断运算符</label>
-                                        <div class="layui-input-inline" style="width: 35%;">
-                                            <select name="Operator">
-                                                <option value="&lt;">&lt;</option>
-                                                <option value="&gt;">&gt;</option>
-                                            </select>
-                                        </div>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>优先级</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" name="Priority" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">多级阈值</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>激活阈值</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="Threshold" autocomplete="off" class="layui-input">
+                                        <input type="text" name="ActiveThre" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>详细描述</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>规则解释</label>
                                     <div class="layui-input-block">
-                                        <textarea placeholder="请输入内容" name="Detail" class="layui-textarea" required lay-verify="required"></textarea>
+                                        <input type="text" name="Explain" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="padding: 9px 0px; width: 110px;"><span class="layui-badge-dot"></span>ActiveTimes</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" name="ActiveTimes" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <button class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
                             </form>
-                          `,
+                        `,
                         success: function () {
                             // 对弹层中的表单进行初始化渲染
                             form.render();
@@ -342,14 +307,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                             // 表单提交事件
                             form.on('submit(Management-submit)', function (data) {
                                 var field = data.field; // 获取表单字段值
-                                field.CharacterID = obj.data.CharacterID
-                                field.IsManual = field.IsManual == "on" ? 1 : 0
-                                field.RuleID = obj.data.RuleID
-                                console.log(field)
+                                field.RuleID = obj.data.RuleID;
                                 // 此处可执行 Ajax 等操作
                                 $.ajax({
                                     type: 'POST',
-                                    url: "http://" + host + "/cms/faultdiagnosis/characterUpdate",
+                                    url: "http://" + host + "/cms/rule/update",
                                     data: field,
                                     contentType: "application/x-www-form-urlencoded",
                                     async: false,

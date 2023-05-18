@@ -4,12 +4,15 @@ var WaterfallPlotNum = 20;
 let index = 0;
 let rawDate;
 let rawIndexNum;
+var WaterfallPlotStartTime = [];
 layui.use(['form', 'layer', 'laypage'], function () {
     var $ = layui.$
         , form = layui.form
         , layer = layui.layer
-        , laypage = layui.laypage;
+        , laypage = layui.laypage
+        , laydate = layui.laydate;
     var loadingLayer;
+    let searchTime = form.val("getSearchTime");
     new Promise(function (resolve, reject) {
         loadingLayer = layer.load(2, {
             shade: [0.5, '#fff'],
@@ -19,6 +22,11 @@ layui.use(['form', 'layer', 'laypage'], function () {
         for (var i = 1; i <= 2; i++) {
             WaterfallPlotCharts[i] = echarts.init(document.getElementById("WaterfallPlot" + i));
         }
+        laydate.render({
+            elem: '#index-range',
+            range: ['#StartIndex', '#EndIndex'],
+            type: 'datetime',
+        });
         laypage.render({
             elem: 'laypage-all', // 元素 id
             count: 1, // 数据总数
@@ -30,14 +38,36 @@ layui.use(['form', 'layer', 'laypage'], function () {
             next: '<em>>></em>',
             layout: ['prev', 'page', 'next','count'], // 功能布局
         });
+
+        form.val("getStartSearchTime", {
+            startTime : searchTime.startTime,
+            endTime : searchTime.endTime
+        })
+        
+        WaterfallPlotStartTime.push({
+            startTime: (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000,
+            endTime: (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000,
+        })
+
+        let slct = document.getElementsByName('start-end');
+        for (var k = 0; k < slct.length; k++) {
+            var op1 = document.createElement("option");
+            op1.setAttribute('value', 0)
+            op1.setAttribute('selected', true);
+            op1.innerHTML = searchTime.startTime + " ~ " + searchTime.endTime;
+            slct[k].appendChild(op1);
+        }
         resolve();
     }).then(function () {
+        form.render('select');
         $(document).ready(function () {
             form.val("drawWaterfallPlotTypeForm", { status: drawType});
             if ( drawType == "0"){
+                switchFormDisabled(true)
                 startTimer(drawWaterfallPlotRealTime);
             }
             else{
+                switchFormDisabled(false)
                 drawWaterfallPlot();
             }
         })
@@ -49,6 +79,9 @@ layui.use(['form', 'layer', 'laypage'], function () {
     form.on('select(changeWaterfallPlot)', function (data) {
         drawWaterfallPlot();
     });
+    form.on('select(changeWaterfallPlotStartTime)', function (data) {
+        drawWaterfallPlot();
+    });
 
     function drawWaterfallPlotRealTime() {
         drawWaterfallPlot();
@@ -57,12 +90,25 @@ layui.use(['form', 'layer', 'laypage'], function () {
     form.on('radio(drawWaterfallPlotType)', function (data) {
         drawType = data.value;
         if (data.value == "0") {
+            switchFormDisabled(true)
             startTimer(drawWaterfallPlotRealTime);
         }
         else {
+            switchFormDisabled(false)
             clearTimer();
         }
     });
+
+    function switchFormDisabled(flag){
+        if (flag){
+            $("form[id='getStartSearchTime'] button").addClass("layui-btn-disabled");
+        }
+        else{
+            $("form[id='getStartSearchTime'] button").removeClass("layui-btn-disabled");
+        }
+        $("form[id='getStartSearchTime'] select").attr("disabled",flag);
+        form.render('select');
+    }
 });
 
 function updateWaterfallPlotNum(){
@@ -79,12 +125,12 @@ function drawWaterfallPlot(){
             , form = layui.form
             , layer = layui.layer
             , laypage = layui.laypage;
-        let searchTime = form.val("getSearchTime");
-        let Parameter = form.val("WaterfallPlotselect");
-        let MPID = parseInt(Parameter.sss);
-        let urlRealTime = intervalId == 0?"":"_RealTime";
-        let endTime = intervalId == 0? (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000 : parseInt(new Date().getTime()/1000) + 28800;
-        let startTime = intervalId == 0? (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000 : endTime - 3600;
+            
+        let startSearchTime = form.val("getStartSearchTime");
+        let MPID = parseInt(form.val("WaterfallPlotselect").sss);
+        let endTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
+        let startTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
+        let isStartStop = parseInt(startSearchTime["start-end"]) == 0? false: true;
         $.ajax({
             type: 'POST',
             url: "http://" + host + "/cms/rWaveData/getWaterfallPlot",
@@ -96,9 +142,11 @@ function drawWaterfallPlot(){
                 startTime : startTime,
                 endTime: endTime,
                 WaterfallPlotNum: WaterfallPlotNum,
+                isStartStop: isStartStop,
             },
             success: function (res) {
                 let data = res.data;
+                // console.log(data.rotSpeed)
                 rawDate = data.data;
                 if (rawDate.length > 0) {
                     console.log(data.indexNum[0], data.num, data.data[0][0].length);
@@ -148,15 +196,36 @@ function drawWaterfallPlot(){
                     }
                 });
                 
-                let data1 = [];
+                let seriesList = [];
                 for (let i = 0; i < data.num; i++) {
+                    let data1 = [];
                     data.indexNum[i] = new Date(data.indexNum[i]*1000).toLocaleString();
-                    for (let j = 0; j < data.data[i][0].length; j++) {
-                        if (data.is_order && data.data[i][0][j] > 20) {
-                            break;
+                    if (isStartStop) {
+                        for (let j = 0; j < data.data[i][0].length; j++) {
+                            if (data.is_order && data.data[i][0][j] > 20) {
+                                break;
+                            }
+                            data1.push([data.data[i][0][j].toFixed(3), data.rotSpeed[i], data.data[i][1][j].toFixed(3)]);
                         }
-                        data1.push([data.data[i][0][j].toFixed(3), data.indexNum[i], data.data[i][1][j].toFixed(3)]);
                     }
+                    else{
+                        for (let j = 0; j < data.data[i][0].length; j++) {
+                            if (data.is_order && data.data[i][0][j] > 20) {
+                                break;
+                            }
+                            data1.push([data.data[i][0][j].toFixed(3), data.indexNum[i], data.data[i][1][j].toFixed(3)]);
+                        }
+                    }
+                    seriesList.push(
+                        {
+                            data: data1,
+                            type: 'line3D',
+                            lineStyle: {
+                                color: 'blue'
+                            },
+                            showSymbol: false
+                        }
+                    );
                 }
                 rawIndexNum = data.indexNum;
                 var option3d = {
@@ -176,9 +245,11 @@ function drawWaterfallPlot(){
                         max: data.is_order?20:'dataMax',
                     },
                     yAxis3D: {
-                        type: 'category',
-                        name: "时间/s",
+                        type: isStartStop ? 'value' :'category',
+                        name: isStartStop ? '转速/rpm' : "时间/s",
                         nameLocation: 'middle',
+                        max: 'dataMax',
+                        min: 'dataMin',
                         nameGap: 30,
                         axisLabel: {
                             margin : 10,
@@ -209,16 +280,7 @@ function drawWaterfallPlot(){
                             }
                         }
                     },
-                    series: [
-                        {
-                            data: data1,
-                            type: 'line3D',
-                            lineStyle: {
-                                color: 'blue'
-                            },
-                            showSymbol: false
-                        }
-                    ]
+                    series: seriesList
                 };
                 WaterfallPlotCharts[1].setOption(option3d, true);
                 
@@ -288,5 +350,62 @@ function drawWaterfallPlot(){
                 console.log("AJAX ERROR!")
             }
         })
+    });
+}
+
+function getStartTimeList(){
+    layui.use('form', function () {
+        var form = layui.form
+            , $ = layui.$;
+
+        let searchTime = form.val("getSearchTime");
+        let startSearchTime = form.val("getStartSearchTime");
+        let slct = document.getElementsByName('start-end');
+        var op1 = document.createElement("option");
+        op1.setAttribute('value', 0)
+        op1.setAttribute('selected', true);
+        op1.innerHTML = searchTime.startTime + " ~ " + searchTime.endTime;
+
+        WaterfallPlotStartTime = [];
+        WaterfallPlotStartTime.push({
+            startTime: (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000,
+            endTime: (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000,
+        })
+
+        for (var k = 0; k < slct.length; k++) {
+            slct[k].innerHTML = "";
+            slct[k].appendChild(op1);
+        }
+        $.ajax({
+            type: 'POST',
+            url: "http://" + host + "/cms/rVibData/getStart",
+            contentType: "application/x-www-form-urlencoded",
+            async: false,
+            dataType: "json",
+            data: {
+                startTime: (new Date(startSearchTime.startTime.split('-').join('/')).getTime())/1000,
+                endTime: (new Date(startSearchTime.endTime.split('-').join('/')).getTime())/1000,
+            },
+            success: function (res) {
+                // console.log(res.data);
+                for (var i = 0; i < res.data.length; i++) {
+                    WaterfallPlotStartTime.push({
+                        startTime: res.data[i].StartIndex,
+                        endTime: res.data[i].EndIndex,
+                    })
+                    for (var k = 0; k < slct.length; k++) {
+                        var op = document.createElement("option");
+                        op.setAttribute('value', i+1 );
+                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString().split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString().split('/').join('-');
+                        slct[k].appendChild(op);
+                    }
+                }
+                form.render('select');
+            },
+            error: function () {
+                form.render('select');
+                console.log("AJAX ERROR!")
+            }
+        });
     });
 }

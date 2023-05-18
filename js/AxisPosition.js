@@ -6,6 +6,7 @@ layui.use(['form', 'layer', 'laydate'], function () {
         , form = layui.form
         , layer = layui.layer
         , laydate = layui.laydate;
+        
     var loadingLayer;
     let searchTime = form.val("getSearchTime");
     new Promise(function (resolve, reject) {
@@ -62,9 +63,11 @@ layui.use(['form', 'layer', 'laydate'], function () {
         $(document).ready(function () {
             form.val("drawAxisPositionTypeForm", { status: drawType});
             if ( drawType == "0"){
+                switchFormDisabled(true)
                 startTimer(drawAxisPositionRealTime);
             }
             else{
+                switchFormDisabled(false)
                 drawAxisPosition();
             }
         })
@@ -87,12 +90,25 @@ layui.use(['form', 'layer', 'laydate'], function () {
     form.on('radio(drawAxisPositionType)', function (data) {
         drawType = data.value;
         if (data.value == "0"){
+            switchFormDisabled(true)
             startTimer(drawAxisPositionRealTime);
         }
         else{
+            switchFormDisabled(false)
             clearTimer();
         }
     });
+
+    function switchFormDisabled(flag){
+        if (flag){
+            $("form[id='getStartSearchTime'] button").addClass("layui-btn-disabled");
+        }
+        else{
+            $("form[id='getStartSearchTime'] button").removeClass("layui-btn-disabled");
+        }
+        $("form[id='getStartSearchTime'] select").attr("disabled",flag);
+        form.render('select');
+    }
 });
 
 function drawAxisPosition() {
@@ -258,7 +274,13 @@ function drawAxisPosition() {
                             backgroundColor: '#6a7985'
                         }
                     },
-                    valueFormatter: (value) => value.toFixed(3)
+                    formatter: function (params) {
+                        params = params[0];
+                        return (
+                            '幅值：' + params.value[0].toFixed(3) + ' V<br>'
+                            + '相位：' + params.value[1].toFixed(3) + '°'
+                        );
+                    }
                 },
                 toolbox: {
                     show: true,
