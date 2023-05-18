@@ -8,7 +8,7 @@ layui.use(['table', 'laypage', 'form'], function () {
         url: "http://" + host + "/cms/rule/list",
         data: {},
         contentType: "application/x-www-form-urlencoded",
-        async: false,
+        // async: false,
         dataType: "json",
         success: function (res) {
             let data = res.data;
