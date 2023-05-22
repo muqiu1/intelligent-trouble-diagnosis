@@ -109,11 +109,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             if (res.data == 1){
                                                 layer.closeAll('page');
                                                 layer.msg('新建成功');
+                                                let tableDate = table.getData('FaultManagement');
                                                 field.FaultID = parseInt(res.msg);
-                                                obj.config.data.push(field);
+                                                tableDate.push(field);
                                                 table.reload('FaultManagement', {
-                                                    data: obj.config.data
-                                                    , limit: obj.config.data.length
+                                                    data: tableDate
+                                                    , limit: tableDate.length
                                                 });
                                             }
                                             else {

@@ -1,4 +1,4 @@
-var host = '81.69.242.66:8080'
+var host = '81.69.242.66:8888'
 layui.use('form', function () {
   var form = layui.form;
   //监听提交
@@ -27,23 +27,21 @@ layui.use('form', function () {
   });
 });
 function judgeLogin(_data) {
-  console.log(_data)
   /*判断data和数据库账号密码*/
   flag = false
   layui.$.ajax({
     type: 'POST',
-    url: "http://" + host + "/cms/user/list",
-    contentType: "application/json",
+    url: "http://" + host + "/cms/user/login",
+    contentType: "application/x-www-form-urlencoded",
     async: false,
     dataType: "json",
-    data: {},
-    success: function (data) {
-      Userlist = data.data.list
-      for (var i = 0; i < Userlist.length; i++) {
-        if ((_data.account == Userlist[i].UserID) && (_data.password == Userlist[i].PWD)) {
-          flag = true
-          break
-        }
+    data: _data,
+    success: function (res) {
+      if (res.code == 200){
+        window.sessionStorage.setItem('UserID', res.data.UserID);
+        window.sessionStorage.setItem('UserName', res.data.UserName);
+        window.sessionStorage.setItem('RightID', res.data.RightID);
+        flag = true
       }
     },
     error: function () {
@@ -51,7 +49,4 @@ function judgeLogin(_data) {
     }
   })
   return flag
-}
-function exit() {
-  window.close()
 }

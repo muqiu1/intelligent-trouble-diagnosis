@@ -18,8 +18,8 @@
         <li class="layui-nav-item layui-hide-xs">
           <a href="javascript:;">用户管理</a>
           <dl class="layui-nav-child">
-            <dd><a onclick="loadPage('userManage')"href="javascript:void(0)">用户信息</a></dd>
-            <dd><a onclick="loadPage('userManage')"href="javascript:void(0)">权限设置</a></dd>
+            <dd><a onclick="loadPage('UserInfo')"href="javascript:void(0)">用户信息</a></dd>
+            <dd id="UserManagementA"><a onclick="loadPage('UserManagement')"href="javascript:void(0)">权限设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs">
@@ -33,7 +33,7 @@
         <li class="layui-nav-item layui-hide-xs">
           <a href="javascript:;">数据管理</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:void(0)">数据管理</a></dd>
+            <dd><a onclick="loadPage('DataManagement')" href="javascript:void(0)">数据管理</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs">
@@ -80,15 +80,22 @@
             <dd><a href="javascript:void(0)">机组维修建议</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item layui-hide-xs" id="alarmNumber"><a onclick="loadPage('AlarmCenter')" href="javascript:void(0)">报警中心<span class="layui-badge">5</span></a></li>
+        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+          <a onclick="loadPage('AlarmCenter')" href="javascript:void(0)">报警中心<span id="alarmNumber" class="layui-badge">5</span></a>
+        </li>
       </ul>
-      <ul class="layui-nav layui-layout-right">
+      <ul class="layui-nav layui-layout-right" lay-unselect>
+        <li class="layui-nav-item">
+          <a onclick="loadPage('setCenter')" href="javascript:void(0)">
+            <i class="layui-icon layui-icon-set"></i>设置
+          </a>
+        </li>
         <li class="layui-nav-item layui-hide layui-show-md-inline-block">
           <a href="javascript:;">
-            陈杰
+            <span  id="UserName"></span>
           </a>
           <dl class="layui-nav-child">
-            <dd><a href="">退出登录</a></dd>
+            <dd><a href="./page/userLogin.html">退出登录</a></dd>
           </dl>
         </li>
       </ul>
@@ -127,7 +134,7 @@
 
   </div>
   
-  <script src="./js/index.js"></script>
 </body>
+  <script src="./js/index.js"></script>
 
 </html>

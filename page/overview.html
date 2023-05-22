@@ -3,7 +3,7 @@
 <body>
   <div class="layui-row">
 
-    <div class="layui-col-md2">
+    <!-- <div class="layui-col-md2">
       <form class="layui-form" action="" lay-filter="FFTselect">
         <select lay-filter="changeFFT">
           <option value="1">转子试验台</option>
@@ -17,11 +17,33 @@
 
     <div class="layui-col-md3">
       <div style="text-align:center; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+    </div> -->
+    
+    <div class="layui-row">
+      <div class="layui-col-md3">
+          <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+      </div>
+      <div class="layui-col-md4">
+          <form class="layui-form" action="" lay-filter="overviewTypeForm">
+              <div class="layui-form-item">
+                  <input type="radio" name="status" value="0" title="实时监测" lay-filter="overviewType">
+                  <input type="radio" name="status" value="1" title="当前查询" lay-filter="overviewType" checked>
+                  <input type="radio" name="status" value="2" title="历史查询" lay-filter="overviewType">
+              </div>
+          </form>
+      </div>
+      <div class="layui-col-md5">
+      </div>
     </div>
   </div>
-  <div class="layui-row" id="view-overview">
+  <div class="layui-row layui-col-space30" id="view-overview">
     <div class="layui-col-md9">
-      <img src="../img/overview.png">
+      <div class="layui-row" style="height: 400px;">
+        <img src="../img/overview.png">
+      </div>
+      <div class="layui-row">
+        <table id="overviewPPV" lay-filter="overviewPPV"></table>
+      </div>
     </div>
     <div class="layui-col-md3">
       <table class=" layui-table">
@@ -31,23 +53,23 @@
         <tbody>
           <tr>
             <th>编号</th>
-            <th>DB401</th>
+            <th id="DBName">DB401</th>
           </tr>
           <tr>
             <th>电机名称</th>
-            <th>转子实验台</th>
+            <th id="EquipName">转子实验台</th>
           </tr>
           <tr>
             <th>电机类型</th>
-            <th>4</th>
+            <th id="EquipType">4</th>
           </tr>
           <tr>
             <th>所属区域</th>
-            <th>16</th>
+            <th id="FieldID">16</th>
           </tr>
           <tr>
             <th>制造商</th>
-            <th></th>
+            <th id="Manufacturer"></th>
           </tr>
           <tr>
             <th>安装位置</th>
@@ -62,18 +84,18 @@
         <tbody>
           <tr>
             <th>采集器状态</th>
-            <th>2</th>
+            <th id="CollectorStatus">2</th>
           </tr>
           <tr>
             <th>采样方式</th>
             <th></th>
           </tr>
           <tr>
-            <th>分析频宽</th>
+            <th>采样频率</th>
             <th></th>
           </tr>
           <tr>
-            <th>谱线数</th>
+            <th>采样长度</th>
             <th></th>
           </tr>
         </tbody>

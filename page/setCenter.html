@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div class="layui-row">
+        <form class="layui-form" lay-filter="intervalTime-change">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: auto;">实时监测刷新间隔</label>
+                <div class="layui-input-inline layui-input-wrap">
+                    <input type="number" name="intervalTime" lay-verify="required|myNumber" class="layui-input">
+                </div>
+                <label class="layui-form-label" style="text-align:left">秒</label>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="intervalTime-submit">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="../js/setCenter.js"></script>
+</body>

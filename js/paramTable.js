@@ -55,7 +55,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                 { field: 'id', title: '序号', width: 80, fixed: 'left' }
                 , { field: 'pointname', title: '测点名称', width: 200, }
                 , { field: 'time', title: '采集时间', width: 200 }
-                , { field: 'PPV', title: '波形峰峰值', width: 120 }
+                , { field: 'PPV', title: '峰峰值', width: 120 }
                 , { field: 'FZYZ', title: '峰值因子', width: 120 }
                 , { field: 'PDYZ', title: '偏度因子', width: 120, }
                 , { field: 'QDYZ', title: '峭度因子', width: 120, }

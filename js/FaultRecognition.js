@@ -1,4 +1,3 @@
-initName()
 let characterTable = [];
 layui.use(['table', 'form'], function () {
     var table = layui.table
@@ -53,6 +52,22 @@ layui.use(['table', 'form'], function () {
                             <div class="layui-form-item">
                                 <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                 <div class="layui-input-block">
+                                    <select name="CharacterType" lay-filter="CharacterType" required lay-verify="required">
+                                        <option value="0">固定特征</option>
+                                        <option value="1">频谱特征</option>
+                                        <option value="2">相位特征</option>
+                                        <option value="3">轴心轨迹特征</option>
+                                        <option value="4">转动特征</option>
+                                        <option value="5">振动方向</option>
+                                        <option value="6">过临界振动特征</option>
+                                        <option value="7">非线性特征</option>
+                                        <option value="8">其他特征</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆名称</label>
+                                <div class="layui-input-block">
                                     <select name="CharacterName" required lay-verify="required">
                                     </select>
                                 </div>
@@ -63,7 +78,8 @@ layui.use(['table', 'form'], function () {
                                     <input type="text" name="Reliability" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
-                            <div class="layui-row" style="margin-top: 250px;">
+                            <div class="layui-row"  style="height: 175px;"></div>
+                            <div class="layui-row">
                                 <div class="layui-btn-container layui-col-md2 layui-col-md-offset10">
                                     <button class="layui-btn" style="margin: 0 auto;" lay-submit lay-filter="Management-submit">添加</button>
                                 </div>
@@ -75,6 +91,7 @@ layui.use(['table', 'form'], function () {
                         var slct = document.getElementsByName("CharacterName");
                         for (var k = 0; k < slct.length; k++) {
                             for (var i = 0; i < characterTable.length; i++) {
+                                if (characterTable[i].CharacterType != 0) continue;
                                 var op = document.createElement("option")
                                 op.setAttribute('value', characterTable[i].CharacterID)
                                 op.innerHTML = characterTable[i].CharacterName;
@@ -83,6 +100,22 @@ layui.use(['table', 'form'], function () {
                         }
                         form.render('select');
                         // 表单提交事件
+                        form.on('select(CharacterType)', function (data) {
+                            var type = parseInt(data.value);
+                            var slct = document.getElementsByName("CharacterName");
+                            for (var k = 0; k < slct.length; k++) {
+                                slct[k].innerHTML = "";
+                                for (var i = 0; i < characterTable.length; i++) {
+                                    if (characterTable[i].CharacterType != type) continue;
+                                    var op = document.createElement("option")
+                                    op.setAttribute('value', characterTable[i].CharacterID)
+                                    op.innerHTML = characterTable[i].CharacterName;
+                                    slct[k].appendChild(op)
+                                }
+                            }
+                            form.render('select');
+                        });
+
                         form.on('submit(Management-submit)', function (data) {
                             var field = data.field; // 获取表单字段值
                             console.log(field)
@@ -95,18 +128,19 @@ layui.use(['table', 'form'], function () {
                                 }
                             }
                             var j;
-                            for (j =0; j < obj.config.data.length; j++) {
-                                if (obj.config.data[j].CharacterID == CharacterID) {
-                                    obj.config.data[j].Reliability = field.Reliability;
+                            let tableDate = table.getData('AddCharacter');
+                            for (j =0; j < tableDate.length; j++) {
+                                if (tableDate[j].CharacterID == CharacterID) {
+                                    tableDate[j].Reliability = field.Reliability;
                                     break;
                                 }
                             }
-                            if (j == obj.config.data.length) {
-                                obj.config.data.push(characterTable[i]);
+                            if (j == tableDate.length) {
+                                tableDate.push(characterTable[i]);
                             }
                             table.reload('AddCharacter', {
-                                data: obj.config.data
-                                , limit: obj.config.data.length
+                                data: tableDate
+                                , limit: tableDate.length
                             });
                             layer.closeAll('page');
                             return false; // 阻止默认 form 跳转
@@ -204,10 +238,11 @@ layui.use(['table', 'form'], function () {
 });
 
 function StartRecognition() {
-    layui.use(['table', 'form'], function () {
+    layui.use(['table', 'form', 'layer'], function () {
         var table = layui.table
             , $ = layui.$
-            , form = layui.form;
+            , form = layui.form
+            , layer = layui.layer;
         
         var data = table.getData("AddCharacter");
         if (data.length == 0) {
@@ -242,6 +277,7 @@ function StartRecognition() {
                     data: res.data
                     , limit: res.data.length
                 });
+                layer.msg("诊断完成");
             },
             error: function (res) {
                 console.log("AJAX ERROR");

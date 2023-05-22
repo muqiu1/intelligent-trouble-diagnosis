@@ -126,11 +126,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             if (res.data == 1){
                                                 layer.closeAll('page');
                                                 layer.msg('新建成功');
+                                                let tableDate = table.getData('CharacterManagement');
                                                 field.CharacterID = parseInt(res.msg);
-                                                obj.config.data.push(field);
+                                                tableDate.push(field);
                                                 table.reload('CharacterManagement', {
-                                                    data: obj.config.data
-                                                    , limit: obj.config.data.length
+                                                    data: tableDate
+                                                    , limit: tableDate.length
                                                 });
                                             }
                                             else {
@@ -182,17 +183,17 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
-                                    <select name="CharacterType" disabled>
-                                        <option value="0">固定特征</option>
-                                        <option value="1">频谱特征</option>
-                                        <option value="2">相位特征</option>
-                                        <option value="3">轴心轨迹特征</option>
-                                        <option value="4">转动特征</option>
-                                        <option value="5">振动方向</option>
-                                        <option value="6">过临界振动特征</option>
-                                        <option value="7">非线性特征</option>
-                                        <option value="8">其他特征</option>
-                                    </select>
+                                        <select name="CharacterType" disabled>
+                                            <option value="0">固定特征</option>
+                                            <option value="1">频谱特征</option>
+                                            <option value="2">相位特征</option>
+                                            <option value="3">轴心轨迹特征</option>
+                                            <option value="4">转动特征</option>
+                                            <option value="5">振动方向</option>
+                                            <option value="6">过临界振动特征</option>
+                                            <option value="7">非线性特征</option>
+                                            <option value="8">其他特征</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -289,17 +290,17 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
-                                    <select name="CharacterType" required lay-verify="required">
-                                        <option value="0">固定特征</option>
-                                        <option value="1">频谱特征</option>
-                                        <option value="2">相位特征</option>
-                                        <option value="3">轴心轨迹特征</option>
-                                        <option value="4">转动特征</option>
-                                        <option value="5">振动方向</option>
-                                        <option value="6">过临界振动特征</option>
-                                        <option value="7">非线性特征</option>
-                                        <option value="8">其他特征</option>
-                                    </select>
+                                        <select name="CharacterType" required lay-verify="required">
+                                            <option value="0">固定特征</option>
+                                            <option value="1">频谱特征</option>
+                                            <option value="2">相位特征</option>
+                                            <option value="3">轴心轨迹特征</option>
+                                            <option value="4">转动特征</option>
+                                            <option value="5">振动方向</option>
+                                            <option value="6">过临界振动特征</option>
+                                            <option value="7">非线性特征</option>
+                                            <option value="8">其他特征</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">

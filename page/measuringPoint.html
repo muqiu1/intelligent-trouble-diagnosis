@@ -1,13 +1,241 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <table id="table1" lay-filter="test"></table>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" onclick="alarmLayer()" href="javascript:void(0)">查看</a>
-    </script>
-
-    
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>采集参数设置</legend>
+  </fieldset>
+  <div class="layui-row">
+    <table id="measuringPoint" lay-filter="measuringPoint"></table>
+  </div>
+  <script type="text/html" id="measuring">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">查看详情</a>
+  </script>
   <script src="../js/measuringPoint.js"></script>
+  <div id="edit" style="display: none;">
+    <div class="layui-layout layui-layout-admin">
+      <form class="layui-form" lay-filter="measuringPoint-layer" style="padding: 15px;">
+        <div class="layui-row">
+          <div class="layui-col-md10">
+            <button class="layui-btn" lay-submit lay-filter="measuringPoint-submit">保存</button>
+          </div>
+          <div class="layui-col-md2">关闭前注意保存</div>
+        </div>
+        <div class="layui-row">
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">测点名称</label>
+              <div class="layui-input-block">
+                <input type="text" name="mPName" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">测点位置</label>
+              <div class="layui-input-block">
+                <input type="text" name="mPDetail" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+  
+            <div class="layui-form-item">
+              <div class="layui-inline" style="width: 40%;">
+                <label class="layui-form-label">传感器编号</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                  <input type="text" name="sensorID" required lay-verify="required" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline" style="width: 40%;">
+                <label class="layui-form-label" style="width: auto;">灵敏度</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                  <input type="text" name="sensitivity" required lay-verify="required" autocomplete="off" class="layui-input" disabled>
+                </div>
+              </div>
+              <div class="layui-inline" style="width: 50px;">
+                <div class="layui-input-inline">
+                  <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick=changeSensorID()>选择</button>
+                </div>
+              </div>
+            </div>
+  
+            <div class="layui-form-item">
+              <label class="layui-form-label">信号来源</label>
+              <div class="layui-input-block">
+                <select name="signalID" lay-filter="signalID" required lay-verify="required">
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px;">采集器通道ID</label>
+                <div class="layui-input-inline" style="width: 30%;">
+                  <select name="portID" required lay-verify="required">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline" style="width: 40%;">
+                <label class="layui-form-label" style="width: 100px;">键相信号通道</label>
+                <div class="layui-input-inline" style="width: 40%;">
+                  <input type="number" required lay-verify="required" class="layui-input" value="1" disabled>
+                </div>
+              </div>
+            </div>
+  
+            <fieldset>
+              <legend>采样方式</legend>
+              <div class="layui-row">
+                <div class="layui-col-md3">
+                  <div class="layui-form-item">
+                    <input type="radio" name="sampMode" value=0 title="定频采样" checked>
+                  </div>
+                </div>
+                <div class="layui-col-md9">
+                  <fieldset>
+                    <legend>定频参数</legend>
+                    <div class="layui-form-item">
+                      <div class="layui-inline">
+                        <label class="layui-form-label">采样频率</label>
+                        <div class="layui-input-inline">
+                          <input type="number" name="sampFreq" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <div class="layui-inline">
+                        <label class="layui-form-label">采样长度</label>
+                        <div class="layui-input-inline">
+                          <input type="number" name="sampLength" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="layui-row">
+                <div class="layui-col-md3">
+                  <div class="layui-form-item">
+                    <input type="radio" name="sampMode" value=1 title="同步整周期">
+                  </div>
+                </div>
+                <div class="layui-col-md9">
+                  <fieldset>
+                    <legend>倍频参数</legend>
+                    <div class="layui-form-item">
+                      <div class="layui-inline">
+                        <label class="layui-form-label">采样倍率</label>
+                        <div class="layui-input-inline">
+                          <input type="number" name="sampDiv" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <div class="layui-inline">
+                        <label class="layui-form-label">采样长度</label>
+                        <div class="layui-input-inline">
+                          <input type="number" name="sampCycle" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="layui-col-md6" style="padding: 20px;">
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否监测</label>
+              <div class="layui-input-inline">
+                <input type="radio" name="isEnable" value=1 title="启用" checked>
+                <input type="radio" name="isEnable" value=0 title="停用">
+              </div>
+            </div>
+            <fieldset style="margin-bottom: 10px;">
+              <legend>报警策略</legend>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">报警指标</label>
+                  <div class="layui-input-inline">
+                    <select name="almVar" required lay-verify="required">
+                      <option value=1>峰峰值</option>
+                      <option value=2>峰值</option>
+                      <option value=3>有效值</option>
+                      <option value=4>气隙/轴心位置</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">报警策略</label>
+                  <div class="layui-input-inline">
+                    <select name="almStrategy" lay-filter="almStrategy" required lay-verify="required">
+                      <option value=0>向上报警</option>
+                      <option value=1>向下报警</option>
+                      <option value=2>双向报警</option>
+                      <option value=3>不报警</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">上上限</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="almH2" id="almH2" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">上限</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="almH" id="almH" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">下限</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="almL" id="almL" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">下下限</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="almL2" id="almL2" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">连续报警次数</label>
+                  <div class="layui-input-inline">
+                    <input type="number" name="almDelay1" required lay-verify="required" class="layui-input">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 100px;">连续危险次数</label>
+                  <div class="layui-input-inline">
+                    <input type="number" name="almDelay2" required lay-verify="required" class="layui-input">
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="layui-row">
+              <div style="margin-bottom: 10px;">备注</div>
+              <textarea name="describe" required lay-verify="required" class="layui-col-md12">备注12345</textarea>
+            </div>
+  
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>

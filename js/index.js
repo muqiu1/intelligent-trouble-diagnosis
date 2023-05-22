@@ -1,3 +1,11 @@
+var UserID = window.sessionStorage.getItem('UserID');
+if (UserID == null) {
+    window.location.href = '../page/userLogin.html';
+}
+var UserName = window.sessionStorage.getItem('UserName');
+var RightID = window.sessionStorage.getItem('RightID');
+
+var intervalTime = 2;
 var checkedList = [];
 var checkedGroup = {};
 var now;
@@ -88,22 +96,6 @@ function loadPage(target) {
     }
 }
 
-function updateAlarmText(id, string) {
-    let e = document.getElementById("id");
-    if (e) {
-        e.innerText = string;
-    }
-}
-
-function setAlarm() {
-    //判断逻辑：TODO
-    let alarmNum = 0;
-    let timerTest = setInterval(() => alarmNum++, 2000);
-    let timerAlarm = setInterval((alarmNum) => updateAlarmText(alarmNumber, `报警中心(${alarmNum})`));
-
-}
-
-
 layui.use(['tree', 'form'], function () {
     var tree = layui.tree
         , layer = layui.layer
@@ -117,7 +109,7 @@ layui.use(['tree', 'form'], function () {
         dataType: "json",
         data: parameter,
         success: function (data) {
-            treeData = data.data.list
+            treeData = data.data
             for (var i = 0; i < treeData.length; i++) {
                 treeData[i].title = treeData[i].fieldName
                 treeData[i].id = treeData[i].fieldID
@@ -179,6 +171,10 @@ layui.use(['tree', 'form'], function () {
                 tree.setChecked('demoId1', [29, 30, 31, 32])
                 loadPage(_target);
                 getTimeList()
+                document.getElementById('UserName').innerHTML = UserName;
+                if (RightID != 1) {
+                    document.getElementById('UserManagementA').remove();
+                }
             })
         },
         error: function () {
@@ -272,7 +268,7 @@ function startTimer(Func) {
     intervalId = setInterval(() => {
         // 在这里发送网络请求
         Func();
-    }, 2000);
+    }, 1000 * intervalTime);
 }
 
 //计时器清理函数
@@ -285,4 +281,9 @@ function clearTimer() {
             intervalId = 0;
         })
     }
+}
+
+//修改计时器间隔
+function changeIntervalTime(){
+    console.log("changeIntervalTime")
 }
