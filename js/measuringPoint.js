@@ -104,28 +104,28 @@ layui.use(['table', 'laypage', 'form'], function () {
                             }
                             function setInputDisable(almStrategy) {
                                 if ( almStrategy == 0){ // 向上报警
-                                    document.getElementById("almH2").disabled=false;
-                                    document.getElementById("almH").disabled=false;
-                                    document.getElementById("almL").disabled=true;
-                                    document.getElementById("almL2").disabled=true;
+                                    $("#almH2").removeClass("layui-unselect layui-disabled");
+                                    $("#almH").removeClass("layui-unselect layui-disabled");
+                                    $("#almL").addClass("layui-unselect layui-disabled");
+                                    $("#almL2").addClass("layui-unselect layui-disabled");
                                 }
                                 else if (almStrategy == 1){ // 向下报警
-                                    document.getElementById("almH2").disabled=true;
-                                    document.getElementById("almH").disabled=true;
-                                    document.getElementById("almL").disabled=false;
-                                    document.getElementById("almL2").disabled=false;
+                                    $("#almH2").addClass("layui-unselect layui-disabled");
+                                    $("#almH").addClass("layui-unselect layui-disabled");
+                                    $("#almL").removeClass("layui-unselect layui-disabled");
+                                    $("#almL2").removeClass("layui-unselect layui-disabled");
                                 }
                                 else if (almStrategy == 2){ // 双向报警
-                                    document.getElementById("almH2").disabled=false;
-                                    document.getElementById("almH").disabled=false;
-                                    document.getElementById("almL").disabled=false;
-                                    document.getElementById("almL2").disabled=false;
+                                    $("#almH2").removeClass("layui-unselect layui-disabled");
+                                    $("#almH").removeClass("layui-unselect layui-disabled");
+                                    $("#almL").removeClass("layui-unselect layui-disabled");
+                                    $("#almL2").removeClass("layui-unselect layui-disabled");
                                 }
                                 else{
-                                    document.getElementById("almH2").disabled=true;
-                                    document.getElementById("almH").disabled=true;
-                                    document.getElementById("almL").disabled=true;
-                                    document.getElementById("almL2").disabled=true;
+                                    $("#almH2").addClass("layui-unselect layui-disabled");
+                                    $("#almH").addClass("layui-unselect layui-disabled");
+                                    $("#almL").addClass("layui-unselect layui-disabled");
+                                    $("#almL2").addClass("layui-unselect layui-disabled");
                                 }
                             }
                             setInputDisable(parseInt(obj.data.almStrategy))

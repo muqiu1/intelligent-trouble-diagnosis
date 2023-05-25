@@ -42,8 +42,11 @@
     </script>
     <script type="text/html" id="Management">
         <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <!-- 这里同样支持 laytpl 语法，如： -->
+        {{#  if( RightID != 3 ){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        {{#  } }}
     </script>
     <script src="../js/CharacteManagement.js"></script>
     <script src="../js/FaultManagement.js"></script>

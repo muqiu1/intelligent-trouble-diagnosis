@@ -14,7 +14,7 @@ layui.use(['table', 'form'], function () {
         , cols: [[ //表头
             { field: 'CharacterID', title: '序号', width: '10%', fixed: 'left', align: 'center' }
             , { field: 'CharacterName', title: '征兆名称', width: '60%', align: 'center' }
-            , { field: 'Reliability', title: '置信度', edit: 'text', width: '15%', align: 'center' }
+            , { field: 'Reliability', title: '置信度', width: '15%', align: 'center' }
             , { title: '删除', width: '15%', templet: '#Delete', align: 'center' }
         ]]
     });
@@ -75,7 +75,7 @@ layui.use(['table', 'form'], function () {
                             <div class="layui-form-item">
                                 <label class="layui-form-label"><span class="layui-badge-dot"></span>置信度</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="Reliability" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                    <input type="text" name="Reliability" required lay-verify="required|Reliability" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-row"  style="height: 175px;"></div>
@@ -99,6 +99,20 @@ layui.use(['table', 'form'], function () {
                             }
                         }
                         form.render('select');
+                        form.verify({
+                            // 函数写法
+                            // 参数 value 为表单的值；参数 item 为表单的 DOM 对象
+                            Reliability: function (value, item) {
+                                if (!new RegExp("^[0-1]+(.[0-9]+)?$").test(value)) {
+                                    return '置信度应在0到1之间';
+                                }
+                                var num = parseFloat(value);
+                                if (num < 0 || num > 1 ) {
+                                    return '置信度应在0到1之间';
+                                }
+                            },
+                        });
+
                         // 表单提交事件
                         form.on('select(CharacterType)', function (data) {
                             var type = parseInt(data.value);
@@ -178,7 +192,7 @@ layui.use(['table', 'form'], function () {
         , cols: [[ //表头
             { field: 'FaultID', title: '序号', width: '10%', fixed: 'left', align: 'center' }
             , { field: 'FaultName', title: '故障名称', width: '60%', align: 'center' }
-            , { field: 'Reliability', title: '可信度', edit: 'text', width: '15%', align: 'center' }
+            , { field: 'Probability', title: '概率', edit: 'text', width: '15%', align: 'center' }
             , { title: '详情', width: '15%', templet: '#Detail', align: 'center' }
         ]]
     });
@@ -220,9 +234,9 @@ layui.use(['table', 'form'], function () {
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">可信度</label>
+                            <label class="layui-form-label">概率</label>
                             <div class="layui-input-block">
-                                <input type="text" name="Reliability" autocomplete="off" class="layui-input" disabled>
+                                <input type="text" name="Probability" autocomplete="off" class="layui-input" disabled>
                             </div>
                         </div>
                     </form>
@@ -251,12 +265,12 @@ function StartRecognition() {
         }
         let ReliabilityList = [];
         let CharacterIDList = [];
-        var regPos = /^(\d+)(\.\d+)?$/; // 浮点数
+        // var regPos = /^(\d+)(\.\d+)?$/; // 浮点数
         for (var i = 0; i < data.length; i++) {
-            if ( regPos.test(data[i].Reliability) == false) {
-                layer.msg("请输入数字！");
-                return;
-            }
+            // if ( regPos.test(data[i].Reliability) == false) {
+            //     layer.msg("请输入数字！");
+            //     return;
+            // }
             CharacterIDList.push(data[i].CharacterID);
             ReliabilityList.push(parseFloat(data[i].Reliability));
         }

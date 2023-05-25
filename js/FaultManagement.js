@@ -15,7 +15,7 @@ layui.use(['table', 'laypage', 'form'], function () {
             console.log(data.data.length, data.data[0]);
             table.render({
                 elem: '#FaultManagement'
-                , toolbar: '#Toolbar'
+                , toolbar: RightID != 3  ? '#Toolbar' : null
                 , data: data.data
                 , limit: data.data.length
                 , cols: [[ //表头
@@ -190,7 +190,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>相关规则</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="RuleID" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
+                                        <input type="text" name="RuleText" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                             </form>
@@ -199,6 +199,18 @@ layui.use(['table', 'laypage', 'form'], function () {
                             // 对弹层中的表单进行初始化渲染
                             form.render();
                             form.val("Management-layer", obj.data);
+                            let RuleID = obj.data.RuleID.split(',');
+                            let RuleList = table.getData('RuleManagement');
+                            let RuleText = [];
+                            for (let i = 0; i < RuleID.length; i++) {
+                                for (let j = 0; j < RuleList.length; j++) {
+                                    if (RuleID[i] == RuleList[j].RuleID) {
+                                        RuleText.push(RuleList[j].RuleName);
+                                        break;
+                                    }
+                                }
+                            }
+                            form.val("Management-layer", {RuleText : RuleText.join(',')});
                         }
                     });
                 } else if (layEvent === 'del') { //删除

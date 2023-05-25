@@ -17,7 +17,7 @@ layui.use(['table', 'form'], function () {
             table.render({
                 elem: '#UserManagement'
                 , data: Userlist
-                , toolbar: '#UserManagementToolbar'
+                , toolbar: RightID == 1 ? '#UserManagementToolbar' : null
                 , defaultToolbar: []
                 , cols: [[ //表头
                     { field: 'UserID', title: '账号', width: '20%' }
@@ -25,7 +25,7 @@ layui.use(['table', 'form'], function () {
                     , { field: 'UserZW', title: '职务', width: '20%' }
                     , { field: 'RightID', title: '权限', width: '15%', templet: function(d){ return '<span>'+rightRule[d.RightID]+'</span>' } }
                     , { field: 'Describe', title: '备注', width: '15%' }
-                    , { title: '操作', width: 200, align: 'center', toolbar: '#UserManagementBar', width: '15%' }
+                    , { title: '操作', width: 200, align: 'center', toolbar: RightID == 1 ? '#UserManagementBar1': '#UserManagementBar2', width: '15%' }
                 ]]
             });
 

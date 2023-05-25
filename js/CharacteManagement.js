@@ -15,7 +15,7 @@ layui.use(['table', 'laypage', 'form'], function () {
             console.log(data.data.length, data.data[0]);
             table.render({
                 elem: '#CharacterManagement'
-                , toolbar: '#Toolbar'
+                , toolbar: RightID != 3  ? '#Toolbar' : null
                 , data: data.data
                 , limit: data.data.length
                 , cols: [[ //表头

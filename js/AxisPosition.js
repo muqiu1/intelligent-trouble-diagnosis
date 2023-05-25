@@ -133,8 +133,8 @@ function drawAxisPosition() {
             let data = res.data;
             console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
-            document.getElementById('sTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('eTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('AxisPositionSTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('AxisPositionETime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
             document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
             let data1 = [];
             for (let i = 0; i < data.xTime.length; i++) {

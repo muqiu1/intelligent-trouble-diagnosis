@@ -3,10 +3,8 @@ let parameter = {}
 let paramTable = {};
 let paramTime = [];
 let paramFreq = [];
-let urlRealTime = '';
-layui.use(['table', 'laypage', 'form'], function () {
+layui.use(['table', 'form'], function () {
     var table = layui.table
-        , laypage = layui.laypage
         , form = layui.form
         , $ = layui.$
     new Promise(function (resolve, reject) {
@@ -14,43 +12,13 @@ layui.use(['table', 'laypage', 'form'], function () {
             parameter["MPIDList[" + i + "]"] = checkedList[i].mPID;
         }
         parameter["IndexNum"] = checkedTime;
-        parameter["pageSize"] = 10;
+        parameter["pageSize"] = 50;
         parameter["pageNum"] = 1;
         parameter["startTime"] = 1576753367;
-        resolve();
-    }).then(function () {
-        getParam();
-    }).then(function (resolve, reject) {
-        parseData();
-        laypage.render({
-            elem: 'pageController' //注意，这里的 test1 是 ID，不用加 # 号
-            , count: paramTable.data.total //数据总数，从服务端得到
-            , limit: parameter.pageSize
-            , jump: function (obj, first) {
-                //obj包含了当前分页的所有参数，比如：
-                // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                // console.log(obj.limit); //得到每页显示的条数
-
-                //首次不执行
-                if (!first) {
-                    //do something
-                    new Promise(function (resolve, reject) {
-                        parameter["pageNum"] = obj.curr;
-                        getParam();
-                        resolve();
-                    }).then(function () {
-                        parseData();
-                    }).then(function () {
-                        table.reload('paramTable1', { data: paramTime }, true);
-                        table.reload('paramTable2', { data: paramFreq }, true);
-                    });
-                }
-            }
-        });
-    }).then(function () {
         table.render({
             elem: '#paramTable1'
-            , data: paramTime
+            , data: []
+            , limit: parameter.pageSize
             , cols: [[ //表头
                 { field: 'id', title: '序号', width: 80, fixed: 'left' }
                 , { field: 'pointname', title: '测点名称', width: 200, }
@@ -67,7 +35,8 @@ layui.use(['table', 'laypage', 'form'], function () {
         });
         table.render({
             elem: '#paramTable2'
-            , data: paramFreq
+            , data: []
+            , limit: parameter.pageSize
             , cols: [[ //表头
                 { field: 'id', title: '序号', width: 80, fixed: 'left' }
                 , { field: 'pointname', title: '测点名称', width: 200, }
@@ -84,9 +53,20 @@ layui.use(['table', 'laypage', 'form'], function () {
                 , { field: 'x5Mag', title: '5倍频幅值', width: 120 }
             ]]
         });
+        resolve();
+    }).then(function () {
+        $(document).ready(function () {
+            form.val("paramTableTypeForm", { status: drawType});
+            if ( drawType == "0"){
+                startTimer(getParamTable);
+            }
+            else{
+                getParamTable();
+            }
+        })
     });
 
-    function getParamTableRealTime() {
+    function getParamTable() {
         new Promise(function (resolve, reject) {
             getParam();
             resolve();
@@ -101,11 +81,9 @@ layui.use(['table', 'laypage', 'form'], function () {
     form.on('radio(paramTableType)', function (data) {
         drawType = data.value;
         if (data.value == "0") {
-            urlRealTime = "_RealTime";
-            startTimer(getParamTableRealTime);
+            startTimer(getParamTable);
         }
         else {
-            urlRealTime = "";
             clearTimer();
         }
     });
@@ -113,6 +91,7 @@ layui.use(['table', 'laypage', 'form'], function () {
 
 function getParam() {
     parameter["endTime"] = parseInt(new Date().getTime() / 1000) + 28800;
+    let urlRealTime = intervalId == 0?"":"_RealTime";
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rVibData/list" + urlRealTime,
@@ -121,7 +100,6 @@ function getParam() {
         async: false,
         dataType: "json",
         success: function (data) {
-            console.log(data.data);
             paramTable = data;
         },
         error: function () {

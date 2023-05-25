@@ -5,6 +5,7 @@ let index = 0;
 let rawDate;
 let rawIndexNum;
 var WaterfallPlotStartTime = [];
+var WaterfallPlotLastTime = 0;
 layui.use(['form', 'layer', 'laypage'], function () {
     var $ = layui.$
         , form = layui.form
@@ -19,6 +20,7 @@ layui.use(['form', 'layer', 'laypage'], function () {
             time: 5 * 1000
         });
         WaterfallPlotCharts = {};
+        WaterfallPlotLastTime = 0;
         for (var i = 1; i <= 2; i++) {
             WaterfallPlotCharts[i] = echarts.init(document.getElementById("WaterfallPlot" + i));
         }
@@ -77,9 +79,11 @@ layui.use(['form', 'layer', 'laypage'], function () {
     
     //监听提交
     form.on('select(changeWaterfallPlot)', function (data) {
+        WaterfallPlotLastTime = 0;
         drawWaterfallPlot();
     });
     form.on('select(changeWaterfallPlotStartTime)', function (data) {
+        WaterfallPlotLastTime = 0;
         drawWaterfallPlot();
     });
 
@@ -112,11 +116,13 @@ layui.use(['form', 'layer', 'laypage'], function () {
 });
 
 function updateWaterfallPlotNum(){
+    WaterfallPlotLastTime = 0;
     let Parameter = layui.form.val("WaterfallPlotselect");
     if (Parameter.showNum != "") {
         WaterfallPlotNum = parseInt(Parameter.showNum);
         drawWaterfallPlot();
     }
+    return false;
 }
 
 function drawWaterfallPlot(){
@@ -130,7 +136,7 @@ function drawWaterfallPlot(){
         let MPID = parseInt(form.val("WaterfallPlotselect").sss);
         let endTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
         let startTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
-        let isStartStop = parseInt(startSearchTime["start-end"]) == 0? false: true;
+        let isStartStop = (intervalId != 0 || parseInt(startSearchTime["start-end"]) == 0 )? false: true;
         $.ajax({
             type: 'POST',
             url: "http://" + host + "/cms/rWaveData/getWaterfallPlot",
@@ -143,18 +149,19 @@ function drawWaterfallPlot(){
                 endTime: endTime,
                 WaterfallPlotNum: WaterfallPlotNum,
                 isStartStop: isStartStop,
+                LastTime : WaterfallPlotLastTime,
             },
             success: function (res) {
                 let data = res.data;
-                // console.log(data.rotSpeed)
-                rawDate = data.data;
-                if (rawDate.length > 0) {
+                if (data.num > 0) {
                     console.log(data.indexNum[0], data.num, data.data[0][0].length);
+                    WaterfallPlotLastTime = data.indexNum[0];
                 }
                 else {
                     console.log(0);
                     return;
                 }
+                rawDate = data.data;
                 
                 laypage.render({
                     elem: 'laypage-all', // 元素 id

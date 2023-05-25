@@ -9,7 +9,7 @@ var intervalTime = 2;
 var checkedList = [];
 var checkedGroup = {};
 var now;
-var _target = 'overview'
+var _target = 'KnowledgeGraph'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
 var host = '81.69.242.66:8888'
@@ -172,8 +172,8 @@ layui.use(['tree', 'form'], function () {
                 loadPage(_target);
                 getTimeList()
                 document.getElementById('UserName').innerHTML = UserName;
-                if (RightID != 1) {
-                    document.getElementById('UserManagementA').remove();
+                if (RightID == 3) {
+                    document.getElementById('DataManagementA').remove();
                 }
             })
         },

@@ -223,8 +223,8 @@ function drawTrend() {
             let data = res.data;
             console.log(data.data.length)
             // 指定图表的配置项和数据
-            document.getElementById('sTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('eTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('TrendSTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('TrendETime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
             for (let i = 0; i < data.data.length; i++) {
                 data.data[i].IndexNum = data.data[i].IndexNum*1000;
             }

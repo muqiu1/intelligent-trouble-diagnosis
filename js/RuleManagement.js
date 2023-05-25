@@ -15,7 +15,7 @@ layui.use(['table', 'laypage', 'form'], function () {
             console.log(data.data.length, data.data[0]);
             table.render({
                 elem: '#RuleManagement'
-                , toolbar: '#Toolbar'
+                , toolbar: RightID != 3  ? '#Toolbar' : null
                 , data: data.data
                 , limit: data.data.length
                 , cols: [[ //表头
@@ -167,7 +167,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>规则前提</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="IF" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
+                                        <textarea name="IFText" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-textarea" disabled></textarea>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -212,6 +212,28 @@ layui.use(['table', 'laypage', 'form'], function () {
                             // 对弹层中的表单进行初始化渲染
                             form.render();
                             form.val("Management-layer", obj.data);
+                            let IF = obj.data.IF.split(';');
+                            let CharacterList = table.getData('CharacterManagement');
+                            let IFText = [];
+                            for (let i = 0; i < IF.length; i++) {
+                                let CharacterID = IF[i].split(',')[0];
+                                for (let j = 0; j < CharacterList.length; j++) {
+                                    if (CharacterID == CharacterList[j].CharacterID) {
+                                        IFText.push(CharacterList[j].CharacterName);
+                                        break;
+                                    }
+                                }
+                            }
+                            let Then = obj.data.Then;
+                            let FaultList = table.getData('FaultManagement');
+                            let ThenText;
+                            for (let i = 0; i < FaultList.length; i++) {
+                                if (Then == FaultList[i].FaultID) {
+                                    ThenText = FaultList[i].FaultName;
+                                    break;
+                                }
+                            }
+                            form.val("Management-layer", {IFText : IFText.join('；'), Then : ThenText});
                         }
                     });
                 } else if (layEvent === 'del') { //删除

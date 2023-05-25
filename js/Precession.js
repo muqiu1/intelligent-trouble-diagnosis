@@ -1,5 +1,6 @@
 // initName();
 var PrecessionCharts = {};
+var PrecessionLastTime = {};
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
         , form = layui.form
@@ -22,6 +23,7 @@ layui.use(['form', 'layer'], function () {
         PrecessionCharts = {};
         for (var i = 1; i <= 3; i++) {
             PrecessionCharts[i] = echarts.init(document.getElementById("Precession" + i));
+            PrecessionLastTime[i] = 0;
         }
         layui.use(['form'], function () {
             layui.form.render('select')
@@ -45,6 +47,9 @@ layui.use(['form', 'layer'], function () {
     
     //监听提交
     form.on('select(changePrecession)', function (data) {
+        for (var i = 1; i <= 3; i++) {
+            PrecessionLastTime[i] = 0;
+        }
         drawPrecession();
     });
 
@@ -81,10 +86,16 @@ function drawPrecession() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: PrecessionLastTime[1],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == PrecessionLastTime[1]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            PrecessionLastTime[1] = data.indexNum;
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -164,10 +175,16 @@ function drawPrecession() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: PrecessionLastTime[2],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == PrecessionLastTime[2]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            PrecessionLastTime[2] = data.indexNum;
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -250,10 +267,16 @@ function drawPrecession() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: PrecessionLastTime[3],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == PrecessionLastTime[3]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            PrecessionLastTime[3] = data.indexNum;
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {

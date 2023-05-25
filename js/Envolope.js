@@ -1,6 +1,7 @@
 initName();
 var EnvolopeCharts = {};
 var EnvolopeLowFreq = 0, EnvolopeHighFreq = 1000;
+var EnvolopeLastTime = {};
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
         , form = layui.form
@@ -14,6 +15,7 @@ layui.use(['form', 'layer'], function () {
         EnvolopeCharts = {};
         for (var i = 1; i <= 4; i++) {
             EnvolopeCharts[i] = echarts.init(document.getElementById("Envolope" + i));
+            EnvolopeLastTime[i] = 0;
         }
         resolve();
     }).then(function () {
@@ -33,6 +35,9 @@ layui.use(['form', 'layer'], function () {
     
     //监听提交
     form.on('select(changeEnvolope)', function (data) {
+        for (var i = 1; i <= 4; i++) {
+            EnvolopeLastTime[i] = 0;
+        }
         drawEnvolopeTF();
         drawEnvolope();
     });
@@ -54,6 +59,8 @@ layui.use(['form', 'layer'], function () {
 });
 
 function updateEnvolope(){
+    EnvolopeLastTime[3] = 0;
+    EnvolopeLastTime[4] = 0;
     let EnvolopeParameter = layui.form.val("EnvolopeParameter");
     if (EnvolopeParameter.f_low != "" && EnvolopeParameter.f_high != "") {
         EnvolopeLowFreq = parseInt(EnvolopeParameter.f_low);
@@ -79,11 +86,16 @@ function drawEnvolopeTF() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: EnvolopeLastTime[1],
         },
         success: function (res) {
             let data = res.data;
-            // console.log(data.data)
+            if (data.indexNum == EnvolopeLastTime[1]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            EnvolopeLastTime[1] = data.indexNum;
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -164,11 +176,16 @@ function drawEnvolopeTF() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: EnvolopeLastTime[2],
         },
         success: function (res) {
             let data = res.data;
-            // console.log(data.data)
+            if (data.indexNum == EnvolopeLastTime[2]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            EnvolopeLastTime[2] = data.indexNum;
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -258,11 +275,16 @@ function drawEnvolope() {
             pageSize: 1,
             lowFreq: EnvolopeLowFreq,
             highFreq: EnvolopeHighFreq,
+            LastTime: EnvolopeLastTime[3],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == EnvolopeLastTime[3]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
-
+            EnvolopeLastTime[3] = data.indexNum;
             let data3 = [];
             let data4 = [];
             for (let i = 0; i < data.data[0].length; i++) {

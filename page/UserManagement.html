@@ -7,9 +7,15 @@
             <button class="layui-btn layui-btn-sm" lay-event="add">新建</button>
         </div>
     </script>
-    <script type="text/html" id="UserManagementBar">
+    <script type="text/html" id="UserManagementBar1">
         <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script type="text/html" id="UserManagementBar2">
+        <!-- 这里同样支持 laytpl 语法，如： -->
+        {{#  if( RightID < d.RightID || UserID == d.UserID){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+        {{#  } }}
     </script>
     <script src="../js/UserManagement.js"></script>
 </body>

@@ -2,6 +2,7 @@
 var AxisTrajectoryCharts = {};
 var TrajectoryType = 0;
 var direction = -1;
+var AxisTrajectoryLastTime = {};
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
         , form = layui.form
@@ -24,6 +25,7 @@ layui.use(['form', 'layer'], function () {
         AxisTrajectoryCharts = {};
         for (var i = 1; i <= 3; i++) {
             AxisTrajectoryCharts[i] = echarts.init(document.getElementById("AxisTrajectory" + i));
+            AxisTrajectoryLastTime[i] = 0;
         }
         layui.use(['form'], function () {
             layui.form.render('select')
@@ -47,6 +49,9 @@ layui.use(['form', 'layer'], function () {
     
     //监听提交
     form.on('select(changeAxisTrajectory)', function (data) {
+        for (var i = 1; i <= 3; i++) {
+            AxisTrajectoryLastTime[i] = 0;
+        }
         drawAxisTrajectory();
     });
 
@@ -65,6 +70,7 @@ layui.use(['form', 'layer'], function () {
     });
 
     form.on('radio(TrajectoryType)', function (data) {
+        AxisTrajectoryLastTime[3] = 0;
         let AxisTrajectoryParameter = layui.form.val("AxisTrajectoryParameter");
         TrajectoryType = parseInt(AxisTrajectoryParameter.status);
         drawAxisTrajectory();
@@ -89,10 +95,16 @@ function drawAxisTrajectory() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: AxisTrajectoryLastTime[1],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == AxisTrajectoryLastTime[1]) {
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            AxisTrajectoryLastTime[1] = data.indexNum;
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -173,10 +185,16 @@ function drawAxisTrajectory() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: AxisTrajectoryLastTime[2],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == AxisTrajectoryLastTime[2]) {
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            AxisTrajectoryLastTime[2] = data.indexNum;
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -261,10 +279,16 @@ function drawAxisTrajectory() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: AxisTrajectoryLastTime[3],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == AxisTrajectoryLastTime[3]) {
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            AxisTrajectoryLastTime[3] = data.indexNum;
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {

@@ -8,13 +8,13 @@ layui.use(['form', 'table', 'laydate'], function () {
 
     //日期
     laydate.render({
-        elem: '#time1'
+        elem: '#alarmCenterTime1'
         , value: '2022-01-01 00:00:00'
         , isInitValue: true
         , type: 'datetime'
     });
     laydate.render({
-        elem: '#time2'
+        elem: '#alarmCenterTime2'
         , value: '2022-01-01 00:00:00'
         , isInitValue: true
         , type: 'datetime'

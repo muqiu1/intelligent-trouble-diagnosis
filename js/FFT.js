@@ -1,5 +1,6 @@
 initName();
 var FFTCharts = {};
+var FFTLastTime = {};
 var FFTwindowType = 0, FFTwindowWidth = 512;
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
@@ -14,6 +15,7 @@ layui.use(['form', 'layer'], function () {
         FFTCharts = {};
         for (var i = 1; i <= 3; i++) {
             FFTCharts[i] = echarts.init(document.getElementById("FFT" + i));
+            FFTLastTime[i] = 0;
         }
         resolve();
     }).then(function () {
@@ -33,6 +35,9 @@ layui.use(['form', 'layer'], function () {
     
     //监听提交
     form.on('select(changeFFT)', function (data) {
+        for (let i = 1; i <= 3; i++) {
+            FFTLastTime[i] = 0;
+        }
         drawFFTTF();
         drawFFT();
     });
@@ -54,6 +59,7 @@ layui.use(['form', 'layer'], function () {
 });
 
 function updateFFT(){
+    FFTLastTime[3] = 0;
     let FFTparameter = layui.form.val("FFTparameter");
     FFTwindowType = parseInt(FFTparameter.windowType);
     FFTwindowWidth = parseInt(FFTparameter.windowWidth);
@@ -77,10 +83,16 @@ function drawFFTTF() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: FFTLastTime[1],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == FFTLastTime[1]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            FFTLastTime[1] = data.indexNum;
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -161,10 +173,16 @@ function drawFFTTF() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: FFTLastTime[2],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == FFTLastTime[2]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            FFTLastTime[2] = data.indexNum;
             // 指定图表的配置项和数据
             let data1 = [];
             for (let i = 0; i < data.data[1].length; i++) {
@@ -254,11 +272,16 @@ function drawFFT() {
             pageSize: 1,
             windowWidth: FFTwindowWidth,
             windowType: FFTwindowType,
+            LastTime: FFTLastTime[3],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == FFTLastTime[3]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length, data.data[0][0].length)
-
+            FFTLastTime[3] = data.indexNum;
             let data3 = [];
             for (let i = 0; i < data.data[0].length; i++) {
                 for (let j = 0; j < data.data[0][i].length; j++) {

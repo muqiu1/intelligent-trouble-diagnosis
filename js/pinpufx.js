@@ -1,5 +1,6 @@
 initName()
-var myCharts = {};
+var FreqCharts = {};
+var FreqLastTime = {};
 layui.use(['laytpl', 'form', 'layer'], function () {
   var laytpl = layui.laytpl
     , $ = layui.$
@@ -23,11 +24,12 @@ layui.use(['laytpl', 'form', 'layer'], function () {
   }).then(function () {
     form.render('select')
     form.render('radio')
-    myCharts = {};
+    FreqCharts = {};
     for (var i = 0; i < checkedList.length; i++) {
       checkedList[i].drawId = checkedList[i].id;
-      myCharts[checkedList[i].id + "_table1"] = echarts.init(document.getElementById(checkedList[i].id + "_table1"));
-      myCharts[checkedList[i].id + "_table2"] = echarts.init(document.getElementById(checkedList[i].id + "_table2"));
+      FreqCharts[checkedList[i].id + "_table1"] = echarts.init(document.getElementById(checkedList[i].id + "_table1"));
+      FreqCharts[checkedList[i].id + "_table2"] = echarts.init(document.getElementById(checkedList[i].id + "_table2"));
+      FreqLastTime[checkedList[i].id] = 0;
     }
   }).then(function () {
     $(document).ready(function () {
@@ -50,6 +52,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     var x = data.value.indexOf('_')
     var id1 = parseInt(data.value.substr(0, x))
     var id2 = parseInt(data.value.substr(x + 1))
+    FreqLastTime[id1] = 0;
     if (intervalId == 0){
       drawFreq(id1, id2)
     }
@@ -95,10 +98,16 @@ function drawFreq(id, MPID, urlRealTime='') {
       endTime: endTime,
       pageNum: 1,
       pageSize: 1,
+      LastTime: FreqLastTime[id],
     },
     success: function (res) {
       let data = res.data;
+      if (data.indexNum == FreqLastTime[id]) {
+        console.log(data.indexNum);
+        return;
+      }
       console.log(data.indexNum, data.data[0].length)
+      FreqLastTime[id] = data.indexNum;
       // 指定图表的配置项和数据
       let data1 = [];
       let data2 = [];
@@ -216,8 +225,8 @@ function drawFreq(id, MPID, urlRealTime='') {
           }
         ]
       };
-      myCharts[id + "_table1"].setOption(option1, true);
-      myCharts[id + "_table2"].setOption(option2, true);
+      FreqCharts[id + "_table1"].setOption(option1, true);
+      FreqCharts[id + "_table2"].setOption(option2, true);
       document.getElementById(id + 'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString().split('/').join('-');
       document.getElementById(id+'rotSpeed').innerHTML = data.rotSpeed;
     },

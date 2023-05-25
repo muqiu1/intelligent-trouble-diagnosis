@@ -1,5 +1,6 @@
 initName()
 var TimeDomainCharts = {};
+var TimeDomainLastTime = {};
 layui.use(['laytpl', 'form', 'layer'], function () {
     var laytpl = layui.laytpl
         , $ = layui.$
@@ -26,6 +27,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
         for (var i = 0; i < checkedList.length; i++) {
             checkedList[i].drawId = checkedList[i].id;
             TimeDomainCharts[checkedList[i].id] = echarts.init(document.getElementById(checkedList[i].id));
+            TimeDomainLastTime[checkedList[i].id] = 0;
         }
     }).then(function () {
         $(document).ready(function () {
@@ -48,6 +50,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
         var x = data.value.indexOf('_')
         var id1 = parseInt(data.value.substr(0, x))
         var id2 = parseInt(data.value.substr(x + 1))
+        TimeDomainLastTime[id1] = 0;
         if (intervalId == 0){
             drawTimeDomain(id1, id2)
         }
@@ -93,10 +96,16 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            LastTime: TimeDomainLastTime[id],
         },
         success: function (res) {
             let data = res.data;
+            if (data.indexNum == TimeDomainLastTime[id]){
+                console.log(data.indexNum);
+                return;
+            }
             console.log(data.indexNum, data.data[0].length)
+            TimeDomainLastTime[id] = data.indexNum;
             // 指定图表的配置项和数据
             let newData = [];
             for (let i = 0; i < data.data[1].length; i++) {
