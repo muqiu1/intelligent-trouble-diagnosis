@@ -99,7 +99,7 @@ layui.use(['form', 'layer', 'laydate'], function () {
 function drawBode() {
     let startSearchTime = layui.form.val("getStartSearchTime");
     let MPID = parseInt(layui.form.val("BodeSelect").sss);
-    let endTime = intervalId == 0? BodeStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = intervalId == 0? BodeStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000);
     let startTime = intervalId == 0? BodeStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
     layui.$.ajax({
         type: 'POST',

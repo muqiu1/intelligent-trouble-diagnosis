@@ -4,6 +4,7 @@ layui.use([], function () {
     var characterList = [];
     var faultList = [];
     var ruleList = [];
+    var measureList = [];
     var KnowledgeGraphChart = echarts.init(document.getElementById('KnowledgeGraph'));
     var option;
     var color = [
@@ -87,6 +88,21 @@ layui.use([], function () {
                 console.log("AJAX ERROR!")
             }
         })
+        $.ajax({
+            type: 'POST',
+            url: "http://" + host + "/cms/measure/list",
+            data: {},
+            contentType: "application/x-www-form-urlencoded",
+            async: false,
+            dataType: "json",
+            success: function (res) {
+                let data = res.data;
+                measureList = data.data;
+            },
+            error: function () {
+                console.log("AJAX ERROR!")
+            }
+        })
         // KnowledgeGraphChart.setOption(option);
         resolve();
     }).then(function () {
@@ -158,6 +174,34 @@ layui.use([], function () {
                 })
                 data[ characterTable[ ifItem[0] ] ].itemStyle.color = colorTable[ ruleList[i].Then ];
             }
+        }
+        for (var i = 0; i < measureList.length; i++) {
+            data.push({
+                name: '维修策略' + measureList[i].MeasureID,
+                y: x_min + (x_max - x_min) * i / (measureList.length - 1),
+                x: 3000,
+                value: measureList[i].Measures,
+                symbol: 'rect',
+                symbolSize: [20, 9],
+                label: {
+                    show: true,
+                    fontSize: 15,
+                    formatter: '{c}'
+                },
+                itemStyle: {
+                    color: colorTable[ measureList[i].FaultID ],
+                }
+            })
+            links.push({
+                source: '故障' + measureList[i].FaultID,
+                target: '维修策略' + measureList[i].MeasureID,
+                label: {
+                    show: false
+                },
+                lineStyle: {
+                    color: colorTable[ measureList[i].FaultID ],
+                }
+            })
         }
         option = {
             title: {
@@ -231,7 +275,7 @@ layui.use([], function () {
                                     let ifItem = ifList[j].split(',');
                                     linksChild.push({
                                         source: '征兆' + ifItem[0],
-                                        target: '故障' + ruleList[i].Then,
+                                        target: params.name,
                                         value: ifItem[1],
                                         label: {
                                             show: false
@@ -268,7 +312,7 @@ layui.use([], function () {
                                 }
                             }
                         }
-                        var x_max = x_min + d * (ifList.length - 1);
+                        var x_max = ifList.length > 1 ? x_min + d * (ifList.length - 1) : d;
                         dataChild.push({
                             name: params.name,
                             y: (x_max + x_min) / 2,
@@ -285,6 +329,43 @@ layui.use([], function () {
                                 color: params.color,
                             }
                         })
+                        var cnt = 0, j = 0;
+                        for (var i = 0; i < measureList.length; i++) {
+                            if (measureList[i].FaultID == params.name.slice(2)) {
+                                cnt ++ ;
+                            }
+                        }
+                        for (var i = 0; i < measureList.length; i++) {
+                            if (measureList[i].FaultID == params.name.slice(2)) {
+                                dataChild.push({
+                                    name: '维修策略' + measureList[i].MeasureID,
+                                    y: cnt == 1 ? (x_max + x_min) / 2 : x_min + (x_max - x_min) * j / (cnt - 1),
+                                    x: x_max + x_min,
+                                    value: measureList[i].Measures,
+                                    symbol: 'rect',
+                                    symbolSize: [100, 48],
+                                    label: {
+                                        show: true,
+                                        fontSize: 15,
+                                        formatter: '{c}'
+                                    },
+                                    itemStyle: {
+                                        color: params.color,
+                                    }
+                                })
+                                linksChild.push({
+                                    source: params.name,
+                                    target: '维修策略' + measureList[i].MeasureID,
+                                    label: {
+                                        show: false
+                                    },
+                                    lineStyle: {
+                                        color: params.color,
+                                    }
+                                })
+                                j ++ ;
+                            }
+                        }
                     }
                     else if (params.name.slice(0, 2) == '征兆'){
                         let FaultIDList = [];
@@ -309,7 +390,7 @@ layui.use([], function () {
                                 }
                             }
                         }
-                        var x_max = x_min + d * (FaultIDList.length - 1);
+                        var x_max = FaultIDList.length > 1 ? x_min + d * (FaultIDList.length - 1) : d;
                         dataChild.push({
                             name: params.name,
                             y: (x_max + x_min) / 2,
@@ -331,8 +412,8 @@ layui.use([], function () {
                                 if (faultList[j].FaultID == FaultIDList[i]) {
                                     dataChild.push({
                                         name: '故障' + FaultIDList[i],
-                                        y: x_min + d * i,
-                                        x: x_max != 0? (x_max + x_min) / 2 : d,
+                                        y: FaultIDList.length > 1 ? x_min + d * i : (x_max + x_min) / 2,
+                                        x: (x_max + x_min) / 2,
                                         value: faultList[j].FaultName,
                                         symbol: 'roundRect',
                                         symbolSize: [100, 48],
@@ -347,6 +428,64 @@ layui.use([], function () {
                                     })
                                     break;
                                 }
+                            }
+                        }
+                    }
+                    else if (params.name.slice(0, 2) == '维修'){
+                        let FaultID = '';
+                        let MeasureID = parseInt(params.name.slice(4));
+                        var x_max = d;
+                        for (var i = 0; i < measureList.length; i++) {
+                            if (measureList[i].MeasureID == MeasureID) {
+                                FaultID = measureList[i].FaultID;
+                                dataChild.push({
+                                    name: params.name,
+                                    y: 0,
+                                    x: x_max + x_min,
+                                    value: measureList[i].Measures,
+                                    symbol: 'rect',
+                                    symbolSize: [100, 48],
+                                    label: {
+                                        show: true,
+                                        fontSize: 15,
+                                        formatter: '{c}'
+                                    },
+                                    itemStyle: {
+                                        color: params.color,
+                                    }
+                                })
+                                linksChild.push({
+                                    source: params.name,
+                                    target: '故障' + FaultID,
+                                    label: {
+                                        show: false
+                                    },
+                                    lineStyle: {
+                                        color: params.color,
+                                    }
+                                })
+                                break;
+                            }
+                        }
+                        for (var i = 0; i < faultList.length; i++) {
+                            if (faultList[i].FaultID == FaultID) {
+                                dataChild.push({
+                                    name: '故障' + FaultID,
+                                    y: 0,
+                                    x: (x_max + x_min)/2,
+                                    value: faultList[i].FaultName,
+                                    symbol: 'roundRect',
+                                    symbolSize: [100, 48],
+                                    label: {
+                                        show: true,
+                                        fontSize: 15,
+                                        formatter: '{c}'
+                                    },
+                                    itemStyle: {
+                                        color: params.color,
+                                    }
+                                })
+                                break;
                             }
                         }
                     }

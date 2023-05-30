@@ -90,7 +90,7 @@ layui.use(['table', 'form'], function () {
 });
 
 function getParam() {
-    parameter["endTime"] = parseInt(new Date().getTime() / 1000) + 28800;
+    parameter["endTime"] = parseInt(new Date().getTime() / 1000);
     let urlRealTime = intervalId == 0?"":"_RealTime";
     layui.$.ajax({
         type: 'POST',

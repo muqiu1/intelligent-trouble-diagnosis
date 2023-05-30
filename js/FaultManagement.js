@@ -21,13 +21,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                 , cols: [[ //表头
                     { field: 'FaultID', title: '序号', width: '9%', fixed: 'left', align: 'center'}
                     , { field: 'FaultName', title: '故障名称', width: '13%', align: 'center'}
-                    , { field: 'Detail', title: '故障描述', width: '13%', align: 'center'}
+                    , { field: 'Detail', title: '故障描述', width: '15%', align: 'center'}
                     , { field: 'FaultType', title: '故障类型', width: '10%', align: 'center'}
-                    , { field: 'FaultLoc', title: '故障位置', width: '8%', align: 'center'}
+                    , { field: 'FaultLoc', title: '故障位置', width: '10%', align: 'center'}
                     , { field: 'FaultReason', title: '故障原因', width: '13%', align: 'center'}
                     , { field: 'Measures', title: '解决方案', width: '13%', align: 'center'}
-                    , { field: 'RuleID', title: '相关规则', width: '8%', align: 'center'}
-                    , { title: '操作', width: '13%', templet: '#Management', align: 'center' }
+                    , { title: '操作', width: '17%', templet: '#Management', align: 'center' }
                 ]]
             });
 
@@ -60,7 +59,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     <div class="layui-form-item">
                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>故障类型</label>
                                         <div class="layui-input-block">
-                                            <input type="text" name="FaultType" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                            <select name="FaultType" required lay-verify="required">
+                                                <option value="转子故障">转子故障</option>
+                                                <option value="联轴器故障">联轴器故障</option>
+                                                <option value="轴承故障">轴承故障</option>
+                                                <option value="气路故障">气路故障</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
@@ -81,13 +85,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             <input type="text" name="Measures" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>相关规则</label>
-                                        <div class="layui-input-block">
-                                            <input type="text" name="RuleID" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <button class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
+                                    <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
                                 </form>
                               `,
                             success: function () {
@@ -166,7 +164,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>故障类型</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="FaultType" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
+                                        <select name="FaultType" required lay-verify="required" disabled>
+                                            <option value="转子故障">转子故障</option>
+                                            <option value="联轴器故障">联轴器故障</option>
+                                            <option value="轴承故障">轴承故障</option>
+                                            <option value="气路故障">气路故障</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -190,7 +193,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>相关规则</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="RuleText" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
+                                        <input type="text" name="RuleText" required lay-verify="required" placeholder="暂无相关规则" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                             </form>
@@ -199,18 +202,20 @@ layui.use(['table', 'laypage', 'form'], function () {
                             // 对弹层中的表单进行初始化渲染
                             form.render();
                             form.val("Management-layer", obj.data);
-                            let RuleID = obj.data.RuleID.split(',');
-                            let RuleList = table.getData('RuleManagement');
-                            let RuleText = [];
-                            for (let i = 0; i < RuleID.length; i++) {
-                                for (let j = 0; j < RuleList.length; j++) {
-                                    if (RuleID[i] == RuleList[j].RuleID) {
-                                        RuleText.push(RuleList[j].RuleName);
-                                        break;
+                            if (obj.data.RuleID != null && obj.data.RuleID != ''){
+                                let RuleID = obj.data.RuleID.split(',');
+                                let RuleList = table.getData('RuleManagement');
+                                let RuleText = [];
+                                for (let i = 0; i < RuleID.length; i++) {
+                                    for (let j = 0; j < RuleList.length; j++) {
+                                        if (RuleID[i] == RuleList[j].RuleID) {
+                                            RuleText.push(RuleList[j].RuleName);
+                                            break;
+                                        }
                                     }
                                 }
+                                form.val("Management-layer", {RuleText : RuleText.join('；')});
                             }
-                            form.val("Management-layer", {RuleText : RuleText.join(',')});
                         }
                     });
                 } else if (layEvent === 'del') { //删除
@@ -264,7 +269,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>故障类型</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="FaultType" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                                        <select name="FaultType" required lay-verify="required">
+                                            <option value="转子故障">转子故障</option>
+                                            <option value="联轴器故障">联轴器故障</option>
+                                            <option value="轴承故障">轴承故障</option>
+                                            <option value="气路故障">气路故障</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -285,13 +295,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <input type="text" name="Measures" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>相关规则</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="RuleID" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <button class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
+                                <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
                             </form>
                         `,
                         success: function () {

@@ -84,7 +84,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
 });
 
 function drawFreq(id, MPID, urlRealTime='') {
-  let endTime = parseInt(new Date().getTime()/1000) + 28800;
+  let endTime = parseInt(new Date().getTime()/1000);
   layui.$.ajax({
     type: 'POST',
     url: "http://" + host + "/cms/rWaveData/fft_show_new" + urlRealTime,

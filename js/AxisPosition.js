@@ -115,7 +115,7 @@ function drawAxisPosition() {
     let startSearchTime = layui.form.val("getStartSearchTime");
     let MPX = checkedGroup[layui.form.val("AxisPositionSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("AxisPositionSelect").sss].MPY;
-    let endTime = intervalId == 0? AxisPositionStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = intervalId == 0? AxisPositionStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000);
     let startTime = intervalId == 0? AxisPositionStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
     layui.$.ajax({
         type: 'POST',
@@ -295,7 +295,9 @@ function drawAxisPosition() {
                     type: "value",
                     startAngle: 270,
                     // splitNumber: 36,
-                    clockwise: false //刻度增长逆时针
+                    clockwise: false, //刻度增长逆时针
+                    min: 0,
+                    max: 360,
                 },
                 radiusAxis: {
                     min: 0,

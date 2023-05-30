@@ -72,7 +72,7 @@ function updateEnvolope(){
 function drawEnvolopeTF() {
     let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
@@ -259,7 +259,7 @@ function drawEnvolopeTF() {
 function drawEnvolope() {
     let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/envolope_show_new" + urlRealTime,

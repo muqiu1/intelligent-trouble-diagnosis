@@ -47,12 +47,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>人工征兆</label>
-                                        <div class="layui-input-block">
-                                            <input type="checkbox" name="IsManual" lay-skin="switch" title="否|是">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                         <div class="layui-input-block">
                                         <select name="CharacterType" required lay-verify="required">
@@ -69,41 +63,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">相关参数</label>
-                                        <div class="layui-input-block">
-                                            <input type="text" name="Params" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <div class="layui-inline">
-                                            <label class="layui-form-label"><span class="layui-badge-dot"></span>级数</label>
-                                            <div class="layui-input-inline" style="width: 30%;">
-                                                <input type="number" name="Leve" required lay-verify="required" class="layui-input" value="1">
-                                            </div>
-                                        </div>
-                                        <div class="layui-inline" style="width: 40%;">
-                                            <label class="layui-form-label">判断运算符</label>
-                                            <div class="layui-input-inline" style="width: 35%;">
-                                                <select name="Operator">
-                                                    <option value="&lt;">&lt;</option>
-                                                    <option value="&gt;">&gt;</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">多级阈值</label>
-                                        <div class="layui-input-block">
-                                            <input type="text" name="Threshold" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>详细描述</label>
                                         <div class="layui-input-block">
                                             <textarea placeholder="请输入内容" name="Detail" class="layui-textarea" required lay-verify="required"></textarea>
                                         </div>
                                     </div>
-                                    <button class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
+                                    <button style="margin-top: 130px; margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
                                 </form>
                               `,
                             success: function () {
@@ -112,7 +77,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 // 表单提交事件
                                 form.on('submit(Management-submit)', function (data) {
                                     var field = data.field; // 获取表单字段值
-                                    field.IsManual = field.IsManual == "on" ? 1 : 0
+                                    // field.IsManual = field.IsManual == "on" ? 1 : 0
                                     console.log(field)
                                     // 此处可执行 Ajax 等操作
                                     $.ajax({
@@ -175,12 +140,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>人工征兆</label>
-                                    <div class="layui-input-block">
-                                        <input type="checkbox" name="IsManual" lay-skin="switch" title="否|是" disabled>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
                                         <select name="CharacterType" disabled>
@@ -197,32 +156,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">相关参数</label>
+                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>相关规则</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="Params" autocomplete="off" class="layui-input" disabled>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <div class="layui-inline">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>级数</label>
-                                        <div class="layui-input-inline" style="width: 30%;">
-                                            <input type="number" name="Leve" class="layui-input" value="1" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="layui-inline" style="width: 40%;">
-                                        <label class="layui-form-label">判断运算符</label>
-                                        <div class="layui-input-inline" style="width: 35%;">
-                                            <select name="Operator" disabled>
-                                                <option value="&lt;">&lt;</option>
-                                                <option value="&gt;">&gt;</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">多级阈值</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="Threshold" autocomplete="off" class="layui-input" disabled>
+                                        <textarea placeholder="暂无相关规则" name="RuleText" class="layui-textarea" required lay-verify="required" disabled></textarea>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -237,6 +173,20 @@ layui.use(['table', 'laypage', 'form'], function () {
                             // 对弹层中的表单进行初始化渲染
                             form.render();
                             form.val("Management-layer", obj.data);
+                            if ( obj.data.RuleID != null && obj.data.RuleID != "" ){
+                                let RuleID = obj.data.RuleID.split(',');
+                                let RuleList = table.getData('RuleManagement');
+                                let RuleText = [];
+                                for (let i = 0; i < RuleID.length; i++) {
+                                    for (let j = 0; j < RuleList.length; j++) {
+                                        if (RuleID[i] == RuleList[j].RuleID) {
+                                            RuleText.push(RuleList[j].RuleName);
+                                            break;
+                                        }
+                                    }
+                                }
+                                form.val("Management-layer", {RuleText : RuleText.join('；')});
+                            }
                         }
                     });
                 } else if (layEvent === 'del') { //删除
@@ -282,12 +232,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label"><span class="layui-badge-dot"></span>人工征兆</label>
-                                    <div class="layui-input-block">
-                                        <input type="checkbox" name="IsManual" lay-skin="switch" title="否|是">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
                                         <select name="CharacterType" required lay-verify="required">
@@ -304,41 +248,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">相关参数</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="Params" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <div class="layui-inline">
-                                        <label class="layui-form-label"><span class="layui-badge-dot"></span>级数</label>
-                                        <div class="layui-input-inline" style="width: 30%;">
-                                            <input type="number" name="Leve" required lay-verify="required" class="layui-input" value="1">
-                                        </div>
-                                    </div>
-                                    <div class="layui-inline" style="width: 40%;">
-                                        <label class="layui-form-label">判断运算符</label>
-                                        <div class="layui-input-inline" style="width: 35%;">
-                                            <select name="Operator">
-                                                <option value="&lt;">&lt;</option>
-                                                <option value="&gt;">&gt;</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">多级阈值</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="Threshold" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>详细描述</label>
                                     <div class="layui-input-block">
                                         <textarea placeholder="请输入内容" name="Detail" class="layui-textarea" required lay-verify="required"></textarea>
                                     </div>
                                 </div>
-                                <button class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
+                                <button style="margin-top: 130px; margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
                             </form>
                           `,
                         success: function () {
@@ -349,8 +264,8 @@ layui.use(['table', 'laypage', 'form'], function () {
                             form.on('submit(Management-submit)', function (data) {
                                 var field = data.field; // 获取表单字段值
                                 field.CharacterID = obj.data.CharacterID
-                                field.IsManual = field.IsManual == "on" ? 1 : 0
-                                field.RuleID = obj.data.RuleID
+                                // field.IsManual = field.IsManual == "on" ? 1 : 0
+                                // field.RuleID = obj.data.RuleID
                                 // 此处可执行 Ajax 等操作
                                 $.ajax({
                                     type: 'POST',

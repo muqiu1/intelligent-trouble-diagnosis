@@ -69,7 +69,7 @@ function updateFFT(){
 function drawFFTTF() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getRWaveData" + urlRealTime,
@@ -256,7 +256,7 @@ function drawFFTTF() {
 function drawFFT() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/getStft" + urlRealTime,
@@ -311,7 +311,9 @@ function drawFFT() {
                     type: 'value',
                     name: "时间/s",
                     nameLocation: 'middle',
-                    max: 1,
+                    max: function (value) {
+                        return Math.ceil(value.max * 1000)/1000
+                    }
                 },
                 zAxis3D: {
                     type: 'value',

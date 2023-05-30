@@ -72,7 +72,7 @@ function drawPrecession() {
     let MPX = checkedGroup[layui.form.val("PrecessionSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("PrecessionSelect").sss].MPY;
     let urlRealTime = intervalId == 0?"":"_RealTime";
-    let endTime = parseInt(new Date().getTime()/1000) + 28800;
+    let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rWaveData/fft_show_new" + urlRealTime,

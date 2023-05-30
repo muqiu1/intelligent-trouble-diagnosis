@@ -59,7 +59,7 @@ function getPPVTable(){
     parameter["pageSize"] = 10;
     parameter["pageNum"] = 1;
     parameter["startTime"] = 1576753367;
-    parameter["endTime"] = parseInt(new Date().getTime() / 1000) + 28800;
+    parameter["endTime"] = parseInt(new Date().getTime() / 1000);
     let urlRealTime = intervalId == 0?"":"_RealTime";
     layui.use(['table', 'form'], function(){
         var table = layui.table

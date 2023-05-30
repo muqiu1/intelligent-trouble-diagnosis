@@ -134,7 +134,7 @@ function drawWaterfallPlot(){
             
         let startSearchTime = form.val("getStartSearchTime");
         let MPID = parseInt(form.val("WaterfallPlotselect").sss);
-        let endTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000) + 28800;
+        let endTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000);
         let startTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
         let isStartStop = (intervalId != 0 || parseInt(startSearchTime["start-end"]) == 0 )? false: true;
         $.ajax({
