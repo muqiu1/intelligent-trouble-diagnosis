@@ -12,6 +12,7 @@ layui.use(['table', 'form'], function(){
         table.render({
             elem: '#overviewPPV'
             , data: []
+            , even: true
             , cols: [[ //表头
                 { field: 'id', title: '序号', width: '20%' , align: 'center'}
                 , { field: 'pointname', title: '测点名称', width: '20%', align: 'center'}

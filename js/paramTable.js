@@ -19,38 +19,40 @@ layui.use(['table', 'form'], function () {
             elem: '#paramTable1'
             , data: []
             , limit: parameter.pageSize
+            , even: true
             , cols: [[ //表头
-                { field: 'id', title: '序号', width: 80, fixed: 'left' }
-                , { field: 'pointname', title: '测点名称', width: 200, }
-                , { field: 'time', title: '采集时间', width: 200 }
-                , { field: 'PPV', title: '峰峰值', width: 120 }
-                , { field: 'FZYZ', title: '峰值因子', width: 120 }
-                , { field: 'PDYZ', title: '偏度因子', width: 120, }
-                , { field: 'QDYZ', title: '峭度因子', width: 120, }
-                , { field: 'YDYZ', title: '裕度因子', width: 120, }
-                , { field: 'MCYZ', title: '脉冲因子', width: 120 }
-                , { field: 'BXYZ', title: '波形因子', width: 120 }
-                , { field: 'Gap', title: '间隙', width: 120 }
+                { field: 'id', title: '序号', width: '5%', fixed: 'left' }
+                , { field: 'pointname', title: '测点名称', width: '16%', }
+                , { field: 'time', title: '采集时间', width: '15%' }
+                , { field: 'PPV', title: '峰峰值', width: '8%' }
+                , { field: 'FZYZ', title: '峰值因子', width: '8%' }
+                , { field: 'PDYZ', title: '偏度因子', width: '8%', }
+                , { field: 'QDYZ', title: '峭度因子', width: '8%', }
+                , { field: 'YDYZ', title: '裕度因子', width: '8%', }
+                , { field: 'MCYZ', title: '脉冲因子', width: '8%' }
+                , { field: 'BXYZ', title: '波形因子', width: '8%' }
+                , { field: 'Gap', title: '间隙', width: '8%' }
             ]]
         });
         table.render({
             elem: '#paramTable2'
             , data: []
             , limit: parameter.pageSize
+            , even: true
             , cols: [[ //表头
-                { field: 'id', title: '序号', width: 80, fixed: 'left' }
-                , { field: 'pointname', title: '测点名称', width: 200, }
-                , { field: 'time', title: '采集时间', width: 200 }
-                , { field: 'halfMag', title: '0.5倍频幅值', width: 120 }
-                , { field: 'halfP', title: '0.5倍频相位', width: 120 }
-                , { field: 'x1Mag', title: '1倍频幅值', width: 120 }
-                , { field: 'x1P', title: '1倍频相位', width: 120 }
-                , { field: 'x2Mag', title: '2倍频幅值', width: 120 }
-                , { field: 'x2P', title: '2倍频相位', width: 120 }
-                , { field: 'x3Mag', title: '3倍频幅值', width: 120 }
-                , { field: 'x3P', title: '3倍频相位', width: 120 }
-                , { field: 'x4Mag', title: '4倍频幅值', width: 120 }
-                , { field: 'x5Mag', title: '5倍频幅值', width: 120 }
+                { field: 'id', title: '序号', width: '5%', fixed: 'left' }
+                , { field: 'pointname', title: '测点名称', width: '13%', }
+                , { field: 'time', title: '采集时间', width: '12%' }
+                , { field: 'halfMag', title: '0.5倍频幅值', width: '7%' }
+                , { field: 'halfP', title: '0.5倍频相位', width: '7%' }
+                , { field: 'x1Mag', title: '1倍频幅值', width: '7%' }
+                , { field: 'x1P', title: '1倍频相位', width: '7%' }
+                , { field: 'x2Mag', title: '2倍频幅值', width: '7%' }
+                , { field: 'x2P', title: '2倍频相位', width: '7%' }
+                , { field: 'x3Mag', title: '3倍频幅值', width: '7%' }
+                , { field: 'x3P', title: '3倍频相位', width: '7%' }
+                , { field: 'x4Mag', title: '4倍频幅值', width: '7%' }
+                , { field: 'x5Mag', title: '5倍频幅值', width: '7%' }
             ]]
         });
         resolve();
@@ -61,7 +63,16 @@ layui.use(['table', 'form'], function () {
                 startTimer(getParamTable);
             }
             else{
-                getParamTable();
+                if ( checkedTime == 0 || checkedTime == null ){
+                    layer.alert('请先在左侧选择查询时间戳', {
+                        icon: 0,
+                        shadeClose: true,
+                        title: "提示",
+                    })
+                }
+                else {
+                    getParamTable();
+                }
             }
         })
     });

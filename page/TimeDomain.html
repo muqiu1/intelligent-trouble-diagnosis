@@ -3,7 +3,7 @@
 <body>
     <div class="layui-row">
         <div class="layui-col-md3">
-            <div style="text-align:center; line-height:50px; font-weight:bold; font-size: larger;" name="nowTime">时间</div>
+            <div style="text-align:center; line-height:50px; font-weight:bold; font-size: 17px;" name="nowTime">时间</div>
         </div>
         <div class="layui-col-md4">
             <form class="layui-form" action="" lay-filter="drawTimeDomainTypeForm">
@@ -17,34 +17,36 @@
         <div class="layui-col-md5">
         </div>
     </div>
-    <div class="layui-row" id="view"></div>
+    <div class="layui-row layui-col-space15" id="view"></div>
     <script id="demo" type="text/html">
     {{#  layui.each(d.list, function(index, item){ }}
         {{#
             var _id = item.id;
         }}
-      <div class="layui-col-md6" style="border-style: solid;">
-        <div class="layui-row">
-            <div class="layui-col-md4">
-                <form class="layui-form" action="">
-                    <select lay-filter="changeTimeDomain">
-                            {{#  layui.each(d.list, function(index, item){ }}
-                                {{#  if (_id == item.id){ }}
-                                    <option value={{_id +'_' + item.id}} selected>{{item.title}}</option>
-                                {{#  }else{ }}
-                                    <option value={{_id +'_' + item.id}}>{{item.title}}</option>
-                                {{#  } }}
-                            {{#  }); }}
-                    </select>
-                </form>
+        <div class="layui-col-md6">
+            <div class="layui-panel">
+                <div class="layui-row">
+                    <div class="layui-col-md4">
+                        <form class="layui-form" action="">
+                            <select lay-filter="changeTimeDomain">
+                                    {{#  layui.each(d.list, function(index, item){ }}
+                                        {{#  if (_id == item.id){ }}
+                                            <option value={{_id +'_' + item.id}} selected>{{item.title}}</option>
+                                        {{#  }else{ }}
+                                            <option value={{_id +'_' + item.id}}>{{item.title}}</option>
+                                        {{#  } }}
+                                    {{#  }); }}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="layui-col-md4" id={{_id+"Time" }} style="text-align: center;">时间</div>
+                    <div class="layui-col-md4">转速：<span id={{_id+"rotSpeed" }}></span>&nbsp;rpm</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12" id={{item.id}} style=height:400px;></div>
+                </div>
             </div>
-            <div class="layui-col-md4" id={{_id+"Time" }} >时间</div>
-            <div class="layui-col-md4">转速：<span id={{_id+"rotSpeed" }}></span>&nbsp;rpm</div>
         </div>
-        <div class="layui-row">
-          <div class="layui-col-md12" id={{item.id}} style=height:400px;></div>
-        </div>
-      </div>
     {{#  }); }}
     </script>
     <script src="../js/TimeDomain.js"></script>

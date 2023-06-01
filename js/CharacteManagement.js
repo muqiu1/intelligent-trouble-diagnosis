@@ -17,6 +17,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                 elem: '#CharacterManagement'
                 , toolbar: RightID != 3  ? '#Toolbar' : null
                 , data: data.data
+                , even: true
                 , limit: data.data.length
                 , cols: [[ //表头
                     { field: 'CharacterID', title: '序号', width: '10%', fixed: 'left', align: 'center' }
@@ -68,7 +69,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             <textarea placeholder="请输入内容" name="Detail" class="layui-textarea" required lay-verify="required"></textarea>
                                         </div>
                                     </div>
-                                    <button style="margin-top: 130px; margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
+                                    <button style="margin-top: 130px; margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
                                 </form>
                               `,
                             success: function () {
@@ -190,6 +191,14 @@ layui.use(['table', 'laypage', 'form'], function () {
                         }
                     });
                 } else if (layEvent === 'del') { //删除
+                    if (obj.data.RuleID != null && obj.data.RuleID != ""){
+                        layer.alert('该征兆有关联规则存在，请先解除关联规则！', {
+                            icon: 2,
+                            shadeClose: true,
+                            title: '无法删除'
+                        });
+                        return;
+                    }
                     layer.confirm('确定删除吗？', function (index) {
                         $.ajax({
                             type: 'POST',
@@ -253,7 +262,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <textarea placeholder="请输入内容" name="Detail" class="layui-textarea" required lay-verify="required"></textarea>
                                     </div>
                                 </div>
-                                <button style="margin-top: 130px; margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
+                                <button style="margin-top: 130px; margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
                             </form>
                           `,
                         success: function () {

@@ -1,4 +1,4 @@
-var host = '81.69.242.66:8888'
+var host = '81.69.242.66:8080'
 layui.use('form', function () {
   var form = layui.form;
   //监听提交

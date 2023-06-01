@@ -17,6 +17,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                 elem: '#FaultManagement'
                 , toolbar: RightID != 3  ? '#Toolbar' : null
                 , data: data.data
+                , even: true
                 , limit: data.data.length
                 , cols: [[ //表头
                     { field: 'FaultID', title: '序号', width: '9%', fixed: 'left', align: 'center'}
@@ -85,7 +86,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             <input type="text" name="Measures" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
-                                    <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
+                                    <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
                                 </form>
                               `,
                             success: function () {
@@ -219,6 +220,14 @@ layui.use(['table', 'laypage', 'form'], function () {
                         }
                     });
                 } else if (layEvent === 'del') { //删除
+                    if (obj.data.RuleID != null && obj.data.RuleID != ""){
+                        layer.alert('该故障有关联规则存在，请先解除关联规则！', {
+                            icon: 2,
+                            shadeClose: true,
+                            title: '无法删除'
+                        });
+                        return;
+                    }
                     layer.confirm('确定删除吗？', function (index) {
                         $.ajax({
                             type: 'POST',
@@ -295,7 +304,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <input type="text" name="Measures" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
-                                <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
+                                <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
                             </form>
                         `,
                         success: function () {

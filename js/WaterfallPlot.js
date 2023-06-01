@@ -261,6 +261,8 @@ function drawWaterfallPlot(){
                         axisLabel: {
                             margin : 10,
                             interval: 0,
+                            showMaxLabel: false,
+                            showMinLabel: false,
                         }
                     },
                     zAxis3D: {
@@ -360,7 +362,7 @@ function drawWaterfallPlot(){
     });
 }
 
-function getStartTimeList(){
+function getWaterfallPlotStartTimeList(){
     layui.use('form', function () {
         var form = layui.form
             , $ = layui.$;

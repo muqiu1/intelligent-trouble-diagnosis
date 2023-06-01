@@ -9,6 +9,7 @@ layui.use(['table', 'form'], function () {
         , toolbar: '#AddToolbar'
         , defaultToolbar: []
         , height: 500
+        , even: true
         , data: []
         , page: false //不开启分页
         , cols: [[ //表头
@@ -186,6 +187,7 @@ layui.use(['table', 'form'], function () {
         elem: '#RecognitionResult'
         , toolbar: '#ResultToolbar'
         , defaultToolbar: []
+        , even: true
         , height: 500
         , data: []
         , page: false //不开启分页

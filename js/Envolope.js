@@ -25,8 +25,17 @@ layui.use(['form', 'layer'], function () {
                 startTimer(drawEnvolopeRealTime);
             }
             else{
-                drawEnvolopeTF();
-                drawEnvolope();
+                if ( checkedTime == 0 || checkedTime == null ){
+                    layer.alert('请先在左侧选择查询时间戳', {
+                        icon: 0,
+                        shadeClose: true,
+                        title: "提示",
+                    })
+                }
+                else {
+                    drawEnvolopeTF();
+                    drawEnvolope();
+                }
             }
         })
     }).then(function () {

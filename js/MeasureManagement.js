@@ -37,9 +37,10 @@ layui.use(['table', 'laypage', 'form'], function () {
                 , toolbar: RightID != 3  ? '#MeasureToolbar' : null
                 , data: data.data
                 , limit: data.data.length
+                , even: true
                 , cols: [[ //表头
                     { field: 'MeasureID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
-                    , { field: 'FaultName', title: '故障名称', width: '10%', align: 'center', templet: function (d) { return FaultDict[d.FaultID]; } }
+                    , { field: 'FaultID', title: '故障名称', width: '10%', align: 'center', templet: function (d) { return FaultDict[d.FaultID]; } }
                     , { field: 'FaultReason', title: '故障原因', width: '13%', align: 'center'}
                     , { field: 'Detail', title: '故障机理', width: '13%', align: 'center'}
                     , { field: 'CharacterName', title: '故障特征', width: '20%', align: 'center'}
@@ -99,7 +100,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             <textarea placeholder="请输入输入框内容" name="Measures" class="layui-textarea" required lay-verify="required"></textarea>
                                         </div>
                                     </div>
-                                    <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="MeasureManagementSubmit">新建</button>
+                                    <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="MeasureManagementSubmit">保存</button>
                                 </form>
                               `,
                             success: function () {
@@ -275,7 +276,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <textarea placeholder="请输入输入框内容" name="Measures" class="layui-textarea" required lay-verify="required"></textarea>
                                     </div>
                                 </div>
-                                <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="MeasureManagementSubmit">修改</button>
+                                <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="MeasureManagementSubmit">保存</button>
                             </form>
                         `,
                         success: function () {
@@ -290,6 +291,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                             // 表单提交事件
                             form.on('submit(MeasureManagementSubmit)', function (data) {
                                 var field = data.field; // 获取表单字段值
+                                field.MeasureID = obj.data.MeasureID;
                                 field.FaultID = field.FaultIDName.split(":")[0];
                                 // 此处可执行 Ajax 等操作
                                 $.ajax({
@@ -350,6 +352,7 @@ function changeFaultID(){
                     elem: '#FaultTable'
                     , data: FaultList
                     , limit: FaultList.length
+                    , even: true
                     , cols: [[ //表头
                         { title: '选择', width: '30%', type: 'radio', align: 'center'  }
                         , { field: 'FaultID', title: '序号', width: '30%',  align: 'center' }

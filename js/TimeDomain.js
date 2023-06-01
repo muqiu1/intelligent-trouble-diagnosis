@@ -36,8 +36,17 @@ layui.use(['laytpl', 'form', 'layer'], function () {
                 startTimer(drawTimeDomainRealTime);
             }
             else{
-                for (var i = 0; i < checkedList.length; i++) {
-                    drawTimeDomain(checkedList[i].id, checkedList[i].id);
+                if ( checkedTime == 0 || checkedTime == null ){
+                    layer.alert('请先在左侧选择查询时间戳', {
+                        icon: 0,
+                        shadeClose: true,
+                        title: "提示",
+                    })
+                }
+                else {
+                    for (var i = 0; i < checkedList.length; i++) {
+                        drawTimeDomain(checkedList[i].id, checkedList[i].id);
+                    }
                 }
             }
         })

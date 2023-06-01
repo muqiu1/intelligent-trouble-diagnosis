@@ -15,6 +15,8 @@ layui.use('table', function () {
             table.render({
                 elem: '#UserInfo'
                 , data: Userlist
+                , limit: Userlist.length
+                , even: true
                 , cols: [[ //表头
                     { field: 'UserID', title: '账号', width: '20%' }
                     , { field: 'UserName', title: '姓名', width: '20%' }

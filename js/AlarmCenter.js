@@ -52,6 +52,7 @@ layui.use(['form', 'table', 'laydate'], function () {
         elem: '#alarm'
         , data: []
         , cellMinWidth: 80
+        , even: true
         , cols: [[ //表头
             { field: 'id', title: '序号', fixed: 'left' }
             , { field: 'name', title: '电机' }

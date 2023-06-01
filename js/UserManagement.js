@@ -17,6 +17,8 @@ layui.use(['table', 'form'], function () {
             table.render({
                 elem: '#UserManagement'
                 , data: Userlist
+                , limit: Userlist.length
+                , even: true
                 , toolbar: RightID == 1 ? '#UserManagementToolbar' : null
                 , defaultToolbar: []
                 , cols: [[ //表头

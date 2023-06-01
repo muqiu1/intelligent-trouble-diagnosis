@@ -181,7 +181,7 @@ function drawAxisPosition() {
                 },
                 yAxis: {
                     type: 'value',
-                    name: "电压/V",
+                    name: "电压/" + data.RangeUnit,
                     nameLocation: 'middle',
                     nameGap: 30,
                 },
@@ -242,7 +242,7 @@ function drawAxisPosition() {
                 },
                 yAxis: {
                     type: 'value',
-                    name: "电压/V",
+                    name: "电压/" + data.RangeUnit,
                     nameLocation: 'middle',
                     nameGap: 30,
                 },
@@ -277,7 +277,7 @@ function drawAxisPosition() {
                     formatter: function (params) {
                         params = params[0];
                         return (
-                            '幅值：' + params.value[0].toFixed(3) + ' V<br>'
+                            '幅值：' + params.value[0].toFixed(3) + data.RangeUnit + '<br>'
                             + '相位：' + params.value[1].toFixed(3) + '°'
                         );
                     }
@@ -328,7 +328,7 @@ function drawAxisPosition() {
     });
 };
 
-function getStartTimeList(){
+function getAxisPositionStartTimeList(){
     layui.use('form', function () {
         var form = layui.form
             , $ = layui.$;

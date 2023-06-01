@@ -1,0 +1,83 @@
+/* .layui-table[lay-even] tr:nth-child(odd) {
+    background-color: blue;
+} */
+.layui-table[lay-even] tr:nth-child(even) {
+    background-color: rgb(221,235,247);
+}
+/* .layui-table tbody tr:hover, .layui-table-hover{
+    background-color: rgb(119,211,248);
+} */
+/* 表格头部工具栏背景色 */
+.layui-table-tool{
+
+}
+.layui-table td,.layui-table th,.layui-table tr,.layui-table-col-set,.layui-table-fixed-r,.layui-table-grid-down,.layui-table-header,.layui-table-page,.layui-table-tips-main,.layui-table-total,.layui-table[lay-skin=line],.layui-table[lay-skin=row]{
+    border-width:1px;
+    border-style:solid;
+    border-color:#bbb
+}
+/* 行高 */
+.layui-table-ceil {
+
+}
+.layui-table th{
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgb(155, 223, 255);
+    color: black;
+}
+.layui-table td{
+    font-size: 16px;
+    color: black;
+}
+.layui-table tr{
+    color: black;
+}
+
+.layui-elem-field legend{
+    font-size: 20px;
+    /* font-weight: bold; */
+    color: black;
+}
+.layui-form-label{
+    font-size: 16px;
+    width: 115px;
+}
+.layui-input-block{
+    margin-left: 145px;
+}
+.layui-input, .layui-textarea{
+    font-size: 16px;
+}
+.layui-form-radio div{
+    font-size: 16px;
+}
+.layui-nav * {
+    font-size: 18px;
+}
+.layui-nav .layui-nav-item a {
+    color: #eee;
+    /* color: rgba(255,255,255,.7); */
+}
+.layui-nav .layui-nav-child a {
+    color: rgba(0,0,0,.8);
+}
+#Time{
+    text-align: center;
+}
+.layui-tree-txt{
+    font-size: 15px;
+}
+.layui-tab-title li{
+    font-size: 16px;
+}
+.layui-table-tips-main{
+    font-size: 16px;
+    color: black;
+}
+.layui-icon{
+    margin-right: 5px;
+}
+.layui-tree-iconClick{
+    margin-right: 0px;
+}

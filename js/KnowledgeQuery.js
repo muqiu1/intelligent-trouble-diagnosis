@@ -55,6 +55,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 elem: '#character'
                                 , data: characterList
                                 , limit: characterList.length
+                                , even: true
                                 , cols: [[ //表头
                                     { field: 'CharacterID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
                                     , { field: 'CharacterName', title: '征兆名称', width: '25%', align: 'center'}
@@ -65,7 +66,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         }
                                         let ruleIDList = d.RuleID.split(',');
                                         let ruleNameList = ruleIDList.map( x => ruleDict[parseInt(x)]);
-                                        return '<span>' + ruleNameList.join(";") + '</span>';
+                                        return '<span>' + ruleNameList.join("；") + '</span>';
                                     }}
                                 ]]
                             });
@@ -73,6 +74,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 elem: '#fault'
                                 , data: faultList
                                 , limit: faultList.length
+                                , even: true
                                 , cols: [[ //表头
                                     { field: 'FaultID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
                                     , { field: 'FaultName', title: '故障名称', width: '15%', align: 'center'}
@@ -87,7 +89,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         }
                                         let ruleIDList = d.RuleID.split(',');
                                         let ruleNameList = ruleIDList.map( x => ruleDict[parseInt(x)]);
-                                        return '<span>' + ruleNameList.join(";") + '</span>';
+                                        return '<span>' + ruleNameList.join("；") + '</span>';
                                     }}
                                 ]]
                             });
@@ -95,9 +97,10 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 elem: '#rule'
                                 , data: ruleList
                                 , limit: ruleList.length
+                                , even: true
                                 , cols: [[ //表头
                                     { field: 'RuleID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
-                                    , { field: 'RuleName', title: '规则名称', width: '15%', align: 'center'}
+                                    , { field: 'RuleName', title: '规则名称', width: '10%', align: 'center'}
                                     , { field: 'IFName', title: '规则前提', width: '30%', align: 'center', templet: function(d){
                                         if (d.Then == null) {
                                             return '<span></span>';
@@ -112,11 +115,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         }
                                         let faultIDList = d.Then.split(',');
                                         let faultNameList = faultIDList.map( x => faultDict[parseInt(x)]);
-                                        return '<span>' + faultNameList.join(";") + '</span>';
+                                        return '<span>' + faultNameList.join("；") + '</span>';
                                     }}
-                                    , { field: 'Reliability', title: '可信度', width: '5%', align: 'center'}
-                                    , { field: 'Priority', title: '优先级', width: '5%', align: 'center'}
-                                    , { field: 'ActiveThre', title: '激活阈值', width: '10%', align: 'center'}
+                                    , { field: 'Reliability', title: '可信度', width: '8%', align: 'center'}
+                                    , { field: 'Priority', title: '优先级', width: '8%', align: 'center'}
+                                    , { field: 'ActiveThre', title: '激活阈值', width: '9%', align: 'center'}
                                     , { field: 'Explain', title: '规则解释', width: '15%', align: 'center'}
                                 ]]
                             });

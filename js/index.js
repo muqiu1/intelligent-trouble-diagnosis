@@ -12,7 +12,7 @@ var now;
 var _target = 'overview'
 var AlarmCenterPara = { "data": "实时数据", "date1": "2022-01-01 00:00:00", "date2": "2022-01-01 00:00:00", "typeOfData1": "on", "typeOfData2": "on", "allData": "on" }
 var treeData;
-var host = '81.69.242.66:8888'
+var host = '81.69.242.66:8080'
 var checkedTime = 0;
 var intervalId = 0; //实时监测计时器
 var drawType = "1";
@@ -203,12 +203,13 @@ function getTimeList(){
                 elem: '#timeTable'
                 , url: "http://" + host + "/cms/rWaveData/list"
                 , where : parameter
+                // , even: true
                 , method : 'post'
                 , contentType: 'application/x-www-form-urlencoded'
                 , toolbar: false
                 , cols: [[
                     // { type: 'radio' }, 
-                    { field: 'time', title: '时间', width: '200px'
+                    { field: 'time', title: '时间', width: '100%'
                         , templet: '<div><input type="radio" name="Time" value={{d.id}} title="{{d.time}}" lay-filter="time"></div>'
                     }
                 ]]
@@ -244,6 +245,7 @@ function getTimeList(){
         });
     });
     if (_target == 'AxisPosition'){
+        getAxisPositionStartTimeList();
         drawAxisPosition();
     }
     else if (_target == 'XY_pic'){
@@ -253,9 +255,11 @@ function getTimeList(){
         drawTrend();
     }
     else if (_target == 'Bode'){
+        getBodeStartTimeList();
         drawBode();
     }
     else if (_target == 'WaterfallPlot'){
+        getWaterfallPlotStartTimeList();
         drawWaterfallPlot();
     }
 }

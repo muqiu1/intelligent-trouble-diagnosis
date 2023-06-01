@@ -18,6 +18,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                 , toolbar: RightID != 3  ? '#Toolbar' : null
                 , data: data.data
                 , limit: data.data.length
+                , even: true
                 , cols: [[ //表头
                     { field: 'RuleID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
                     , { field: 'RuleName', title: '规则名称', width: '25%', align: 'center'}
@@ -92,13 +93,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             <input type="text" name="Explain" lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label" style="padding: 9px 0px; width: 110px;"><span class="layui-badge-dot"></span>ActiveTimes</label>
-                                        <div class="layui-input-block">
-                                            <input type="number" name="ActiveTimes" lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="Management-submit">新建</button>
+                                    <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
                                 </form>
                               `,
                             success: function () {
@@ -108,6 +103,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     elem: '#IFList'
                                     , toolbar: '#IFListToolbar'
                                     , defaultToolbar: []
+                                    , even: true
                                     , height: 200
                                     , data: []
                                     , page: false //不开启分页
@@ -368,12 +364,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <input type="text" name="Explain" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label" style="padding: 9px 0px; width: 110px;"><span class="layui-badge-dot"></span>ActiveTimes</label>
-                                    <div class="layui-input-block">
-                                        <input type="number" name="ActiveTimes" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input" disabled>
-                                    </div>
-                                </div>
                             </form>
                         `,
                         success: function () {
@@ -398,6 +388,8 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 , defaultToolbar: []
                                 , height: 200
                                 , data: IFList
+                                , limit: IFList.length
+                                , even: true
                                 , page: false //不开启分页
                                 , cols: [[ //表头
                                     { field: 'CharacterID', title: '序号', width: '30%', fixed: 'left', align: 'center' }
@@ -508,13 +500,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <input type="text" name="Explain" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label" style="padding: 9px 0px; width: 110px;"><span class="layui-badge-dot"></span>ActiveTimes</label>
-                                    <div class="layui-input-block">
-                                        <input type="number" name="ActiveTimes" required lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="Management-submit">修改</button>
+                                <button style="margin-left: 600px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
                             </form>
                         `,
                         success: function () {
@@ -540,6 +526,8 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 , defaultToolbar: []
                                 , height: 200
                                 , data: IFList
+                                , limit: IFList.length
+                                , even: true
                                 , page: false //不开启分页
                                 , cols: [[ //表头
                                     { field: 'CharacterID', title: '序号', width: '30%', fixed: 'left', align: 'center' }
@@ -781,6 +769,7 @@ function changeThen(){
                     elem: '#ThenTable'
                     , data: FaultTable
                     , limit: FaultTable.length
+                    , even: true
                     , cols: [[ //表头
                         { title: '选择', width: '30%', type: 'radio', align: 'center'  }
                         , { field: 'FaultID', title: '序号', width: '30%',  align: 'center' }
