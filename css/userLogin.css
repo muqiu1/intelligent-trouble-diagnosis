@@ -24,5 +24,6 @@ html, body{
     padding-top: 30px;
     padding-bottom: 20px;
     margin:50px auto;
-    width: 500px;
+    width: 450px;
+    border-radius: 30px;
 }

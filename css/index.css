@@ -56,7 +56,8 @@
     font-size: 18px;
 }
 .layui-nav .layui-nav-item a {
-    color: #eee;
+    color: #000;
+    font-weight: 550;
     /* color: rgba(255,255,255,.7); */
 }
 .layui-nav .layui-nav-child a {
@@ -80,4 +81,7 @@
 }
 .layui-tree-iconClick{
     margin-right: 0px;
+}
+.layui-nav .layui-this:after, .layui-nav-bar{
+    background-color: #ff5722;
 }
