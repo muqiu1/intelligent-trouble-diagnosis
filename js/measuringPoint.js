@@ -39,27 +39,27 @@ layui.use(['table', 'laypage', 'form'], function () {
                 , limit: data.length
                 , even: true
                 , cols: [[ //表头
-                    { field: 'mPID', title: '序号', width: 60, fixed: 'left', align: 'center'  }
-                    , { field: 'mPName', title: '测点名称', width: 120, align: 'center'  }
-                    , { field: 'mPTypeName', title: '测点类型', width: 120, align: 'center'  }
-                    , { field: 'mPDetail', title: '测点位置', width: 120, align: 'center'  }
-                    , { field: 'signalName', title: '信号来源', width: 120, align: 'center'  }
-                    , { field: 'portID', title: '通道', width: 120 , align: 'center' }
-                    , { field: 'isEnable', title: '是否检测', width: 120 , align: 'center', templet: function(d){
+                    { field: 'mPID', title: '序号', width: '10%', fixed: 'left', align: 'center'  }
+                    , { field: 'mPName', title: '测点名称', width: '15%', align: 'center'  }
+                    , { field: 'mPTypeName', title: '测点类型', width: '10%', align: 'center'  }
+                    , { field: 'mPDetail', title: '测点位置', width: '10%', align: 'center'  }
+                    , { field: 'signalName', title: '信号来源', width: '10%', align: 'center'  }
+                    , { field: 'portID', title: '通道', width: '10%' , align: 'center' }
+                    , { field: 'isEnable', title: '是否检测', width: '10%' , align: 'center', templet: function(d){
                         if(d.isEnable === 1){
                           return '<span>是</span>';
                         } else {
                           return '<span>否</span>';
                         }
                         } }
-                    , { field: 'isOK', title: '是否OK', width: 120 , align: 'center', templet: function(d){
+                    , { field: 'isOK', title: '是否OK', width: '10%' , align: 'center', templet: function(d){
                         if(d.isOK === 1){
                           return '<span>是</span>';
                         } else {
                           return '<span>否</span>';
                         }
                         } }
-                    , { title: '操作', width: 120, templet: '#measuring', align: 'center' }
+                    , { title: '操作', width: '15%', templet: '#measuring', align: 'center' }
                 ]]
             });
 

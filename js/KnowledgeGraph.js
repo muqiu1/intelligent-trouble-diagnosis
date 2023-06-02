@@ -1,6 +1,21 @@
-layui.use([], function () {
+layui.use(['util'], function () {
     var $ = layui.$
+    //     , util = layui.util
+    //     , layer = layui.layer;
 
+    // util.fixbar({
+    //     bar2: true,
+    //     click: function(type){
+    //         if(type === 'bar2'){
+    //             layer.open({
+    //                 type: 1,
+    //                 area: ['420px', '240px'], // 宽高
+    //                 content: '<div style="padding: 11px;">任意 HTML 内容</div>'
+    //             });
+    //         }
+    //     }
+    // });
+        
     var characterList = [];
     var faultList = [];
     var ruleList = [];
