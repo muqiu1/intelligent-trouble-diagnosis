@@ -112,6 +112,14 @@ layui.use(['form', 'layer', 'laydate'], function () {
 });
 
 function drawAxisPosition() {
+    if ( JSON.stringify(checkedGroup) === "{}" ){
+        layer.alert('当前没有可查询的轴心对', {
+            icon: 0,
+            shadeClose: true,
+            title: "提示",
+        })
+        return;
+    }
     let startSearchTime = layui.form.val("getStartSearchTime");
     let MPX = checkedGroup[layui.form.val("AxisPositionSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("AxisPositionSelect").sss].MPY;

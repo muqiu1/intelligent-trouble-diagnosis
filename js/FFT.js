@@ -303,14 +303,23 @@ function drawFFT() {
             }
             console.log(data.indexNum, data.data[0].length, data.data[0][0].length)
             FFTLastTime[3] = data.indexNum;
-            let data3 = [];
+            let seriesList = [];
             for (let i = 0; i < data.data[0].length; i++) {
+                let data3 = [];
                 for (let j = 0; j < data.data[0][i].length; j++) {
                     if (data.is_order && data.data[0][i][j] > 20) {
                         break;
                     }
                     data3.push([data.data[0][i][j].toFixed(3), data.data[2][0][i].toFixed(3), data.data[1][i][j].toFixed(3)]);
                 }
+                seriesList.push({
+                    data: data3,
+                    type: 'line3D',
+                    lineStyle: {
+                        color: 'blue'
+                    },
+                    showSymbol: false
+                })
             }
             var option3d = {
                 title: {
@@ -360,16 +369,7 @@ function drawFFT() {
                         }
                     }
                 },
-                series: [
-                    {
-                        data: data3,
-                        type: 'line3D',
-                        lineStyle: {
-                            color: 'blue'
-                        },
-                        showSymbol: false
-                    }
-                ]
+                series: seriesList
             };
             FFTCharts[3].setOption(option3d, true);
         },

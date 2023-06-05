@@ -71,6 +71,14 @@ layui.use(['form', 'layer'], function () {
     });
 });
 function drawVector() {
+    if ( JSON.stringify(checkedGroup) === "{}" ){
+        layer.alert('当前没有可查询的轴心对', {
+            icon: 0,
+            shadeClose: true,
+            title: "提示",
+        })
+        return;
+    }
     let MPX = checkedGroup[layui.form.val("VectorSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("VectorSelect").sss].MPY;
     let urlRealTime = intervalId == 0?"":"_RealTime";

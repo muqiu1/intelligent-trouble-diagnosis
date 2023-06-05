@@ -78,6 +78,14 @@ layui.use(['form', 'layer'], function () {
 });
 
 function drawPrecession() {
+    if ( JSON.stringify(checkedGroup) === "{}" ){
+        layer.alert('当前没有可查询的轴心对', {
+            icon: 0,
+            shadeClose: true,
+            title: "提示",
+        })
+        return;
+    }
     let MPX = checkedGroup[layui.form.val("PrecessionSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("PrecessionSelect").sss].MPY;
     let urlRealTime = intervalId == 0?"":"_RealTime";

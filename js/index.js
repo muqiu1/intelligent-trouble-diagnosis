@@ -164,6 +164,7 @@ layui.use(['tree', 'form'], function () {
                             }
                         };
                         checkedList = [];
+                        checkedGroup = {};
                         dfs(checkedData, '');
                         loadPage(_target);
                     }
