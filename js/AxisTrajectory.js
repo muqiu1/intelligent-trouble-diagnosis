@@ -2,6 +2,7 @@
 var AxisTrajectoryCharts = {};
 var TrajectoryType = 0;
 var direction = -1;
+var Rotdirect = -1;
 var AxisTrajectoryLastTime = {};
 layui.use(['form', 'layer'], function () {
     var $ = layui.$
@@ -120,6 +121,9 @@ function drawAxisTrajectory() {
                 newData.push([data.data[1][i], data.data[0][i]]);
             }
             var option1 = {
+                title: {
+                    text: 'X向时域波形'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -155,7 +159,10 @@ function drawAxisTrajectory() {
                     name: "时间/s",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
+                    axisLabel: {
+                        showMaxLabel: false,
+                    }
                     // data: newData
                 },
                 yAxis: {
@@ -210,6 +217,9 @@ function drawAxisTrajectory() {
                 data1.push([data.data[1][i], data.data[0][i]]);
             }
             var option2 = {
+                title: {
+                    text: 'Y向时域波形'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -245,7 +255,10 @@ function drawAxisTrajectory() {
                     name: "时间/s",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
+                    axisLabel: {
+                        showMaxLabel: false,
+                    }
                     // data: newData
                 },
                 yAxis: {
@@ -304,6 +317,9 @@ function drawAxisTrajectory() {
                 data1.push([data.data[0][i], data.data[1][i]]);
             }
             var option3 = {
+                title: {
+                    text: '轴心轨迹'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -375,10 +391,13 @@ function drawAxisTrajectory() {
             AxisTrajectoryCharts[3].setOption(option3, true);
             if (direction != data.direction) {
                 direction = data.direction;
-                let img = document.getElementsByName("AxisTrajectoryDirection");
-                for (let i = 0; i < img.length; i++) {
-                    img[i].src = "../img/direction" + direction + ".png";
-                }
+                let img = document.getElementById("AxisTrajectoryDirection");
+                img.src = "../img/direction" + direction + ".png";
+            }
+            if (Rotdirect != data.Rotdirect) {
+                Rotdirect = data.Rotdirect;
+                let img = document.getElementById("AxisTrajectoryRotdirect");
+                img.src = "../img/direction" + Rotdirect + ".png";
             }
         },
         error: function () {

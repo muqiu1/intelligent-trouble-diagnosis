@@ -120,6 +120,9 @@ function drawBode() {
             document.getElementById('BodeSTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
             document.getElementById('BodeETime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
             var option1 = {
+                title: {
+                    text: '相位'
+                },
                 dataset: {
                     source: data.data,
                 },
@@ -161,8 +164,12 @@ function drawBode() {
                     name: "转速/rpm",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
                     min: 'dataMin',
+                    axisLabel: {
+                        showMaxLabel: false,
+                        showMinLabel: false,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -187,6 +194,9 @@ function drawBode() {
             };
             BodeCharts[1].setOption(option1, true);
             var option2 = {
+                title: {
+                    text: '幅值'
+                },
                 dataset: {
                     source: data.data,
                 },
@@ -228,8 +238,12 @@ function drawBode() {
                     name: "转速/rpm",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
                     min: 'dataMin',
+                    axisLabel: {
+                        showMaxLabel: false,
+                        showMinLabel: false,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -255,6 +269,9 @@ function drawBode() {
             BodeCharts[2].setOption(option2, true);
             echarts.connect([BodeCharts[1], BodeCharts[2]]);
             var option3 = {
+                title: {
+                    text: '极坐标轴'
+                },
                 polar: {
                     center: ["50%", "50%"]
                 },

@@ -111,6 +111,9 @@ function drawPrecession() {
                 newData.push([data.data[1][i], data.data[0][i]]);
             }
             var option1 = {
+                title: {
+                    text: 'X向频谱图'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -147,6 +150,9 @@ function drawPrecession() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: data.is_order?20:'dataMax',
+                    axisLabel: {
+                        showMaxLabel: data.is_order?true:false,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -200,6 +206,9 @@ function drawPrecession() {
                 data1.push([data.data[1][i], data.data[0][i]]);
             }
             var option2 = {
+                title: {
+                    text: 'Y向频谱图'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -236,6 +245,9 @@ function drawPrecession() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: data.is_order?20:'dataMax',
+                    axisLabel: {
+                        showMaxLabel: data.is_order?true:false,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -292,6 +304,9 @@ function drawPrecession() {
                 data1.push([data.data[0][i], data.data[1][i]]);
             }
             var option3 = {
+                title: {
+                    text: '全频谱'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -329,6 +344,10 @@ function drawPrecession() {
                     nameGap: 30,
                     max: data.is_order?  20:'dataMax',
                     min: data.is_order? -20:'dataMin',
+                    axisLabel: {
+                        showMaxLabel: data.is_order?true:false,
+                        showMinLabel: data.is_order?true:false,
+                    }
                 },
                 yAxis: {
                     type: 'value',

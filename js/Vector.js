@@ -108,7 +108,11 @@ function drawVector() {
             }
             let xAxisName = data.is_order?"阶次":"频率/Hz";
             let max = data.is_order? 20: "dataMax";
+            let showMaxLabel = data.is_order?true:false;
             var option1 = {
+                title: {
+                    text: '主振矢幅值'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -145,6 +149,9 @@ function drawVector() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: max,
+                    axisLabel: {
+                        showMaxLabel: showMaxLabel,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -164,6 +171,9 @@ function drawVector() {
                 ]
             };
             var option2 = {
+                title: {
+                    text: '副振矢幅值'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -200,6 +210,9 @@ function drawVector() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: max,
+                    axisLabel: {
+                        showMaxLabel: showMaxLabel,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -219,6 +232,9 @@ function drawVector() {
                 ]
             };
             var option3 = {
+                title: {
+                    text: '振矢角'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -255,6 +271,9 @@ function drawVector() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: max,
+                    axisLabel: {
+                        showMaxLabel: showMaxLabel,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -274,6 +293,9 @@ function drawVector() {
                 ]
             };
             var option4 = {
+                title: {
+                    text: '矢功率谱'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -310,6 +332,9 @@ function drawVector() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: max,
+                    axisLabel: {
+                        showMaxLabel: showMaxLabel,
+                    }
                 },
                 yAxis: {
                     type: 'value',

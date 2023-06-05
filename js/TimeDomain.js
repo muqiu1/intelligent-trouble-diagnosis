@@ -156,7 +156,10 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                     name: "时间/s",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
+                    axisLabel: {
+                        showMaxLabel: false,
+                    }
                 },
                 yAxis: {
                     type: 'value',

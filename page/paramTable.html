@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <body>
+    <fieldset class="layui-elem-field layui-field-title my-title">
+        <legend>参数总表</legend>
+    </fieldset>
     <div class="layui-row">
         <div class="layui-col-md3">
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: 17px;" name="nowTime">时间</div>
@@ -18,13 +21,13 @@
         </div>
     </div>
     <div class="layui-row" id="paramTable">
-        <fieldset class="layui-elem-field layui-field-title my-title" style="margin-top: 20px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>时域指标</legend>
-          </fieldset>
+        </fieldset>
         <table id="paramTable1" lay-filter="test"></table>
-        <fieldset class="layui-elem-field layui-field-title my-title" style="margin-top: 20px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>频域指标</legend>
-          </fieldset>
+        </fieldset>
         <table id="paramTable2" lay-filter="test"></table>
         <div id="pageController"></div>
     </div>

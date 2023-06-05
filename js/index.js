@@ -291,3 +291,7 @@ function clearTimer() {
 function changeIntervalTime(){
     console.log("changeIntervalTime")
 }
+
+function changeAlarmNumber(num){
+    document.getElementById("alarmNumber").innerHTML = num;
+}

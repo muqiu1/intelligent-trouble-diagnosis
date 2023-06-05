@@ -2,6 +2,9 @@
 <html>
 
 <body>
+  <fieldset class="layui-elem-field layui-field-title my-title">
+      <legend>频谱分析</legend>
+  </fieldset>
   <div class="layui-row">
     <div class="layui-col-md3">
       <div style="text-align:center; line-height:50px; font-weight:bold; font-size: 17px;" name="nowTime">时间</div>
@@ -42,9 +45,6 @@
             </div>
             <div class="layui-col-md4" id={{_id+"Time" }} style="text-align: center;">时间</div>
             <div class="layui-col-md4">转速：<span id={{_id+"rotSpeed" }}></span>&nbsp;rpm</div>
-            <!-- <div class="layui-col-md2">
-              <button type="button" class="layui-btn" id={{"btn" + _id}} onclick="ppfxchild(id)">细化谱分析</button>
-            </div> -->
           </div>
           <!-- <div class="layui-row">
             <form class="layui-form" action="">

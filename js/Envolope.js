@@ -111,6 +111,9 @@ function drawEnvolopeTF() {
                 newData.push([data.data[1][i], data.data[0][i]]);
             }
             var option1 = {
+                title: {
+                    text: '原始波形'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -146,7 +149,10 @@ function drawEnvolopeTF() {
                     name: "时间/s",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
+                    axisLabel: {
+                        showMaxLabel: false,
+                    }
                     // data: newData
                 },
                 yAxis: {
@@ -201,6 +207,9 @@ function drawEnvolopeTF() {
                 data1.push([data.data[1][i], data.data[0][i]]);
             }
             var option2 = {
+                title: {
+                    text: '幅值谱'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -237,6 +246,9 @@ function drawEnvolopeTF() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: data.is_order?20:'dataMax',
+                    axisLabel: {
+                        showMaxLabel: data.is_order?true:false,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -303,6 +315,9 @@ function drawEnvolope() {
                 data4.push([data.data[2][i], data.data[3][i]]);
             }
             var option3 = {
+                title: {
+                    text: '滤波后的波形'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -338,7 +353,10 @@ function drawEnvolope() {
                     name: "时间/s",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
+                    axisLabel: {
+                        showMaxLabel: false,
+                    }
                     // data: newData
                 },
                 yAxis: {
@@ -359,6 +377,9 @@ function drawEnvolope() {
                 ]
             };
             var option4 = {
+                title: {
+                    text: '包络谱'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -395,6 +416,9 @@ function drawEnvolope() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: data.is_order?20:'dataMax',
+                    axisLabel: {
+                        showMaxLabel: data.is_order?true:false,
+                    }
                     // data: newData
                 },
                 yAxis: {

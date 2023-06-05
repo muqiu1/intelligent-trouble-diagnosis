@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <body>
+    <fieldset class="layui-elem-field layui-field-title my-title">
+        <legend>矢量谱</legend>
+    </fieldset>
     <div class="layui-row">
         <div class="layui-col-md3">
             <div style="text-align:center; line-height:50px; font-weight:bold; font-size: 17px;" name="nowTime">时间</div>
@@ -29,28 +32,16 @@
                 <div class="layui-col-md4" id="Time">时间</div>
                 <div class="layui-col-md4">转速：<span id="rotSpeed"></span>&nbsp;rpm</div>
             </div>
-            <div class="layui-row">
+            <div class="layui-row layui-col-space30">
                 <div class="layui-col-md6">
                     <div class="layui-row">
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                            <legend>主振矢幅值</legend>
-                        </fieldset>
                         <div class="layui-col-md12" id="Vector1" style=height:350px;></div>
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                            <legend>副振矢幅值</legend>
-                        </fieldset>
                         <div class="layui-col-md12" id="Vector2" style=height:350px;></div>
                     </div>
                 </div>
                 <div class="layui-col-md6">
                     <div class="layui-row">
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                            <legend>振矢角</legend>
-                        </fieldset>
                         <div class="layui-col-md12" id="Vector3" style=height:350px;></div>
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                            <legend>矢功率谱</legend>
-                        </fieldset>
                         <div class="layui-col-md12" id="Vector4" style=height:350px;></div>
                     </div>
                 </div>

@@ -236,6 +236,9 @@ function drawWaterfallPlot(){
                 }
                 rawIndexNum = data.indexNum;
                 var option3d = {
+                    title: {
+                        text: '瀑布图'
+                    },
                     tooltip: {
                         axisPointer: {
                             type: 'cross',
@@ -260,7 +263,7 @@ function drawWaterfallPlot(){
                         nameGap: 30,
                         axisLabel: {
                             margin : 10,
-                            interval: 0,
+                            interval: 'auto',
                             showMaxLabel: false,
                             showMinLabel: false,
                         }
@@ -294,6 +297,9 @@ function drawWaterfallPlot(){
                 WaterfallPlotCharts[1].setOption(option3d, true);
                 
                 var option2 = {
+                    title: {
+                        text: '单条频谱'
+                    },
                     dataset: {
                         source: index < rawDate.length? rawDate[index] : null,
                     },
@@ -333,6 +339,9 @@ function drawWaterfallPlot(){
                         nameLocation: 'middle',
                         nameGap: 30,
                         max: data.is_order?20:'dataMax',
+                        axisLabel: {
+                            showMaxLabel: data.is_order?true:false,
+                        }
                     },
                     yAxis: {
                         type: 'value',

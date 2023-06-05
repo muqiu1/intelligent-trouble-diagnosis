@@ -115,11 +115,11 @@ function drawXYpic() {
                     name: rvibdataTable[XYAxis.xAxis],
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: function (value) {
-                        return Math.ceil(value.max * 10) / 10;
-                    },
-                    min: function (value) {
-                        return Math.floor(value.min * 10) / 10;
+                    max: 'dataMax',
+                    min: 'dataMin',
+                    axisLabel: {
+                        showMaxLabel: false,
+                        showMinLabel: false,
                     }
                 },
                 yAxis: {

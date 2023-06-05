@@ -161,6 +161,9 @@ function drawFreq(id, MPID, urlRealTime='') {
           nameLocation: 'middle',
           nameGap: 30,
           max: data.is_order?20:'dataMax',
+          axisLabel: {
+              showMaxLabel: data.is_order?true:false,
+          }
         },
         yAxis: {
           type: 'value',

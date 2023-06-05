@@ -32,17 +32,16 @@ layui.use(['form', 'table', 'laydate'], function () {
     //监听提交
     form.on('submit(demo1)', function (data) {
         AlarmCenterPara = data.field
-        layer.alert(JSON.stringify(data.field), {
-            title: '最终的提交信息'
-        })
         update(AlarmCenterPara)
         return false;
     });
 
     //表单取值
     layui.$('#LAY-component-form-getval').on('click', function () {
-        var data = form.val('example');
-        alert(JSON.stringify(data));
+        table1.reload({
+            data: [],
+        });
+        changeAlarmNumber(0);
     });
     layui.$('#LAY-component-form-getval2').on('click', function () {
         clearTimeout(setTimeOutId);
@@ -54,7 +53,7 @@ layui.use(['form', 'table', 'laydate'], function () {
         , cellMinWidth: 80
         , even: true
         , cols: [[ //表头
-            { field: 'id', title: '序号', fixed: 'left' }
+            { title: '序号', fixed: 'left', type: 'numbers'}
             , { field: 'name', title: '电机' }
             , { field: 'pointname', title: '测点' }
             , { field: 'time', title: '时间' }
@@ -75,8 +74,10 @@ function update(para) {
         var data = getData(para, para.date1, para.date2);
         document.getElementById('t').innerHTML = "历史数据：从" + para.date1 + "到" + para.date2 + "，共有" + data.length + "条记录";
         table1.reload({
-            data: data
+            data: data,
+            limit: data.length
         });
+        changeAlarmNumber(data.length);
     }
     else if (para == AlarmCenterPara) {
         var time1 = new Date();
@@ -86,14 +87,16 @@ function update(para) {
         var data = getData(para, time1, time2);
         document.getElementById('t').innerHTML = "实时数据：从" + time1 + "到" + time2 + "，共有" + data.length + "条记录";
         table1.reload({
-            data: data
+            data: data,
+            limit: data.length
         });
+        changeAlarmNumber(data.length);
         setTimeOutId = setTimeout(function () { update(para); }, 3000);
     }
 }
 
 function getData(para, time1, time2) {
-    return new Array(Math.floor(Math.random() * 10 + 1)).fill({ "id": 1, 'name': '一号机组', 'pointname': '1#测点' });
+    return new Array(Math.floor(Math.random() * 10 + 1)).fill({ "id": 1, 'name': '一号机组', 'pointname': '1#测点', 'time': time1, 'value': '1', 'unit': 'm/s', 'type': '报警', 'marker': '1' });
     layui.$.ajax({
         type:'POST',
         url: "http://192.168.10.104:8080/cms/user/list",

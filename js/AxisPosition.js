@@ -141,6 +141,9 @@ function drawAxisPosition() {
                 data1.push([data.xTime[i]*1000, data.gapx[i]]);
             }
             var option1 = {
+                title: {
+                    text: 'X向间隙电压'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -202,6 +205,9 @@ function drawAxisPosition() {
                 data2.push([data.xTime[i]*1000, data.gapy[i]]);
             }
             var option2 = {
+                title: {
+                    text: 'Y向间隙电压'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -263,6 +269,9 @@ function drawAxisPosition() {
                 data3.push([data.data[1][i], data.data[0][i]]);
             }
             var option3 = {
+                title: {
+                    text: '轴心位置'
+                },
                 polar: {
                     center: ["50%", "50%"]
                 },

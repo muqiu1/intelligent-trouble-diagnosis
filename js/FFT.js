@@ -108,6 +108,9 @@ function drawFFTTF() {
                 newData.push([data.data[1][i], data.data[0][i]]);
             }
             var option1 = {
+                title: {
+                    text: '原始波形'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -143,7 +146,10 @@ function drawFFTTF() {
                     name: "时间/s",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    // max: 'dataMax',
+                    max: 'dataMax',
+                    axisLabel: {
+                        showMaxLabel: false,
+                    }
                     // data: newData
                 },
                 yAxis: {
@@ -198,6 +204,9 @@ function drawFFTTF() {
                 data1.push([data.data[1][i], data.data[0][i]]);
             }
             var option2 = {
+                title: {
+                    text: '幅值谱'
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -234,6 +243,9 @@ function drawFFTTF() {
                     nameLocation: 'middle',
                     nameGap: 30,
                     max: data.is_order?20:'dataMax',
+                    axisLabel: {
+                        showMaxLabel: data.is_order?true:false,
+                    }
                 },
                 yAxis: {
                     type: 'value',
@@ -301,6 +313,9 @@ function drawFFT() {
                 }
             }
             var option3d = {
+                title: {
+                    text: '短时傅里叶变换'
+                },
                 tooltip: {
                     axisPointer: {
                         type: 'cross',
