@@ -19,6 +19,8 @@ layui.use(['table', 'laypage', 'form'], function () {
             console.log(data.length, data[0]);
             for (let i = 0; i < data.length; i++) {
                 data[i]["mPTypeName"] = "振动测点";
+                data[i]["signalName"] = null;
+                data[i]["portIDList"] = [];
                 for (let j = 0; j < configSignal.length; j++) {
                     if (data[i].signalID == configSignal[j].signalID) {
                         data[i]["signalName"] = configSignal[j].signalName;
@@ -69,7 +71,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                 var layEvent = obj.event; // 获得元素对应的 lay-event 属性值
                 // var tr = obj.tr; // 得到当前行 <tr> 元素的 jQuery 对象
                 // var options = obj.config; // 获取当前表格基础属性配置项
-                // console.log(obj); // 查看对象所有成员
+                console.log(obj); // 查看对象所有成员
 
                 if (layEvent === 'edit') { //编辑
                     // do something

@@ -149,11 +149,13 @@ layui.use(['tree', 'form'], function () {
                                 if (l[i].field == "3") {
                                     l[i].title = f + ' ' + l[i].title
                                     l[i].drawId = l[i].id
-                                    l[i].groupName = f + ' ' + l[i].group
                                     checkedList.push(l[i]);
-                                    checkedGroup[ l[i].groupName ] = {
-                                        MPX : l[i].mPX,
-                                        MPY : l[i].mPY,
+                                    if (l[i].group != null){
+                                        l[i].groupName = f + ' ' + l[i].group
+                                        checkedGroup[ l[i].groupName ] = {
+                                            MPX : l[i].mPX,
+                                            MPY : l[i].mPY,
+                                        }
                                     }
                                 }
                                 else if (l[i].children != null) {
