@@ -96,7 +96,7 @@ function update(para) {
 }
 
 function getData(para, time1, time2) {
-    return new Array(Math.floor(Math.random() * 10 + 1)).fill({ "id": 1, 'name': '一号机组', 'pointname': '1#测点', 'time': time1, 'value': '1', 'unit': 'm/s', 'type': '报警', 'marker': '1' });
+    return new Array(Math.floor(Math.random() * 10 + 1)).fill({ "id": 1, 'name': '一号机组', 'pointname': '1#测点', 'time': time1, 'value': '1', 'unit': 'um', 'type': '报警', 'marker': '1' });
     layui.$.ajax({
         type:'POST',
         url: "http://192.168.10.104:8080/cms/user/list",
