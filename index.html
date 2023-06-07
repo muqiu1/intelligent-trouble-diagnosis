@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>大型旋转机械在线监测分析诊断系统</title>
+  <title>汽轮发电机组故障智能诊断系统</title>
   <link rel="stylesheet" href="./layui/css/layui.css">
   <link rel="stylesheet" href="./css/index.css">
   <script src="echarts.js"></script>
@@ -14,7 +14,7 @@
 
 <body>
   <div class="layui-layout layui-layout-admin">
-    <div class="layui-header" style="background-color: #31bdec;">
+    <div class="layui-header" style="background-color: rgb(0,74,152);">
       <ul class="layui-nav">
         <li class="layui-nav-item layui-hide-xs">
           <a href="javascript:;"><i class="layui-icon layui-icon-group"></i>用户管理</a>
@@ -28,6 +28,7 @@
           <dl class="layui-nav-child">
             <dd><a onclick="loadPage('overview')" href="javascript:void(0)">设备总貌</a></dd>
             <dd><a onclick="loadPage('measuringPoint')"href="javascript:void(0)">采集参数设置</a></dd>
+            <dd><a onclick="loadPage('setCenter')"href="javascript:void(0)">监测设置</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs" id="DataManagementA">
@@ -86,11 +87,11 @@
         </li>
       </ul>
       <ul class="layui-nav layui-layout-right">
-        <li class="layui-nav-item" lay-unselect>
+        <!-- <li class="layui-nav-item" lay-unselect>
           <a onclick="loadPage('setCenter')" href="javascript:void(0)">
             <i class="layui-icon layui-icon-set"></i>设置
           </a>
-        </li>
+        </li> -->
         <li class="layui-nav-item layui-hide layui-show-md-inline-block">
           <a href="javascript:;">
             <span  id="UserName"></span>
@@ -114,7 +115,7 @@
                   <div class="layui-input-inline">
                       <input type="text" name="startTime" class="layui-input" id="time1" placeholder="yyyy-MM-dd HH:mm:ss">
                       <input type="text" name="endTime" class="layui-input" id="time2" placeholder="yyyy-MM-dd HH:mm:ss">
-                      <button type="button" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-normal" onclick=getTimeList()>检索</button>
+                      <button type="button" class="layui-btn layui-btn-fluid layui-btn-normal" onclick=getTimeList()>检索</button>
                   </div>
               </div>
           </div>

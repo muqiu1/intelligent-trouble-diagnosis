@@ -12,8 +12,11 @@ html, body{
     width: 100%;
 }
 .layui-form-label{
-    font-size: 16px;
+    font-size: 17px;
     color: black;
+}
+.layui-btn{
+    font-size: 16px;
 }
 .layui-input{
     font-size: 16px;

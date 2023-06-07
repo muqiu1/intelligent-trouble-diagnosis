@@ -194,7 +194,7 @@ layui.use(['table', 'form'], function () {
         , cols: [[ //表头
             { field: 'FaultID', title: '序号', width: '10%', fixed: 'left', align: 'center' }
             , { field: 'FaultName', title: '故障名称', width: '60%', align: 'center' }
-            , { field: 'Probability', title: '概率', edit: 'text', width: '15%', align: 'center' }
+            , { field: 'Probability', title: '概率', width: '15%', align: 'center' }
             , { title: '详情', width: '15%', templet: '#Detail', align: 'center' }
         ]]
     });

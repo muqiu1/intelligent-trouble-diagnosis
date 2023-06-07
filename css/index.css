@@ -1,7 +1,7 @@
 /* .layui-table[lay-even] tr:nth-child(odd) {
     background-color: blue;
 } */
-.layui-table[lay-even] tr:nth-child(even) {
+.layui-table[lay-even] tr:nth-child(even), .my-table-even{
     background-color: rgb(220,244,255);
 }
 /* .layui-table tbody tr:hover, .layui-table-hover{
@@ -52,11 +52,20 @@
 .layui-form-radio div{
     font-size: 16px;
 }
+.layui-form-radio:hover *,.layui-form-radioed,.layui-form-radioed>i{
+    color: rgb(30,159,255);
+}
+.layui-btn{
+    font-size: 16px;
+}
+.layui-btn .layui-btn-xs{
+    font-size: 14px;
+}
 .layui-nav * {
-    font-size: 18px;
+    font-size: 20px;
 }
 .layui-nav .layui-nav-item a {
-    color: #000;
+    color: #e5e5e5;
     font-weight: 550;
     /* color: rgba(255,255,255,.7); */
 }
@@ -92,4 +101,24 @@
     font-size: 20px;
     font-weight: bold;
     margin-left: 0px;
+}
+.layui-form-checked[lay-skin=primary] i {
+    border-color: rgb(30,159,255)!important;
+    background-color: rgb(30,159,255);
+    color: #fff;
+}
+
+.layui-tab-title li{
+    width: 32%;
+    font-size: 20px;
+    font-weight: bold;
+}
+.layui-tab-bar[lay-stope="tabmore"]{
+    display: none;
+}
+.layui-tab-brief > .layui-tab-title .layui-this {
+    color: rgb(30,159,255);
+}
+.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
+    border-bottom-color: rgb(30,159,255);
 }

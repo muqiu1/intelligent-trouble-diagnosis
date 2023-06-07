@@ -244,7 +244,7 @@ layui.use(['util'], function () {
                     //     fontSize: 20
                     // },
                     // center: [0, 0],
-                    zoom: 8.5,
+                    zoom: 9,
                     data: data,
                     links: links,
                     lineStyle: {

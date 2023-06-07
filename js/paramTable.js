@@ -1,7 +1,7 @@
 initName()
 let parameter = {}
 let paramTable = {};
-let paramTime = [];
+// let paramTime = [];
 let paramFreq = [];
 layui.use(['table', 'form'], function () {
     var table = layui.table
@@ -15,25 +15,25 @@ layui.use(['table', 'form'], function () {
         parameter["pageSize"] = 50;
         parameter["pageNum"] = 1;
         parameter["startTime"] = 1576753367;
-        table.render({
-            elem: '#paramTable1'
-            , data: []
-            , limit: parameter.pageSize
-            , even: true
-            , cols: [[ //表头
-                { field: 'id', title: '序号', width: '5%', fixed: 'left' }
-                , { field: 'pointname', title: '测点名称', width: '16%', }
-                , { field: 'time', title: '采集时间', width: '15%' }
-                , { field: 'PPV', title: '峰峰值', width: '8%' }
-                , { field: 'FZYZ', title: '峰值因子', width: '8%' }
-                , { field: 'PDYZ', title: '偏度因子', width: '8%', }
-                , { field: 'QDYZ', title: '峭度因子', width: '8%', }
-                , { field: 'YDYZ', title: '裕度因子', width: '8%', }
-                , { field: 'MCYZ', title: '脉冲因子', width: '8%' }
-                , { field: 'BXYZ', title: '波形因子', width: '8%' }
-                , { field: 'Gap', title: '间隙', width: '8%' }
-            ]]
-        });
+        // table.render({
+        //     elem: '#paramTable1'
+        //     , data: []
+        //     , limit: parameter.pageSize
+        //     , even: true
+        //     , cols: [[ //表头
+        //         { field: 'id', title: '序号', width: '5%', fixed: 'left' }
+        //         , { field: 'pointname', title: '测点名称', width: '16%', }
+        //         , { field: 'time', title: '采集时间', width: '15%' }
+        //         , { field: 'PPV', title: '峰峰值', width: '8%' }
+        //         , { field: 'FZYZ', title: '峰值因子', width: '8%' }
+        //         , { field: 'PDYZ', title: '偏度因子', width: '8%', }
+        //         , { field: 'QDYZ', title: '峭度因子', width: '8%', }
+        //         , { field: 'YDYZ', title: '裕度因子', width: '8%', }
+        //         , { field: 'MCYZ', title: '脉冲因子', width: '8%' }
+        //         , { field: 'BXYZ', title: '波形因子', width: '8%' }
+        //         , { field: 'Gap', title: '间隙', width: '8%' }
+        //     ]]
+        // });
         table.render({
             elem: '#paramTable2'
             , data: []
@@ -43,8 +43,10 @@ layui.use(['table', 'form'], function () {
                 { field: 'id', title: '序号', width: '5%', fixed: 'left' }
                 , { field: 'pointname', title: '测点名称', width: '13%', }
                 , { field: 'time', title: '采集时间', width: '12%' }
-                , { field: 'halfMag', title: '0.5倍频幅值', width: '7%' }
-                , { field: 'halfP', title: '0.5倍频相位', width: '7%' }
+                , { field: 'PPV', title: '峰峰值', width: '9%' }
+                , { field: 'Gap', title: '间隙', width: '8%' }
+                , { field: 'halfMag', title: '0.5倍频幅值', width: '8%' }
+                , { field: 'halfP', title: '0.5倍频相位', width: '8%' }
                 , { field: 'x1Mag', title: '1倍频幅值', width: '7%' }
                 , { field: 'x1P', title: '1倍频相位', width: '7%' }
                 , { field: 'x2Mag', title: '2倍频幅值', width: '7%' }
@@ -84,7 +86,7 @@ layui.use(['table', 'form'], function () {
         }).then(function () {
             parseData();
         }).then(function () {
-            table.reload('paramTable1', { data: paramTime }, true);
+            // table.reload('paramTable1', { data: paramTime }, true);
             table.reload('paramTable2', { data: paramFreq }, true);
         });
     }
@@ -121,31 +123,31 @@ function getParam() {
 
 function parseData() {
     let l = paramTable.data.list;
-    paramTime = [];
+    // paramTime = [];
     paramFreq = [];
     for (let i = 0; i < l.length; i++) {
-        let dataTimeItem = {};
+        // let dataTimeItem = {};
         let dataFreqItem = {};
-        dataTimeItem["id"] = l[i].mPID;
+        // dataTimeItem["id"] = l[i].mPID;
         dataFreqItem["id"] = l[i].mPID;
         for (let j = 0; j < checkedList.length; j++) {
             if (l[i].mPID == checkedList[j].mPID) {
-                dataTimeItem["pointname"] = checkedList[j].title;
+                // dataTimeItem["pointname"] = checkedList[j].title;
                 dataFreqItem["pointname"] = checkedList[j].title;
                 break;
             }
         }
-        dataTimeItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
+        // dataTimeItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
         dataFreqItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
 
-        dataTimeItem["PPV"] = l[i].pPV;
-        dataTimeItem["FZYZ"] = l[i].fZYZ;
-        dataTimeItem["PDYZ"] = l[i].pDYZ;
-        dataTimeItem["QDYZ"] = l[i].qDYZ;
-        dataTimeItem["YDYZ"] = l[i].yDYZ;
-        dataTimeItem["MCYZ"] = l[i].mCYZ;
-        dataTimeItem["BXYZ"] = l[i].bXYZ;
-        dataTimeItem["Gap"] = l[i].gap;
+        // dataTimeItem["PPV"] = l[i].pPV;
+        // dataTimeItem["FZYZ"] = l[i].fZYZ;
+        // dataTimeItem["PDYZ"] = l[i].pDYZ;
+        // dataTimeItem["QDYZ"] = l[i].qDYZ;
+        // dataTimeItem["YDYZ"] = l[i].yDYZ;
+        // dataTimeItem["MCYZ"] = l[i].mCYZ;
+        // dataTimeItem["BXYZ"] = l[i].bXYZ;
+        // dataTimeItem["Gap"] = l[i].gap;
 
         dataFreqItem['halfMag'] = l[i].halfMag;
         dataFreqItem['halfP'] = l[i].halfP;
@@ -158,7 +160,10 @@ function parseData() {
         dataFreqItem['x4Mag'] = l[i].x4Mag;
         dataFreqItem['x5Mag'] = l[i].x5Mag;
 
-        paramTime.push(dataTimeItem);
+        dataFreqItem["PPV"] = l[i].pPV;
+        dataFreqItem["Gap"] = l[i].gap;
+
+        // paramTime.push(dataTimeItem);
         paramFreq.push(dataFreqItem);
     }
 }
