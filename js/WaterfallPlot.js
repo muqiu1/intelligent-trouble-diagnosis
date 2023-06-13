@@ -161,7 +161,7 @@ function drawWaterfallPlot(){
             },
             success: function (res) {
                 let data = res.data;
-                if (data.num > 0) {
+                if (data.num > 0 && data.indexNum[0] > WaterfallPlotLastTime) {
                     console.log(data.indexNum[0], data.num, data.data[0][0].length);
                     WaterfallPlotLastTime = data.indexNum[0];
                 }

@@ -49,9 +49,9 @@
           <div class="layui-row">
             <form class="layui-form" lay-filter={{item.id + "FreqParameter"}}>
               <div class="layui-form-item" style="margin-bottom: 0;">
-                <div class="layui-inline">
+                <div class="layui-inline" style="width: 100%;">
                   <label class="layui-form-label" style="width: 40px;">显示</label>
-                  <div class="layui-input-inline" style="width: 100%;">
+                  <div class="layui-input-inline" style="width: 360px;">
                     <input type="radio" name="isOrder" value={{_id +'_1'}} title="阶次" lay-filter="changeFreqIsOrder" checked>
                     <input type="radio" name="isOrder" value={{_id +'_0'}} title="频率" lay-filter="changeFreqIsOrder">
                     <input type="radio" name="isOrder" value={{_id +'_2'}} title="1/3倍频程" lay-filter="changeFreqIsOrder">

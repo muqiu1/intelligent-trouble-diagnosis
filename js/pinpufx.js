@@ -34,7 +34,8 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     FreqCharts = {};
     for (var i = 0; i < checkedList.length; i++) {
       FreqDrawID[checkedList[i].id] = checkedList[i].id;
-      FreqIsOrder[checkedList[i].id] = "1";
+      form.val( checkedList[i].id + "FreqParameter", { isOrder: checkedList[i].id + '_' + checkedList[i].isOrder } );
+      FreqIsOrder[checkedList[i].id] = checkedList[i].isOrder;
       FreqCharts[checkedList[i].id + "_table1"] = echarts.init(document.getElementById(checkedList[i].id + "_table1"));
       FreqCharts[checkedList[i].id + "_table2"] = echarts.init(document.getElementById(checkedList[i].id + "_table2"));
       FreqLastTime[checkedList[i].id] = 0;
@@ -89,6 +90,11 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     }
     else{
       drawFreq(id1, FreqDrawID[id1], "_RealTime");
+    }
+    for (var i = 0; i < checkedList.length; i++) {
+      if (checkedList[i].id == id1){
+        checkedList[i].isOrder = isOrder;
+      }
     }
   });
 

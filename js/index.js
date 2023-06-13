@@ -151,6 +151,7 @@ layui.use(['tree', 'form'], function () {
                                 if (l[i].field == "3") {
                                     l[i].title = f + ' ' + l[i].title
                                     l[i].drawId = l[i].id
+                                    l[i].isOrder = '1'
                                     checkedList.push(l[i]);
                                     if (l[i].group != null){
                                         l[i].groupName = f + ' ' + l[i].group

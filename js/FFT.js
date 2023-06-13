@@ -106,8 +106,8 @@ function drawFFTTF() {
         },
         success: function (res) {
             let data = res.data;
-            if (data.indexNum == FFTLastTime[1]){
-                console.log(data.indexNum);
+            if (data.indexNum <= FFTLastTime[1]){
+                console.log(FFTLastTime[1]);
                 return;
             }
             console.log(data.indexNum, data.data[0].length)
@@ -206,8 +206,8 @@ function drawFFTTF() {
         },
         success: function (res) {
             let data = res.data;
-            if (data.indexNum == FFTLastTime[2]){
-                console.log(data.indexNum);
+            if (data.indexNum <= FFTLastTime[2]){
+                console.log(FFTLastTime[2]);
                 return;
             }
             console.log(data.indexNum, data.data[0].length)
@@ -316,8 +316,8 @@ function drawFFT() {
         },
         success: function (res) {
             let data = res.data;
-            if (data.indexNum == FFTLastTime[3]){
-                console.log(data.indexNum);
+            if (data.indexNum <= FFTLastTime[3]){
+                console.log(FFTLastTime[3]);
                 return;
             }
             console.log(data.indexNum, data.data[0].length, data.data[0][0].length)
