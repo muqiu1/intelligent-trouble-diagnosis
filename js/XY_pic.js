@@ -68,8 +68,8 @@ function drawXYpic() {
         data: {
             MPX: MPX,
             MPY: MPY,
-            xAxis: XYAxis.xAxis,
-            yAxis: XYAxis.yAxis,
+            xAxis: XYAxis.xAxis == "LDZB"? "RMS": XYAxis.xAxis,
+            yAxis: XYAxis.yAxis == "LDZB"? "RMS": XYAxis.yAxis,
             startTime: startTime,
             endTime: endTime,
         },
@@ -80,6 +80,9 @@ function drawXYpic() {
             document.getElementById('XYsTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
             document.getElementById('XYeTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
             var option1 = {
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {

@@ -16,6 +16,7 @@ var host = '81.69.242.66:8080'
 var checkedTime = 0;
 var intervalId = 0; //实时监测计时器
 var drawType = "1";
+var drawIsOrder = "1";
 var rvibdataTable = {
     "PPV" : "峰峰值",
     "PV" : "峰值",
@@ -37,6 +38,7 @@ var rvibdataTable = {
     "X3P" : "3X相位",
     "X4Mag" : "4X幅值",
     "RotSpeed" : "转速",
+    "LDZB": "烈度指标",
 }
 //JS 
 function setTime() {
@@ -297,4 +299,10 @@ function changeIntervalTime(){
 
 function changeAlarmNumber(num){
     document.getElementById("alarmNumber").innerHTML = num;
+    if (num == 0 ){
+        document.getElementById("alarmNumber").style.display = "none";
+    }
+    else{
+        document.getElementById("alarmNumber").style.display = "inline-block";
+    }
 }

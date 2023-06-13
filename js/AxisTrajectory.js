@@ -132,6 +132,9 @@ function drawAxisTrajectory() {
                 title: {
                     text: 'X向时域波形'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -227,6 +230,9 @@ function drawAxisTrajectory() {
             var option2 = {
                 title: {
                     text: 'Y向时域波形'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -327,6 +333,9 @@ function drawAxisTrajectory() {
             var option3 = {
                 title: {
                     text: '轴心轨迹'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',

@@ -152,6 +152,9 @@ function drawAxisPosition() {
                 title: {
                     text: 'X向间隙电压'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -216,6 +219,9 @@ function drawAxisPosition() {
                 title: {
                     text: 'Y向间隙电压'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -279,6 +285,9 @@ function drawAxisPosition() {
             var option3 = {
                 title: {
                     text: '轴心位置'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 polar: {
                     center: ["50%", "50%"]

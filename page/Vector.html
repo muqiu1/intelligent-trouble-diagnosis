@@ -23,14 +23,27 @@
     <div class="layui-row">
         <div class="layui-col-md12 layui-panel">
             <div class="layui-row">
-                <div class="layui-col-md4">
+                <div class="layui-col-md3">
                     <form class="layui-form" action="" lay-filter="VectorSelect">
                         <select name="sss" lay-filter="changeVector">
                         </select>
                     </form>
                 </div>
-                <div class="layui-col-md4" id="Time">时间</div>
-                <div class="layui-col-md4">转速：<span id="rotSpeed"></span>&nbsp;rpm</div>
+                <div class="layui-col-md3">
+                    <form class="layui-form" lay-filter="VectorParameter">
+                        <div class="layui-form-item" style="margin-bottom: 0;">
+                            <div class="layui-inline">
+                                <label class="layui-form-label" style="width: 40px;">显示</label>
+                                <div class="layui-input-inline">
+                                    <input type="radio" name="isOrder" value=1 title="阶次" lay-filter="changeVectorIsOrder" checked>
+                                    <input type="radio" name="isOrder" value=0 title="频率" lay-filter="changeVectorIsOrder">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-col-md3" id="Time">时间</div>
+                <div class="layui-col-md3">转速：<span id="rotSpeed"></span>&nbsp;rpm</div>
             </div>
             <div class="layui-row layui-col-space30">
                 <div class="layui-col-md6">

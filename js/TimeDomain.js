@@ -20,6 +20,17 @@ layui.use(['laytpl', 'form', 'layer'], function () {
         laytpl(getTpl).render(tableData, function (html) {
             view.innerHTML = html;
         });
+        if (checkedList.length == 2) {
+            for (var i = 0; i < checkedList.length; i++) {
+                document.getElementById(checkedList[i].id).style.height = 630 + "px";
+            }
+        }
+        else if (checkedList.length == 1) {
+            var elem = document.getElementById(checkedList[0].id);
+            elem.style.height = 630 + "px";
+            elem = elem.parentElement.parentElement.parentElement;
+            elem.style.width = 100 + "%";
+        }
         resolve();
     }).then(function () {
         form.render('select')
@@ -121,6 +132,9 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                 newData.push([data.data[1][i], data.data[0][i]]);
             }
             var option = {
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {

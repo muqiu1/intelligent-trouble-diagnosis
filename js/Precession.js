@@ -34,6 +34,7 @@ layui.use(['form', 'layer'], function () {
     }).then(function () {
         $(document).ready(function () {
             form.val("drawPrecessionTypeForm", { status: drawType});
+            form.val("PrecessionParameter", { isOrder: drawIsOrder});
             if ( drawType == "0"){
                 startTimer(drawPrecessionRealTime);
             }
@@ -56,6 +57,13 @@ layui.use(['form', 'layer'], function () {
     
     //监听提交
     form.on('select(changePrecession)', function (data) {
+        for (var i = 1; i <= 3; i++) {
+            PrecessionLastTime[i] = 0;
+        }
+        drawPrecession();
+    });
+    form.on('radio(changePrecessionIsOrder)', function (data) {
+        drawIsOrder = data.value;
         for (var i = 1; i <= 3; i++) {
             PrecessionLastTime[i] = 0;
         }
@@ -89,6 +97,7 @@ function drawPrecession() {
     let MPX = checkedGroup[layui.form.val("PrecessionSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("PrecessionSelect").sss].MPY;
     let urlRealTime = intervalId == 0?"":"_RealTime";
+    let isOrder = layui.form.val("PrecessionParameter").isOrder == '1';
     let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
@@ -104,6 +113,7 @@ function drawPrecession() {
             pageNum: 1,
             pageSize: 1,
             LastTime: PrecessionLastTime[1],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -121,6 +131,9 @@ function drawPrecession() {
             var option1 = {
                 title: {
                     text: 'X向频谱图'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -154,12 +167,12 @@ function drawPrecession() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
+                    name: isOrder?"阶次":"频率/Hz",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: data.is_order?20:'dataMax',
+                    max: isOrder?20:'dataMax',
                     axisLabel: {
-                        showMaxLabel: data.is_order?true:false,
+                        showMaxLabel: isOrder?true:false,
                     }
                 },
                 yAxis: {
@@ -199,6 +212,7 @@ function drawPrecession() {
             pageNum: 1,
             pageSize: 1,
             LastTime: PrecessionLastTime[2],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -216,6 +230,9 @@ function drawPrecession() {
             var option2 = {
                 title: {
                     text: 'Y向频谱图'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -249,12 +266,12 @@ function drawPrecession() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
+                    name: isOrder?"阶次":"频率/Hz",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: data.is_order?20:'dataMax',
+                    max: isOrder?20:'dataMax',
                     axisLabel: {
-                        showMaxLabel: data.is_order?true:false,
+                        showMaxLabel: isOrder?true:false,
                     }
                 },
                 yAxis: {
@@ -297,6 +314,7 @@ function drawPrecession() {
             pageNum: 1,
             pageSize: 1,
             LastTime: PrecessionLastTime[3],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -314,6 +332,9 @@ function drawPrecession() {
             var option3 = {
                 title: {
                     text: '全频谱'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -347,14 +368,14 @@ function drawPrecession() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
+                    name: isOrder?"阶次":"频率/Hz",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: data.is_order?  20:'dataMax',
-                    min: data.is_order? -20:'dataMin',
+                    max: isOrder?  20:'dataMax',
+                    min: isOrder? -20:'dataMin',
                     axisLabel: {
-                        showMaxLabel: data.is_order?true:false,
-                        showMinLabel: data.is_order?true:false,
+                        showMaxLabel: isOrder?true:false,
+                        showMinLabel: isOrder?true:false,
                     }
                 },
                 yAxis: {

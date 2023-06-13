@@ -64,6 +64,7 @@ layui.use(['form', 'layer', 'laypage'], function () {
         form.render('select');
         $(document).ready(function () {
             form.val("drawWaterfallPlotTypeForm", { status: drawType});
+            form.val("WaterfallPlotselect", { isOrder: drawIsOrder});
             if ( drawType == "0"){
                 switchFormDisabled(true)
                 startTimer(drawWaterfallPlotRealTime);
@@ -79,6 +80,11 @@ layui.use(['form', 'layer', 'laypage'], function () {
     
     //监听提交
     form.on('select(changeWaterfallPlot)', function (data) {
+        WaterfallPlotLastTime = 0;
+        drawWaterfallPlot();
+    });
+    form.on('radio(changeWaterfallPlotIsOrder)', function (data) {
+        drawIsOrder = data.value;
         WaterfallPlotLastTime = 0;
         drawWaterfallPlot();
     });
@@ -134,6 +140,7 @@ function drawWaterfallPlot(){
             
         let startSearchTime = form.val("getStartSearchTime");
         let MPID = parseInt(form.val("WaterfallPlotselect").sss);
+        let isOrder = form.val("WaterfallPlotselect").isOrder == '1';
         let endTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].endTime : parseInt(new Date().getTime()/1000);
         let startTime = intervalId == 0? WaterfallPlotStartTime[ startSearchTime["start-end"] ].startTime : endTime - 3600;
         let isStartStop = (intervalId != 0 || parseInt(startSearchTime["start-end"]) == 0 )? false: true;
@@ -150,6 +157,7 @@ function drawWaterfallPlot(){
                 WaterfallPlotNum: WaterfallPlotNum,
                 isStartStop: isStartStop,
                 LastTime : WaterfallPlotLastTime,
+                isOrder: isOrder,
             },
             success: function (res) {
                 let data = res.data;
@@ -209,7 +217,7 @@ function drawWaterfallPlot(){
                     data.indexNum[i] = new Date(data.indexNum[i]*1000).toLocaleString();
                     if (isStartStop) {
                         for (let j = 0; j < data.data[i][0].length; j++) {
-                            if (data.is_order && data.data[i][0][j] > 20) {
+                            if (isOrder && data.data[i][0][j] > 20) {
                                 break;
                             }
                             data1.push([data.data[i][0][j].toFixed(3), data.rotSpeed[i], data.data[i][1][j].toFixed(3)]);
@@ -217,7 +225,7 @@ function drawWaterfallPlot(){
                     }
                     else{
                         for (let j = 0; j < data.data[i][0].length; j++) {
-                            if (data.is_order && data.data[i][0][j] > 20) {
+                            if (isOrder && data.data[i][0][j] > 20) {
                                 break;
                             }
                             data1.push([data.data[i][0][j].toFixed(3), data.indexNum[i], data.data[i][1][j].toFixed(3)]);
@@ -239,6 +247,9 @@ function drawWaterfallPlot(){
                     title: {
                         text: '瀑布图'
                     },
+                    textStyle: {
+                        fontSize: 15
+                    },
                     tooltip: {
                         axisPointer: {
                             type: 'cross',
@@ -249,10 +260,10 @@ function drawWaterfallPlot(){
                     },
                     xAxis3D: {
                         type: 'value',
-                        name: data.is_order?"阶次":"频率/Hz",
-                        // interval: data.is_order? 1: null,
+                        name: isOrder?"阶次":"频率/Hz",
+                        // interval: isOrder? 1: null,
                         nameLocation: 'middle',
-                        max: data.is_order?20:'dataMax',
+                        max: isOrder?20:'dataMax',
                     },
                     yAxis3D: {
                         type: isStartStop ? 'value' :'category',
@@ -300,6 +311,9 @@ function drawWaterfallPlot(){
                     title: {
                         text: '单条频谱'
                     },
+                    textStyle: {
+                        fontSize: 15
+                    },
                     dataset: {
                         source: index < rawDate.length? rawDate[index] : null,
                     },
@@ -335,12 +349,12 @@ function drawWaterfallPlot(){
                     ],
                     xAxis: {
                         type: 'value',
-                        name: data.is_order?"阶次":"频率/Hz",
+                        name: isOrder?"阶次":"频率/Hz",
                         nameLocation: 'middle',
                         nameGap: 30,
-                        max: data.is_order?20:'dataMax',
+                        max: isOrder?20:'dataMax',
                         axisLabel: {
-                            showMaxLabel: data.is_order?true:false,
+                            showMaxLabel: isOrder?true:false,
                         }
                     },
                     yAxis: {

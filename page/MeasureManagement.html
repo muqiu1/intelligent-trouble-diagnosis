@@ -9,8 +9,44 @@
         <table id="MeasureManagement" lay-filter="MeasureManagement"></table>
     </div>
     <script type="text/html" id="MeasureToolbar">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="add">新建</button>
+        <div>
+            <div>
+                <form class="layui-form" lay-filter="measureManagementSearch" onsubmit="return false">
+                    <div class="layui-form-item" style="margin-bottom: 0px">
+                        {{#  if( RightID != 3 ){ }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="add" type="button">新建</button>
+                            </div>
+                        </div>
+                        {{#  } }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label">搜索字段</label>
+                            <div class="layui-input-inline">
+                                <select name="SearchFeild">
+                                    <option value="FaultName" selected>故障名称</option>
+                                    <option value="MeasureID">序号</option>
+                                    <option value="FaultReason">故障原因</option>
+                                    <option value="Detail">故障机理</option>
+                                    <option value="CharacterName">故障特征</option>
+                                    <option value="Measures">处置/维修措施</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label" style="width: auto;">搜索内容</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="SearchContent" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="search">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </script>
     <script type="text/html" id="MeasureOperator">

@@ -29,11 +29,130 @@
             </div>
         </div>
     </div>
-    <script type="text/html" id="Toolbar">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="add">新建</button>
+
+    <script type="text/html" id="CharacterManagementToolbar">
+        <div>
+            <div>
+                <form class="layui-form" lay-filter="characterManagementSearch" onsubmit="return false">
+                    <div class="layui-form-item" style="margin-bottom: 0px">
+                        {{#  if( RightID != 3 ){ }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="add" type="button">新建</button>
+                            </div>
+                        </div>
+                        {{#  } }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label">搜索字段</label>
+                            <div class="layui-input-inline">
+                                <select name="SearchFeild">
+                                    <option value="CharacterName" selected>征兆名称</option>
+                                    <option value="CharacterID">序号</option>
+                                    <option value="CharacterTypeName">征兆类型</option>
+                                    <option value="Detail">征兆描述</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label" style="width: auto;">搜索内容</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="SearchContent" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="search">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </script>
+
+    <script type="text/html" id="FaultManagementtToolbar">
+        <div>
+            <div>
+                <form class="layui-form" lay-filter="faultrManagementSearch" onsubmit="return false">
+                    <div class="layui-form-item" style="margin-bottom: 0px">
+                        {{#  if( RightID != 3 ){ }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="add" type="button">新建</button>
+                            </div>
+                        </div>
+                        {{#  } }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label">搜索字段</label>
+                            <div class="layui-input-inline">
+                                <select name="SearchFeild">
+                                    <option value="FaultName" selected>故障名称</option>
+                                    <option value="FaultID">序号</option>
+                                    <option value="Detail">故障描述</option>
+                                    <option value="FaultType">故障类型</option>
+                                    <option value="FaultLoc">故障位置</option>
+                                    <option value="FaultReason">故障原因</option>
+                                    <option value="Measures">解决方案</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label" style="width: auto;">搜索内容</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="SearchContent" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="search">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="RuleManagementToolbar">
+        <div>
+            <div>
+                <form class="layui-form" lay-filter="ruleManagementSearch" onsubmit="return false">
+                    <div class="layui-form-item" style="margin-bottom: 0px">
+                        {{#  if( RightID != 3 ){ }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="add" type="button">新建</button>
+                            </div>
+                        </div>
+                        {{#  } }}
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label">搜索字段</label>
+                            <div class="layui-input-inline">
+                                <select name="SearchFeild">
+                                    <option value="RuleName" selected>规则名称</option>
+                                    <option value="RuleID">序号</option>
+                                    <option value="Priority">优先级</option>
+                                    <option value="Explain">规则解释</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <label class="layui-form-label" style="width: auto;">搜索内容</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="SearchContent" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0px">
+                            <div class="layui-input-inline" style="width: 50px;">
+                                <button class="layui-btn layui-btn-sm" lay-event="search">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </script>
+
     <script type="text/html" id="Management">
         <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
         <!-- 这里同样支持 laytpl 语法，如： -->
@@ -42,6 +161,7 @@
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         {{#  } }}
     </script>
+
     <script type="text/html" id="IFListToolbar">
         <div class="layui-row">
             <div class="layui-col-md1">
@@ -55,8 +175,15 @@
             </div>
         </div>
     </script>
+
     <script type="text/html" id="IFListDelete">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    
+    <script>
+        let CharacterManagementList = [];
+        let FaultManagementList = [];
+        let RuleManagementList = [];
     </script>
     <script src="../js/CharacteManagement.js"></script>
     <script src="../js/FaultManagement.js"></script>

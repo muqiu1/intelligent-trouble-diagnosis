@@ -35,6 +35,13 @@
                     <form class="layui-form" lay-filter="EnvolopeParameter" onsubmit="return false">
                         <div class="layui-form-item" style="margin-bottom: 0;">
                             <div class="layui-inline">
+                                <label class="layui-form-label" style="width: 40px;">显示</label>
+                                <div class="layui-input-inline">
+                                    <input type="radio" name="isOrder" value=1 title="阶次" lay-filter="changeEnvolopeIsOrder" checked>
+                                    <input type="radio" name="isOrder" value=0 title="频率" lay-filter="changeEnvolopeIsOrder">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
                                 <label class="layui-form-label">最低频率</label>
                                 <div class="layui-input-block">
                                     <input type="number" name="f_low" lay-verify="required" lay-reqtext="最低频率是必填项" class="layui-input" value="0">

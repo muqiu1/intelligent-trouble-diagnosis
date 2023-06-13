@@ -123,6 +123,9 @@ function drawBode() {
                 title: {
                     text: '相位'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 dataset: {
                     source: data.data,
                 },
@@ -196,6 +199,9 @@ function drawBode() {
             var option2 = {
                 title: {
                     text: '幅值'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 dataset: {
                     source: data.data,
@@ -271,6 +277,9 @@ function drawBode() {
             var option3 = {
                 title: {
                     text: '极坐标轴'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 polar: {
                     center: ["50%", "50%"]

@@ -122,3 +122,8 @@
 .layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
     border-bottom-color: rgb(30,159,255);
 }
+
+#alarmNumber{
+    -webkit-animation-duration:1s;
+    animation-duration: 1s;
+}

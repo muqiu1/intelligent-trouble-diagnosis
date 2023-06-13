@@ -3,6 +3,25 @@ layui.use(['table', 'laypage', 'form'], function () {
         , form = layui.form
         , $ = layui.$
 
+    let characterTypeDict = {};
+    $.ajax({
+        type: 'POST',
+        url: "http://" + host + "/cms/character/typeList",
+        data: {},
+        contentType: "application/x-www-form-urlencoded",
+        // async: false,
+        dataType: "json",
+        success: function (res) {
+            let data = res.data;
+            let characterTypeList = data.data;
+            for (let i = 0; i < characterTypeList.length; i++) {
+                characterTypeDict[characterTypeList[i].CharacterType] = characterTypeList[i].CharacterTypeName;
+            }
+        },
+        error: function () {
+            console.log("AJAX ERROR!")
+        }
+    });
     $.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/character/list",
@@ -12,17 +31,27 @@ layui.use(['table', 'laypage', 'form'], function () {
         dataType: "json",
         success: function (res) {
             let data = res.data;
-            console.log(data.data.length, data.data[0]);
+            CharacterManagementList = data.data;
+            for (let i = 0; i < CharacterManagementList.length; i++) {
+                CharacterManagementList[i].CharacterTypeName = characterTypeDict[CharacterManagementList[i].CharacterType];
+            }
             table.render({
                 elem: '#CharacterManagement'
-                , toolbar: RightID != 3  ? '#Toolbar' : null
-                , data: data.data
+                , toolbar: '#CharacterManagementToolbar'
+                , data: CharacterManagementList
+                , limit: 30
+                , page: {
+                    groups: 10,
+                    prev: '<em><<</em>',
+                    next: '<em>>></em>',
+                    layout : ['count','prev', 'page', 'next','skip']
+                }
                 , even: true
-                , limit: data.data.length
                 , cols: [[ //表头
                     { field: 'CharacterID', title: '序号', width: '10%', fixed: 'left', align: 'center' }
                     , { field: 'CharacterName', title: '征兆名称', width: '20%', align: 'center' }
-                    , { field: 'Detail', title: '征兆描述', width: '53%', align: 'center' }
+                    , { field: 'CharacterTypeName', title: '征兆类型', width: '10%', align: 'center'}
+                    , { field: 'Detail', title: '征兆描述', width: '43%', align: 'center' }
                     , { title: '操作', width: '17%', templet: '#Management', align: 'center' }
                 ]]
             });
@@ -51,7 +80,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                         <div class="layui-input-block">
                                         <select name="CharacterType" required lay-verify="required">
-                                            <option value="0">固定特征</option>
+                                            <option value="0">波形特征</option>
                                             <option value="1">频谱特征</option>
                                             <option value="2">相位特征</option>
                                             <option value="3">轴心轨迹特征</option>
@@ -92,13 +121,15 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             if (res.data == 1){
                                                 layer.closeAll('page');
                                                 layer.msg('新建成功');
-                                                let tableDate = table.getData('CharacterManagement');
                                                 field.CharacterID = parseInt(res.msg);
-                                                tableDate.push(field);
+                                                field.CharacterTypeName = characterTypeDict[field.CharacterType];
+                                                CharacterManagementList.push(field);
                                                 table.reload('CharacterManagement', {
-                                                    data: tableDate
-                                                    , limit: tableDate.length
-                                                });
+                                                    data: CharacterManagementList,
+                                                    page: {
+                                                        curr: Math.ceil(CharacterManagementList.length / 30)
+                                                    }
+                                                }, true);
                                             }
                                             else {
                                                 layer.msg('新建失败');
@@ -112,7 +143,35 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 });
                             }
                         });
-                    break;
+                        break;
+                    case 'search':
+                        let characterSearch = form.val("characterManagementSearch");
+                        let SearchFeild = characterSearch.SearchFeild;
+                        let SearchContent = characterSearch.SearchContent;
+                        if (SearchContent == "" || SearchContent == null) {
+                            table.reload('CharacterManagement', {
+                                data: CharacterManagementList,
+                                page: {
+                                    curr: 1,
+                                }
+                            }, true);
+                            form.val("characterManagementSearch", characterSearch);
+                            return;
+                        }
+                        let searchResult = [];
+                        for (let i = 0; i < CharacterManagementList.length; i++) {
+                            if ( new RegExp( SearchContent ).test( CharacterManagementList[i][SearchFeild] ) ) {
+                                searchResult.push(CharacterManagementList[i]);
+                            }
+                        }
+                        table.reload('CharacterManagement', {
+                            data: searchResult,
+                            page: {
+                                curr: 1,
+                            }
+                        }, true);
+                        form.val("characterManagementSearch", characterSearch);
+                        break;
                 };
             });
 
@@ -144,7 +203,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
                                         <select name="CharacterType" disabled>
-                                            <option value="0">固定特征</option>
+                                            <option value="0">波形特征</option>
                                             <option value="1">频谱特征</option>
                                             <option value="2">相位特征</option>
                                             <option value="3">轴心轨迹特征</option>
@@ -176,12 +235,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                             form.val("Management-layer", obj.data);
                             if ( obj.data.RuleID != null && obj.data.RuleID != "" ){
                                 let RuleID = obj.data.RuleID.split(',');
-                                let RuleList = table.getData('RuleManagement');
                                 let RuleText = [];
                                 for (let i = 0; i < RuleID.length; i++) {
-                                    for (let j = 0; j < RuleList.length; j++) {
-                                        if (RuleID[i] == RuleList[j].RuleID) {
-                                            RuleText.push(RuleList[j].RuleName);
+                                    for (let j = 0; j < RuleManagementList.length; j++) {
+                                        if (RuleID[i] == RuleManagementList[j].RuleID) {
+                                            RuleText.push(RuleManagementList[j].RuleName);
                                             break;
                                         }
                                     }
@@ -212,6 +270,13 @@ layui.use(['table', 'laypage', 'form'], function () {
                             success: function (res) {
                                 if (res.data == 1){
                                     obj.del(); // 删除对应行（tr）的 DOM 结构，并更新缓存
+                                    var i;
+                                    for (i = 0; i < CharacterManagementList.length; i++) {
+                                        if (CharacterManagementList[i].CharacterID == obj.data.CharacterID) {
+                                            break;
+                                        }
+                                    }
+                                    CharacterManagementList.splice(i, 1);
                                     layer.msg('删除成功');
                                 }
                                 else {
@@ -244,7 +309,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
                                         <select name="CharacterType" required lay-verify="required">
-                                            <option value="0">固定特征</option>
+                                            <option value="0">波形特征</option>
                                             <option value="1">频谱特征</option>
                                             <option value="2">相位特征</option>
                                             <option value="3">轴心轨迹特征</option>
@@ -286,7 +351,14 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     success: function (res) {
                                         if (res.data == 1){
                                             layer.closeAll('page');
+                                            field.CharacterTypeName = characterTypeDict[field.CharacterType];
                                             obj.update(field);
+                                            for (let i = 0; i < CharacterManagementList.length; i++) {
+                                                if (CharacterManagementList[i].CharacterID == field.CharacterID) {
+                                                    CharacterManagementList[i] = field;
+                                                    break;
+                                                }
+                                            }
                                             layer.msg('修改成功');
                                         }
                                         else {

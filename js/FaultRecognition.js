@@ -54,7 +54,7 @@ layui.use(['table', 'form'], function () {
                                 <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                 <div class="layui-input-block">
                                     <select name="CharacterType" lay-filter="CharacterType" required lay-verify="required">
-                                        <option value="0">固定特征</option>
+                                        <option value="0">波形特征</option>
                                         <option value="1">频谱特征</option>
                                         <option value="2">相位特征</option>
                                         <option value="3">轴心轨迹特征</option>

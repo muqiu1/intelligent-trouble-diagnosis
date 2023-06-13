@@ -21,6 +21,7 @@ var TrendGroup = {
     "X3P" : 3,
     "X4Mag" : 1,
     "RotSpeed" : 4,
+    "LDZB": 2,
 }
 var y = [];
 layui.use(['form', 'layer'], function () {
@@ -51,7 +52,7 @@ layui.use(['form', 'layer'], function () {
                 // console.log(param);
                 let html = [new Date(param.data.IndexNum).toLocaleString().split('/').join('-') + '<hr size=1 style="margin: 3px 0">'];
                 for (let i=0; i<y.length; i++){
-                    html.push( rvibdataTable[ y[i] ] + ': ' + param.data[ y[i] ].toFixed(3) + '<br/>');
+                    html.push( rvibdataTable[ y[i] ] + ': ' + param.data[ y[i] == "LDZB"? "RMS" : y[i] ].toFixed(3) + '<br/>');
                 }
                 return html.join('');
             }
@@ -199,13 +200,19 @@ function drawTrend() {
                 showSymbol: false,
                 encode: {
                     x : "IndexNum",
-                    y : y[i]
+                    y : y[i] == "LDZB"? "RMS" : y[i]
                 }
             }
         )
     }
     let endTime = intervalId == 0? (new Date(searchTime.endTime.split('-').join('/')).getTime())/1000 : parseInt(new Date().getTime()/1000);
     let startTime = intervalId == 0? (new Date(searchTime.startTime.split('-').join('/')).getTime())/1000 : endTime - 3600;
+    let ytemp = y.filter(function (item) {
+        return item != "LDZB";
+    });
+    if ( y.includes("LDZB") && !ytemp.includes("RMS")){
+        ytemp.push("RMS");
+    }
     layui.$.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/rVibData/getTrend",
@@ -215,7 +222,7 @@ function drawTrend() {
         traditional: true,
         data: {
             MPID: MPID,
-            yAxisList : y,
+            yAxisList : ytemp,
             startTime : startTime,
             endTime: endTime,
         },

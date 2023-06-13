@@ -12,13 +12,19 @@ layui.use(['table', 'laypage', 'form'], function () {
         dataType: "json",
         success: function (res) {
             let data = res.data;
-            console.log(data.data.length, data.data[0]);
+            FaultManagementList = data.data;
             table.render({
                 elem: '#FaultManagement'
-                , toolbar: RightID != 3  ? '#Toolbar' : null
-                , data: data.data
+                , toolbar: '#FaultManagementtToolbar'
+                , data: FaultManagementList
+                , limit: 30
+                , page: {
+                    groups: 10,
+                    prev: '<em><<</em>',
+                    next: '<em>>></em>',
+                    layout : ['count','prev', 'page', 'next','skip']
+                }
                 , even: true
-                , limit: data.data.length
                 , cols: [[ //表头
                     { field: 'FaultID', title: '序号', width: '9%', fixed: 'left', align: 'center'}
                     , { field: 'FaultName', title: '故障名称', width: '13%', align: 'center'}
@@ -108,13 +114,14 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             if (res.data == 1){
                                                 layer.closeAll('page');
                                                 layer.msg('新建成功');
-                                                let tableDate = table.getData('FaultManagement');
                                                 field.FaultID = parseInt(res.msg);
-                                                tableDate.push(field);
+                                                FaultManagementList.push(field);
                                                 table.reload('FaultManagement', {
-                                                    data: tableDate
-                                                    , limit: tableDate.length
-                                                });
+                                                    data: FaultManagementList,
+                                                    page: {
+                                                        curr: Math.ceil(FaultManagementList.length / 30)
+                                                    }
+                                                }, true);
                                             }
                                             else {
                                                 layer.msg('新建失败');
@@ -128,7 +135,35 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 });
                             }
                         });
-                    break;
+                        break;
+                    case 'search':
+                        let faultSearch = form.val("faultrManagementSearch");
+                        let SearchFeild = faultSearch.SearchFeild;
+                        let SearchContent = faultSearch.SearchContent;
+                        if (SearchContent == "" || SearchContent == null) {
+                            table.reload('FaultManagement', {
+                                data: FaultManagementList,
+                                page: {
+                                    curr: 1,
+                                }
+                            }, true);
+                            form.val("faultrManagementSearch", faultSearch);
+                            return;
+                        }
+                        let searchResult = [];
+                        for (let i = 0; i < FaultManagementList.length; i++) {
+                            if ( new RegExp( SearchContent ).test( FaultManagementList[i][SearchFeild] ) ) {
+                                searchResult.push(FaultManagementList[i]);
+                            }
+                        }
+                        table.reload('FaultManagement', {
+                            data: searchResult,
+                            page: {
+                                curr: 1,
+                            }
+                        }, true);
+                        form.val("faultrManagementSearch", faultSearch);
+                        break;
                 };
             });
 
@@ -205,12 +240,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                             form.val("Management-layer", obj.data);
                             if (obj.data.RuleID != null && obj.data.RuleID != ''){
                                 let RuleID = obj.data.RuleID.split(',');
-                                let RuleList = table.getData('RuleManagement');
                                 let RuleText = [];
                                 for (let i = 0; i < RuleID.length; i++) {
-                                    for (let j = 0; j < RuleList.length; j++) {
-                                        if (RuleID[i] == RuleList[j].RuleID) {
-                                            RuleText.push(RuleList[j].RuleName);
+                                    for (let j = 0; j < RuleManagementList.length; j++) {
+                                        if (RuleID[i] == RuleManagementList[j].RuleID) {
+                                            RuleText.push(RuleManagementList[j].RuleName);
                                             break;
                                         }
                                     }
@@ -241,6 +275,13 @@ layui.use(['table', 'laypage', 'form'], function () {
                             success: function (res) {
                                 if (res.data == 1){
                                     obj.del(); // 删除对应行（tr）的 DOM 结构，并更新缓存
+                                    var i;
+                                    for (i = 0; i < FaultManagementList.length; i++) {
+                                        if (FaultManagementList[i].FaultID == obj.data.FaultID) {
+                                            break;
+                                        }
+                                    }
+                                    FaultManagementList.splice(i, 1);
                                     layer.msg('删除成功');
                                 }
                                 else {
@@ -327,6 +368,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         if (res.data == 1){
                                             layer.closeAll('page');
                                             obj.update(field);
+                                            for (var i = 0; i < FaultManagementList.length; i++) {
+                                                if (FaultManagementList[i].FaultID == obj.data.FaultID) {
+                                                    FaultManagementList[i] = field;
+                                                    break;
+                                                }
+                                            }
                                             layer.msg('修改成功');
                                         }
                                         else {

@@ -32,15 +32,25 @@ layui.use(['table', 'laypage', 'form'], function () {
         success: function (res) {
             let data = res.data;
             console.log(data.data.length, data.data[0]);
+            let MeasureList = data.data;
+            for (let i = 0; i < MeasureList.length; i++) {
+                MeasureList[i].FaultName = FaultDict[MeasureList[i].FaultID];
+            }
             table.render({
                 elem: '#MeasureManagement'
-                , toolbar: RightID != 3  ? '#MeasureToolbar' : null
-                , data: data.data
-                , limit: data.data.length
+                , toolbar: '#MeasureToolbar'
+                , data: MeasureList
+                , limit: 30
+                , page: {
+                    groups: 10,
+                    prev: '<em><<</em>',
+                    next: '<em>>></em>',
+                    layout : ['count','prev', 'page', 'next','skip']
+                }
                 , even: true
                 , cols: [[ //表头
                     { field: 'MeasureID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
-                    , { field: 'FaultID', title: '故障名称', width: '10%', align: 'center', templet: function (d) { return FaultDict[d.FaultID]; } }
+                    , { field: 'FaultName', title: '故障名称', width: '10%', align: 'center' }
                     , { field: 'FaultReason', title: '故障原因', width: '13%', align: 'center'}
                     , { field: 'Detail', title: '故障机理', width: '13%', align: 'center'}
                     , { field: 'CharacterName', title: '故障特征', width: '20%', align: 'center'}
@@ -142,7 +152,35 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 });
                             }
                         });
-                    break;
+                        break;
+                    case 'search':
+                        let measureSearch = form.val("measureManagementSearch");
+                        let SearchFeild = measureSearch.SearchFeild;
+                        let SearchContent = measureSearch.SearchContent;
+                        if (SearchContent == "" || SearchContent == null) {
+                            table.reload('MeasureManagement', {
+                                data: MeasureList,
+                                page: {
+                                    curr: 1,
+                                }
+                            }, true);
+                            form.val("measureManagementSearch", measureSearch);
+                            return;
+                        }
+                        let searchResult = [];
+                        for (let i = 0; i < MeasureList.length; i++) {
+                            if ( new RegExp( SearchContent ).test( MeasureList[i][SearchFeild] ) ) {
+                                searchResult.push(MeasureList[i]);
+                            }
+                        }
+                        table.reload('MeasureManagement', {
+                            data: searchResult,
+                            page: {
+                                curr: 1,
+                            }
+                        }, true);
+                        form.val("measureManagementSearch", measureSearch);
+                        break;
                 };
             });
 

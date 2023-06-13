@@ -28,6 +28,7 @@
           <dl class="layui-nav-child">
             <dd><a onclick="loadPage('overview')" href="javascript:void(0)">设备总貌</a></dd>
             <dd><a onclick="loadPage('measuringPoint')"href="javascript:void(0)">采集参数设置</a></dd>
+            <dd><a onclick="loadPage('SensorManagement')"href="javascript:void(0)">传感器管理</a></dd>
             <dd><a onclick="loadPage('setCenter')"href="javascript:void(0)">监测设置</a></dd>
           </dl>
         </li>
@@ -83,7 +84,7 @@
           </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs" lay-unselect>
-          <a onclick="loadPage('AlarmCenter')" href="javascript:void(0)">报警中心<span id="alarmNumber" class="layui-badge">0</span></a>
+          <a onclick="loadPage('AlarmCenter')" href="javascript:void(0)">报警中心<span id="alarmNumber" class="layui-badge layui-anim layui-anim-fadein layui-anim-loop" style="display: none;">0</span></a>
         </li>
       </ul>
       <ul class="layui-nav layui-layout-right">

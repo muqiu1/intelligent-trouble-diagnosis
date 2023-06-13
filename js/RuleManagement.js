@@ -12,12 +12,18 @@ layui.use(['table', 'laypage', 'form'], function () {
         dataType: "json",
         success: function (res) {
             let data = res.data;
-            console.log(data.data.length, data.data[0]);
+            RuleManagementList = data.data;
             table.render({
                 elem: '#RuleManagement'
-                , toolbar: RightID != 3  ? '#Toolbar' : null
-                , data: data.data
-                , limit: data.data.length
+                , toolbar: '#RuleManagementToolbar'
+                , data: RuleManagementList
+                , limit: 30
+                , page: {
+                    groups: 10,
+                    prev: '<em><<</em>',
+                    next: '<em>>></em>',
+                    layout : ['count','prev', 'page', 'next','skip']
+                }
                 , even: true
                 , cols: [[ //表头
                     { field: 'RuleID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
@@ -110,12 +116,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     , cols: [[ //表头
                                         { field: 'CharacterID', title: '序号', width: '30%', fixed: 'left', align: 'center' }
                                         , { field: 'CharacterName', title: '征兆名称', width: '30%', align: 'center' }
-                                        , { field: 'Weight', title: '权重', width: '30%', align: 'center' }
-                                        , { title: '删除', width: '10%', templet: '#IFListDelete', align: 'center' }
+                                        , { field: 'Weight', title: '权重', width: '25%', align: 'center' }
+                                        , { title: '删除', width: '15%', templet: '#IFListDelete', align: 'center' }
                                     ]]
                                 });
                                 table.on('toolbar(IFList)', function(obj){
-                                    var characterTable = table.getData('CharacterManagement');
                                     // 根据不同的事件名进行相应的操作
                                     switch(obj.event){ // 对应模板元素中的 lay-event 属性值
                                         case 'add':
@@ -131,7 +136,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                             <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                                             <div class="layui-input-block">
                                                                 <select name="CharacterType" lay-filter="CharacterType" required lay-verify="required">
-                                                                    <option value="0">固定特征</option>
+                                                                    <option value="0">波形特征</option>
                                                                     <option value="1">频谱特征</option>
                                                                     <option value="2">相位特征</option>
                                                                     <option value="3">轴心轨迹特征</option>
@@ -168,11 +173,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                     // 对弹层中的表单进行初始化渲染
                                                     var slct = document.getElementsByName("CharacterName");
                                                     for (var k = 0; k < slct.length; k++) {
-                                                        for (var i = 0; i < characterTable.length; i++) {
-                                                            if (characterTable[i].CharacterType != 0) continue;
+                                                        for (var i = 0; i < CharacterManagementList.length; i++) {
+                                                            if (CharacterManagementList[i].CharacterType != 0) continue;
                                                             var op = document.createElement("option")
-                                                            op.setAttribute('value', characterTable[i].CharacterID)
-                                                            op.innerHTML = characterTable[i].CharacterName;
+                                                            op.setAttribute('value', CharacterManagementList[i].CharacterID)
+                                                            op.innerHTML = CharacterManagementList[i].CharacterName;
                                                             slct[k].appendChild(op)
                                                         }
                                                     }
@@ -197,11 +202,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                         var slct = document.getElementsByName("CharacterName");
                                                         for (var k = 0; k < slct.length; k++) {
                                                             slct[k].innerHTML = "";
-                                                            for (var i = 0; i < characterTable.length; i++) {
-                                                                if (characterTable[i].CharacterType != type) continue;
+                                                            for (var i = 0; i < CharacterManagementList.length; i++) {
+                                                                if (CharacterManagementList[i].CharacterType != type) continue;
                                                                 var op = document.createElement("option")
-                                                                op.setAttribute('value', characterTable[i].CharacterID)
-                                                                op.innerHTML = characterTable[i].CharacterName;
+                                                                op.setAttribute('value', CharacterManagementList[i].CharacterID)
+                                                                op.innerHTML = CharacterManagementList[i].CharacterName;
                                                                 slct[k].appendChild(op)
                                                             }
                                                         }
@@ -213,9 +218,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                         let tableDate = table.getData('IFList');
                                                         var CharacterID = parseInt(field.CharacterName);
                                                         var i;
-                                                        for (i = 0; i < characterTable.length; i++) {
-                                                            if (characterTable[i].CharacterID == CharacterID) {
-                                                                characterTable[i].Weight = field.Weight;
+                                                        for (i = 0; i < CharacterManagementList.length; i++) {
+                                                            if (CharacterManagementList[i].CharacterID == CharacterID) {
+                                                                CharacterManagementList[i].Weight = field.Weight;
                                                                 break;
                                                             }
                                                         }
@@ -227,7 +232,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                             }
                                                         }
                                                         if (j == tableDate.length) {
-                                                            tableDate.push(characterTable[i]);
+                                                            tableDate.push(CharacterManagementList[i]);
                                                         }
                                                         table.reload('IFList', {
                                                             data: tableDate
@@ -282,13 +287,14 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             if (res.data == 1){
                                                 layer.closeAll('page');
                                                 layer.msg('新建成功');
-                                                let tableDate = table.getData('RuleManagement');
                                                 field.RuleID = parseInt(res.msg);
-                                                tableDate.push(field);
+                                                RuleManagementList.push(field);
                                                 table.reload('RuleManagement', {
-                                                    data: tableDate
-                                                    , limit: tableDate.length
-                                                });
+                                                    data: RuleManagementList,
+                                                    page: {
+                                                        curr: Math.ceil(RuleManagementList.length / 30)
+                                                    }
+                                                }, true);
                                                 updateCharacterTable(field, "");
                                                 updateFaultTable(field, "");
                                             }
@@ -304,7 +310,35 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 });
                             }
                         });
-                    break;
+                        break;
+                    case 'search':
+                        let ruleSearch = form.val("ruleManagementSearch");
+                        let SearchFeild = ruleSearch.SearchFeild;
+                        let SearchContent = ruleSearch.SearchContent;
+                        if (SearchContent == "" || SearchContent == null) {
+                            table.reload('RuleManagement', {
+                                data: RuleManagementList,
+                                page: {
+                                    curr: 1,
+                                }
+                            }, true);
+                            form.val("ruleManagementSearch", ruleSearch);
+                            return;
+                        }
+                        let searchResult = [];
+                        for (let i = 0; i < RuleManagementList.length; i++) {
+                            if ( new RegExp( SearchContent ).test( RuleManagementList[i][SearchFeild] ) ) {
+                                searchResult.push(RuleManagementList[i]);
+                            }
+                        }
+                        table.reload('RuleManagement', {
+                            data: searchResult,
+                            page: {
+                                curr: 1,
+                            }
+                        }, true);
+                        form.val("ruleManagementSearch", ruleSearch);
+                        break;
                 };
             });
 
@@ -371,14 +405,13 @@ layui.use(['table', 'laypage', 'form'], function () {
                             form.render();
                             form.val("Management-layer", obj.data);
                             let IF = obj.data.IF.split(';');
-                            let characterTable = table.getData('CharacterManagement');
                             let IFList = [];
                             for (let i = 0; i < IF.length; i++) {
                                 let CharacterID = IF[i].split(',')[0];
-                                for (let j = 0; j < characterTable.length; j++) {
-                                    if (CharacterID == characterTable[j].CharacterID) {
-                                        characterTable[j].Weight = parseFloat(IF[i].split(',')[1]);
-                                        IFList.push(characterTable[j]);
+                                for (let j = 0; j < CharacterManagementList.length; j++) {
+                                    if (CharacterID == CharacterManagementList[j].CharacterID) {
+                                        CharacterManagementList[j].Weight = parseFloat(IF[i].split(',')[1]);
+                                        IFList.push(CharacterManagementList[j]);
                                         break;
                                     }
                                 }
@@ -398,11 +431,10 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 ]]
                             });
                             let Then = obj.data.Then;
-                            let FaultList = table.getData('FaultManagement');
                             let ThenName;
-                            for (let i = 0; i < FaultList.length; i++) {
-                                if (Then == FaultList[i].FaultID) {
-                                    ThenName = FaultList[i].FaultID + ':' + FaultList[i].FaultName;
+                            for (let i = 0; i < FaultManagementList.length; i++) {
+                                if (Then == FaultManagementList[i].FaultID) {
+                                    ThenName = FaultManagementList[i].FaultID + ':' + FaultManagementList[i].FaultName;
                                     break;
                                 }
                             }
@@ -425,6 +457,13 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     let IF_old = obj.data.IF;
                                     let Then_old = obj.data.Then;
                                     obj.del(); // 删除对应行（tr）的 DOM 结构，并更新缓存
+                                    var i;
+                                    for (i = 0; i < RuleManagementList.length; i++) {
+                                        if (RuleManagementList[i].RuleID == obj.data.RuleID) {
+                                            break;
+                                        }
+                                    }
+                                    RuleManagementList.splice(i, 1);
                                     layer.msg('删除成功');
                                     obj.data.IF = "";
                                     obj.data.Then = "";
@@ -508,14 +547,13 @@ layui.use(['table', 'laypage', 'form'], function () {
                             form.render();
                             form.val("Management-layer", obj.data)
                             let IF = obj.data.IF.split(';');
-                            let characterTable = table.getData('CharacterManagement');
                             let IFList = [];
                             for (let i = 0; i < IF.length; i++) {
                                 let CharacterID = IF[i].split(',')[0];
-                                for (let j = 0; j < characterTable.length; j++) {
-                                    if (CharacterID == characterTable[j].CharacterID) {
-                                        characterTable[j].Weight = parseFloat(IF[i].split(',')[1]);
-                                        IFList.push(characterTable[j]);
+                                for (let j = 0; j < CharacterManagementList.length; j++) {
+                                    if (CharacterID == CharacterManagementList[j].CharacterID) {
+                                        CharacterManagementList[j].Weight = parseFloat(IF[i].split(',')[1]);
+                                        IFList.push(CharacterManagementList[j]);
                                         break;
                                     }
                                 }
@@ -532,23 +570,21 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 , cols: [[ //表头
                                     { field: 'CharacterID', title: '序号', width: '30%', fixed: 'left', align: 'center' }
                                     , { field: 'CharacterName', title: '征兆名称', width: '30%', align: 'center' }
-                                    , { field: 'Weight', title: '权重', width: '30%', align: 'center' }
-                                    , { title: '删除', width: '10%', templet: '#IFListDelete', align: 'center' }
+                                    , { field: 'Weight', title: '权重', width: '25%', align: 'center' }
+                                    , { title: '删除', width: '15%', templet: '#IFListDelete', align: 'center' }
                                 ]]
                             });
                             let Then = obj.data.Then;
-                            let FaultList = table.getData('FaultManagement');
                             let ThenName;
-                            for (let i = 0; i < FaultList.length; i++) {
-                                if (Then == FaultList[i].FaultID) {
-                                    ThenName = FaultList[i].FaultID + ':' + FaultList[i].FaultName;
+                            for (let i = 0; i < FaultManagementList.length; i++) {
+                                if (Then == FaultManagementList[i].FaultID) {
+                                    ThenName = FaultManagementList[i].FaultID + ':' + FaultManagementList[i].FaultName;
                                     break;
                                 }
                             }
                             form.val("Management-layer", {ThenName : ThenName});
 
                             table.on('toolbar(IFList)', function(obj){
-                                var characterTable = table.getData('CharacterManagement');
                                 // 根据不同的事件名进行相应的操作
                                 switch(obj.event){ // 对应模板元素中的 lay-event 属性值
                                     case 'add':
@@ -564,7 +600,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                                         <div class="layui-input-block">
                                                             <select name="CharacterType" lay-filter="CharacterType" required lay-verify="required">
-                                                                <option value="0">固定特征</option>
+                                                                <option value="0">波形特征</option>
                                                                 <option value="1">频谱特征</option>
                                                                 <option value="2">相位特征</option>
                                                                 <option value="3">轴心轨迹特征</option>
@@ -601,11 +637,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                 // 对弹层中的表单进行初始化渲染
                                                 var slct = document.getElementsByName("CharacterName");
                                                 for (var k = 0; k < slct.length; k++) {
-                                                    for (var i = 0; i < characterTable.length; i++) {
-                                                        if (characterTable[i].CharacterType != 0) continue;
+                                                    for (var i = 0; i < CharacterManagementList.length; i++) {
+                                                        if (CharacterManagementList[i].CharacterType != 0) continue;
                                                         var op = document.createElement("option")
-                                                        op.setAttribute('value', characterTable[i].CharacterID)
-                                                        op.innerHTML = characterTable[i].CharacterName;
+                                                        op.setAttribute('value', CharacterManagementList[i].CharacterID)
+                                                        op.innerHTML = CharacterManagementList[i].CharacterName;
                                                         slct[k].appendChild(op)
                                                     }
                                                 }
@@ -630,11 +666,11 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                     var slct = document.getElementsByName("CharacterName");
                                                     for (var k = 0; k < slct.length; k++) {
                                                         slct[k].innerHTML = "";
-                                                        for (var i = 0; i < characterTable.length; i++) {
-                                                            if (characterTable[i].CharacterType != type) continue;
+                                                        for (var i = 0; i < CharacterManagementList.length; i++) {
+                                                            if (CharacterManagementList[i].CharacterType != type) continue;
                                                             var op = document.createElement("option")
-                                                            op.setAttribute('value', characterTable[i].CharacterID)
-                                                            op.innerHTML = characterTable[i].CharacterName;
+                                                            op.setAttribute('value', CharacterManagementList[i].CharacterID)
+                                                            op.innerHTML = CharacterManagementList[i].CharacterName;
                                                             slct[k].appendChild(op)
                                                         }
                                                     }
@@ -646,9 +682,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                     let tableDate = table.getData('IFList');
                                                     var CharacterID = parseInt(field.CharacterName);
                                                     var i;
-                                                    for (i = 0; i < characterTable.length; i++) {
-                                                        if (characterTable[i].CharacterID == CharacterID) {
-                                                            characterTable[i].Weight = field.Weight;
+                                                    for (i = 0; i < CharacterManagementList.length; i++) {
+                                                        if (CharacterManagementList[i].CharacterID == CharacterID) {
+                                                            CharacterManagementList[i].Weight = field.Weight;
                                                             break;
                                                         }
                                                     }
@@ -660,7 +696,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                         }
                                                     }
                                                     if (j == tableDate.length) {
-                                                        tableDate.push(characterTable[i]);
+                                                        tableDate.push(CharacterManagementList[i]);
                                                     }
                                                     table.reload('IFList', {
                                                         data: tableDate
@@ -720,6 +756,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                                             layer.closeAll('page');
                                             obj.update(field);
                                             layer.msg('修改成功');
+                                            for ( let i=0; i< RuleManagementList.length; i++) {
+                                                if (RuleManagementList[i].RuleID == field.RuleID) {
+                                                    RuleManagementList[i] = field;
+                                                    break;
+                                                }
+                                            }
                                             updateCharacterTable(field, IF_old);
                                             updateFaultTable(field, Then_old);
                                         }
@@ -763,12 +805,11 @@ function changeThen(){
                 </div>
             `,
             success: function () {
-                var FaultTable = table.getData('FaultManagement');
                 // 对弹层中的表单进行初始化渲染
                 table.render({
                     elem: '#ThenTable'
-                    , data: FaultTable
-                    , limit: FaultTable.length
+                    , data: FaultManagementList
+                    , limit: FaultManagementList.length
                     , even: true
                     , cols: [[ //表头
                         { title: '选择', width: '30%', type: 'radio', align: 'center'  }
@@ -800,25 +841,24 @@ function updateFaultTable(field, Then_old){
         var table = layui.table
             , $ = layui.$;
         if (field.Then != Then_old) {
-            var FaultTable = table.getData('FaultManagement');
-            for (var i = 0; i < FaultTable.length; i++) {
-                if (FaultTable[i].FaultID == field.Then) {
-                    if ( FaultTable[i].RuleID == null || FaultTable[i].RuleID == ''){
-                        FaultTable[i].RuleID = String(field.RuleID);
+            for (var i = 0; i < FaultManagementList.length; i++) {
+                if (FaultManagementList[i].FaultID == field.Then) {
+                    if ( FaultManagementList[i].RuleID == null || FaultManagementList[i].RuleID == ''){
+                        FaultManagementList[i].RuleID = String(field.RuleID);
                     }
                     else{
-                        let RuleIDList = FaultTable[i].RuleID.split(',');
+                        let RuleIDList = FaultManagementList[i].RuleID.split(',');
                         RuleIDList.push(String(field.RuleID));
                         RuleIDList.sort();
-                        FaultTable[i].RuleID = RuleIDList.join(',');
+                        FaultManagementList[i].RuleID = RuleIDList.join(',');
                     }
                     $.ajax({
                         type: 'POST',
                         url: "http://" + host + "/cms/fault/update",
                         data: {
-                            FaultID: FaultTable[i].FaultID,
-                            FaultName: FaultTable[i].FaultName,
-                            RuleID: FaultTable[i].RuleID
+                            FaultID: FaultManagementList[i].FaultID,
+                            FaultName: FaultManagementList[i].FaultName,
+                            RuleID: FaultManagementList[i].RuleID
                         },
                         contentType: "application/x-www-form-urlencoded",
                         async: false,
@@ -827,32 +867,32 @@ function updateFaultTable(field, Then_old){
                             if (res.data == 1){
                             }
                             else {
-                                layer.msg('联动修改fault失败: ' + FaultTable[i].FaultID);
+                                layer.msg('联动修改fault失败: ' + FaultManagementList[i].FaultID);
                             }
                         },
                         error: function () {
-                            layer.msg('联动修改fault失败: ' + FaultTable[i].FaultID);
+                            layer.msg('联动修改fault失败: ' + FaultManagementList[i].FaultID);
                         }
                     });
                     break;
                 }
             }
             if (Then_old != null && Then_old != ''){
-                for (var i = 0; i < FaultTable.length; i++) {
-                    if (FaultTable[i].FaultID == Then_old) {
-                        let RuleIDList = FaultTable[i].RuleID.split(',');
+                for (var i = 0; i < FaultManagementList.length; i++) {
+                    if (FaultManagementList[i].FaultID == Then_old) {
+                        let RuleIDList = FaultManagementList[i].RuleID.split(',');
                         var index = RuleIDList.indexOf(String(field.RuleID));
                         if (index > -1) {
                             RuleIDList.splice(index, 1);
                         }
-                        FaultTable[i].RuleID = RuleIDList.join(',');
+                        FaultManagementList[i].RuleID = RuleIDList.join(',');
                         $.ajax({
                             type: 'POST',
                             url: "http://" + host + "/cms/fault/update",
                             data: {
-                                FaultID: FaultTable[i].FaultID,
-                                FaultName: FaultTable[i].FaultName,
-                                RuleID: FaultTable[i].RuleID  == '' ? "null" : FaultTable[i].RuleID
+                                FaultID: FaultManagementList[i].FaultID,
+                                FaultName: FaultManagementList[i].FaultName,
+                                RuleID: FaultManagementList[i].RuleID  == '' ? "null" : FaultManagementList[i].RuleID
                             },
                             contentType: "application/x-www-form-urlencoded",
                             async: false,
@@ -861,11 +901,11 @@ function updateFaultTable(field, Then_old){
                                 if (res.data == 1){
                                 }
                                 else {
-                                    layer.msg('联动修改fault失败: ' + FaultTable[i].FaultID);
+                                    layer.msg('联动修改fault失败: ' + FaultManagementList[i].FaultID);
                                 }
                             },
                             error: function () {
-                                layer.msg('联动修改fault失败: ' + FaultTable[i].FaultID);
+                                layer.msg('联动修改fault失败: ' + FaultManagementList[i].FaultID);
                             }
                         });
                         break;
@@ -873,8 +913,8 @@ function updateFaultTable(field, Then_old){
                 }
             }
             table.reload('FaultManagement', {
-                data: FaultTable
-            });
+                data: FaultManagementList
+            }, true);
         }
     });
 }
@@ -888,25 +928,24 @@ function updateCharacterTable(field, IF_old){
         let IFList_add = IFList.filter(x => !IFList_old.includes(x));
         let IFList_del = IFList_old.filter(x => !IFList.includes(x));
         console.log(IFList_add, IFList_del);
-        var CharacterTable = table.getData('CharacterManagement');
-        for (var i = 0; i < CharacterTable.length; i++) {
-            if (IFList_add.includes(CharacterTable[i].CharacterID)) {
-                if (CharacterTable[i].RuleID == null || CharacterTable[i].RuleID == ''){
-                    CharacterTable[i].RuleID = String(field.RuleID);
+        for (var i = 0; i < CharacterManagementList.length; i++) {
+            if (IFList_add.includes(CharacterManagementList[i].CharacterID)) {
+                if (CharacterManagementList[i].RuleID == null || CharacterManagementList[i].RuleID == ''){
+                    CharacterManagementList[i].RuleID = String(field.RuleID);
                 }
                 else{
-                    let RuleIDList = CharacterTable[i].RuleID.split(',');
+                    let RuleIDList = CharacterManagementList[i].RuleID.split(',');
                     RuleIDList.push(String(field.RuleID));
                     RuleIDList.sort();
-                    CharacterTable[i].RuleID = RuleIDList.join(',');
+                    CharacterManagementList[i].RuleID = RuleIDList.join(',');
                 }
                 $.ajax({
                     type: 'POST',
                     url: "http://" + host + "/cms/character/update",
                     data: {
-                        CharacterID: CharacterTable[i].CharacterID,
-                        CharacterName: CharacterTable[i].CharacterName,
-                        RuleID: CharacterTable[i].RuleID
+                        CharacterID: CharacterManagementList[i].CharacterID,
+                        CharacterName: CharacterManagementList[i].CharacterName,
+                        RuleID: CharacterManagementList[i].RuleID
                     },
                     contentType: "application/x-www-form-urlencoded",
                     async: false,
@@ -915,28 +954,28 @@ function updateCharacterTable(field, IF_old){
                         if (res.data == 1){
                         }
                         else {
-                            layer.msg('联动修改character失败: ' + CharacterTable[i].CharacterID);
+                            layer.msg('联动修改character失败: ' + CharacterManagementList[i].CharacterID);
                         }
                     },
                     error: function () {
-                        layer.msg('联动修改character失败: ' + CharacterTable[i].CharacterID);
+                        layer.msg('联动修改character失败: ' + CharacterManagementList[i].CharacterID);
                     }
                 });
             }
-            if (IFList_del.includes(CharacterTable[i].CharacterID)) {
-                let RuleIDList = CharacterTable[i].RuleID.split(',');
+            if (IFList_del.includes(CharacterManagementList[i].CharacterID)) {
+                let RuleIDList = CharacterManagementList[i].RuleID.split(',');
                 var index = RuleIDList.indexOf(String(field.RuleID));
                 if (index > -1) {
                     RuleIDList.splice(index, 1);
                 }
-                CharacterTable[i].RuleID = RuleIDList.join(',');
+                CharacterManagementList[i].RuleID = RuleIDList.join(',');
                 $.ajax({
                     type: 'POST',
                     url: "http://" + host + "/cms/character/update",
                     data: {
-                        CharacterID: CharacterTable[i].CharacterID,
-                        CharacterName: CharacterTable[i].CharacterName,
-                        RuleID: CharacterTable[i].RuleID == '' ? "null" : CharacterTable[i].RuleID
+                        CharacterID: CharacterManagementList[i].CharacterID,
+                        CharacterName: CharacterManagementList[i].CharacterName,
+                        RuleID: CharacterManagementList[i].RuleID == '' ? "null" : CharacterManagementList[i].RuleID
                     },
                     contentType: "application/x-www-form-urlencoded",
                     async: false,
@@ -945,17 +984,17 @@ function updateCharacterTable(field, IF_old){
                         if (res.data == 1){
                         }
                         else {
-                            layer.msg('联动修改character失败: ' + CharacterTable[i].CharacterID);
+                            layer.msg('联动修改character失败: ' + CharacterManagementList[i].CharacterID);
                         }
                     },
                     error: function () {
-                        layer.msg('联动修改character失败: ' + CharacterTable[i].CharacterID);
+                        layer.msg('联动修改character失败: ' + CharacterManagementList[i].CharacterID);
                     }
                 });
             }
         }
         table.reload('CharacterManagement', {
-            data: CharacterTable
-        });
+            data: CharacterManagementList
+        }, true);
     });
 }

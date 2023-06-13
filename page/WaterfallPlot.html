@@ -58,9 +58,18 @@
                         <select name="sss" lay-filter="changeWaterfallPlot">
                         </select>
                     </div>
+                    <div class="layui-col-md2">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 40px;">显示</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="isOrder" value=1 title="阶次" lay-filter="changeWaterfallPlotIsOrder" checked>
+                                <input type="radio" name="isOrder" value=0 title="频率" lay-filter="changeWaterfallPlotIsOrder">
+                            </div>
+                        </div>
+                    </div>
                     <div class="layui-col-md4">
                         <div class="layui-inline">
-                            <label class="layui-form-label">显示数目</label>
+                            <label class="layui-form-label" style="width: 90px;">显示数目</label>
                             <div class="layui-input-inline">
                                 <input type="number" name="showNum" lay-verify="required" lay-reqtext="显示数目是必填项" class="layui-input" value="20">
                             </div>
@@ -71,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layui-col-md4">
+                    <div class="layui-col-md2">
                         <div id="laypage-all"></div>
                     </div>
                 </form>

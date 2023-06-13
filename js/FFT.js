@@ -21,6 +21,7 @@ layui.use(['form', 'layer'], function () {
     }).then(function () {
         $(document).ready(function () {
             form.val("drawFFTTypeForm", { status: drawType});
+            form.val("FFTparameter", { isOrder: drawIsOrder});
             if ( drawType == "0"){
                 startTimer(drawFFTRealTime);
             }
@@ -47,6 +48,13 @@ layui.use(['form', 'layer'], function () {
         for (let i = 1; i <= 3; i++) {
             FFTLastTime[i] = 0;
         }
+        drawFFTTF();
+        drawFFT();
+    });
+    form.on('radio(changeFFTIsOrder)', function (data) {
+        drawIsOrder = data.value;
+        FFTLastTime[2] = 0;
+        FFTLastTime[3] = 0;
         drawFFTTF();
         drawFFT();
     });
@@ -78,6 +86,7 @@ function updateFFT(){
 function drawFFTTF() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
+    let isOrder = layui.form.val("FFTparameter").isOrder == '1';
     let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
@@ -93,6 +102,7 @@ function drawFFTTF() {
             pageNum: 1,
             pageSize: 1,
             LastTime: FFTLastTime[1],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -110,6 +120,9 @@ function drawFFTTF() {
             var option1 = {
                 title: {
                     text: '原始波形'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -189,6 +202,7 @@ function drawFFTTF() {
             pageNum: 1,
             pageSize: 1,
             LastTime: FFTLastTime[2],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -206,6 +220,9 @@ function drawFFTTF() {
             var option2 = {
                 title: {
                     text: '幅值谱'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -239,12 +256,12 @@ function drawFFTTF() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
+                    name: isOrder?"阶次":"频率/Hz",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: data.is_order?20:'dataMax',
+                    max: isOrder?20:'dataMax',
                     axisLabel: {
-                        showMaxLabel: data.is_order?true:false,
+                        showMaxLabel: isOrder?true:false,
                     }
                 },
                 yAxis: {
@@ -277,6 +294,7 @@ function drawFFTTF() {
 function drawFFT() {
     let MPID = parseInt(layui.form.val("FFTselect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
+    let isOrder = layui.form.val("FFTparameter").isOrder == '1';
     let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
@@ -294,6 +312,7 @@ function drawFFT() {
             windowWidth: FFTwindowWidth,
             windowType: FFTwindowType,
             LastTime: FFTLastTime[3],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -307,7 +326,7 @@ function drawFFT() {
             for (let i = 0; i < data.data[0].length; i++) {
                 let data3 = [];
                 for (let j = 0; j < data.data[0][i].length; j++) {
-                    if (data.is_order && data.data[0][i][j] > 20) {
+                    if (isOrder && data.data[0][i][j] > 20) {
                         break;
                     }
                     data3.push([data.data[0][i][j].toFixed(3), data.data[2][0][i].toFixed(3), data.data[1][i][j].toFixed(3)]);
@@ -325,6 +344,9 @@ function drawFFT() {
                 title: {
                     text: '短时傅里叶变换'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     axisPointer: {
                         type: 'cross',
@@ -335,10 +357,10 @@ function drawFFT() {
                 },
                 xAxis3D: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
-                    interval: data.is_order? 1: null,
+                    name: isOrder?"阶次":"频率/Hz",
+                    interval: isOrder? 1: null,
                     nameLocation: 'middle',
-                    max: data.is_order?20:'dataMax',
+                    max: isOrder?20:'dataMax',
                 },
                 yAxis3D: {
                     type: 'value',

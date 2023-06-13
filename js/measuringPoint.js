@@ -295,16 +295,25 @@ function changeSensorID(){
                         , { field: 'SensorID', title: '传感器序号', width: 60,  align: 'center' }
                         , { field: 'SensorName', title: '名称', width: 120, align: 'center'  }
                         , { field: 'SensorType', title: '传感器类型', width: 120, align: 'center' , templet: function(d){
-                            if(d.SensorType === 0){
-                                return '<span>位移</span>';
-                            } else if(d.SensorType === 1){
-                                return '<span>速度</span>';
-                            }
-                            else if(d.SensorType === 2){
-                                return '<span>加速度</span>';
-                            }
+                                if(d.SensorType === 0){
+                                    return '<span>位移</span>';
+                                } else if(d.SensorType === 1){
+                                    return '<span>速度</span>';
+                                }
+                                else if(d.SensorType === 2){
+                                    return '<span>加速度</span>';
+                                }
                             }  }
-                        , { field: 'OutputType', title: '输出类型', width: 120, align: 'center'  }
+                        , { field: 'OutputType', title: '输出类型', width: 120, align: 'center' , templet: function(d){
+                                if(d.SensorType === 0){
+                                    return '<span>电压</span>';
+                                } else if(d.SensorType === 1){
+                                    return '<span>电流</span>';
+                                }
+                                else if(d.SensorType === 2){
+                                    return '<span>其他</span>';
+                                }
+                            }  }
                         , { field: 'MeasureRange', title: '量程值', width: 120, align: 'center'  }
                         , { field: 'RangeUnit', title: '量程单位', width: 120 , align: 'center' }
                         , { field: 'Sensitivity', title: '灵敏度', width: 120 , align: 'center'}

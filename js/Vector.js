@@ -31,6 +31,7 @@ layui.use(['form', 'layer'], function () {
     }).then(function () {
         $(document).ready(function () {
             form.val("drawVectorTypeForm", { status: drawType});
+            form.val("VectorParameter", { isOrder: drawIsOrder});
             if ( drawType == "0"){
                 startTimer(drawVectorRealTime);
             }
@@ -53,6 +54,10 @@ layui.use(['form', 'layer'], function () {
     
     //监听提交
     form.on('select(changeVector)', function (data) {
+        drawVector();
+    });
+    form.on('radio(changeVectorIsOrder)', function (data) {
+        drawIsOrder = data.value;
         drawVector();
     });
 
@@ -82,6 +87,7 @@ function drawVector() {
     let MPX = checkedGroup[layui.form.val("VectorSelect").sss].MPX;
     let MPY = checkedGroup[layui.form.val("VectorSelect").sss].MPY;
     let urlRealTime = intervalId == 0?"":"_RealTime";
+    let isOrder = layui.form.val("VectorParameter").isOrder == '1';
     let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
@@ -97,6 +103,7 @@ function drawVector() {
             endTime: endTime,
             pageNum: 1,
             pageSize: 1,
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -114,12 +121,15 @@ function drawVector() {
                 data3.push([data.data[0][i], data.data[3][i]]);
                 data4.push([data.data[0][i], data.data[4][i]]);
             }
-            let xAxisName = data.is_order?"阶次":"频率/Hz";
-            let max = data.is_order? 20: "dataMax";
-            let showMaxLabel = data.is_order?true:false;
+            let xAxisName = isOrder?"阶次":"频率/Hz";
+            let max = isOrder? 20: "dataMax";
+            let showMaxLabel = isOrder?true:false;
             var option1 = {
                 title: {
                     text: '主振矢幅值'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -182,6 +192,9 @@ function drawVector() {
                 title: {
                     text: '副振矢幅值'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -243,6 +256,9 @@ function drawVector() {
                 title: {
                     text: '振矢角'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -303,6 +319,9 @@ function drawVector() {
             var option4 = {
                 title: {
                     text: '矢功率谱'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',

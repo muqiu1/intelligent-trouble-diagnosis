@@ -46,17 +46,20 @@
             <div class="layui-col-md4" id={{_id+"Time" }} style="text-align: center;">时间</div>
             <div class="layui-col-md4">转速：<span id={{_id+"rotSpeed" }}></span>&nbsp;rpm</div>
           </div>
-          <!-- <div class="layui-row">
-            <form class="layui-form" action="">
-              <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 120px;">选择频谱类型</label>
-                <div class="layui-input-block">
-                  <input type="radio" name="is_order" value="0" title="关联故障特征频率" checked>
-                  <input type="radio" name="is_order" value="1" title="显示阶数">
+          <div class="layui-row">
+            <form class="layui-form" lay-filter={{item.id + "FreqParameter"}}>
+              <div class="layui-form-item" style="margin-bottom: 0;">
+                <div class="layui-inline">
+                  <label class="layui-form-label" style="width: 40px;">显示</label>
+                  <div class="layui-input-inline" style="width: 100%;">
+                    <input type="radio" name="isOrder" value={{_id +'_1'}} title="阶次" lay-filter="changeFreqIsOrder" checked>
+                    <input type="radio" name="isOrder" value={{_id +'_0'}} title="频率" lay-filter="changeFreqIsOrder">
+                    <input type="radio" name="isOrder" value={{_id +'_2'}} title="1/3倍频程" lay-filter="changeFreqIsOrder">
+                  </div>
                 </div>
               </div>
             </form>
-          </div> -->
+          </div>
           <div class="layui-row">
             <div class="layui-col-md12" id={{item.id + "_table1"}} style=height:300px;></div>
             <div class="layui-col-md12" id={{item.id + "_table2"}} style=height:300px;></div>

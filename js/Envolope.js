@@ -21,6 +21,7 @@ layui.use(['form', 'layer'], function () {
     }).then(function () {
         $(document).ready(function () {
             form.val("drawEnvolopeTypeForm", { status: drawType});
+            form.val("EnvolopeParameter", { isOrder: drawIsOrder});
             if ( drawType == "0"){
                 startTimer(drawEnvolopeRealTime);
             }
@@ -47,6 +48,13 @@ layui.use(['form', 'layer'], function () {
         for (var i = 1; i <= 4; i++) {
             EnvolopeLastTime[i] = 0;
         }
+        drawEnvolopeTF();
+        drawEnvolope();
+    });
+    form.on('radio(changeEnvolopeIsOrder)', function (data) {
+        drawIsOrder = data.value;
+        EnvolopeLastTime[2] = 0;
+        EnvolopeLastTime[3] = 0;
         drawEnvolopeTF();
         drawEnvolope();
     });
@@ -81,6 +89,7 @@ function updateEnvolope(){
 function drawEnvolopeTF() {
     let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
+    let isOrder = layui.form.val("EnvolopeParameter").isOrder == '1';
     let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
@@ -96,6 +105,7 @@ function drawEnvolopeTF() {
             pageNum: 1,
             pageSize: 1,
             LastTime: EnvolopeLastTime[1],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -113,6 +123,9 @@ function drawEnvolopeTF() {
             var option1 = {
                 title: {
                     text: '原始波形'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -192,6 +205,7 @@ function drawEnvolopeTF() {
             pageNum: 1,
             pageSize: 1,
             LastTime: EnvolopeLastTime[2],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -209,6 +223,9 @@ function drawEnvolopeTF() {
             var option2 = {
                 title: {
                     text: '幅值谱'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -242,12 +259,12 @@ function drawEnvolopeTF() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
+                    name: isOrder?"阶次":"频率/Hz",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: data.is_order?20:'dataMax',
+                    max: isOrder?20:'dataMax',
                     axisLabel: {
-                        showMaxLabel: data.is_order?true:false,
+                        showMaxLabel: isOrder?true:false,
                     }
                 },
                 yAxis: {
@@ -280,6 +297,7 @@ function drawEnvolopeTF() {
 function drawEnvolope() {
     let MPID = parseInt(layui.form.val("EnvolopeSelect").sss);
     let urlRealTime = intervalId == 0?"":"_RealTime";
+    let isOrder = layui.form.val("EnvolopeParameter").isOrder == '1';
     let endTime = parseInt(new Date().getTime()/1000);
     layui.$.ajax({
         type: 'POST',
@@ -297,6 +315,7 @@ function drawEnvolope() {
             lowFreq: EnvolopeLowFreq,
             highFreq: EnvolopeHighFreq,
             LastTime: EnvolopeLastTime[3],
+            isOrder: isOrder,
         },
         success: function (res) {
             let data = res.data;
@@ -317,6 +336,9 @@ function drawEnvolope() {
             var option3 = {
                 title: {
                     text: '滤波后的波形'
+                },
+                textStyle: {
+                    fontSize: 15
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -380,6 +402,9 @@ function drawEnvolope() {
                 title: {
                     text: '包络谱'
                 },
+                textStyle: {
+                    fontSize: 15
+                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -412,12 +437,12 @@ function drawEnvolope() {
                 ],
                 xAxis: {
                     type: 'value',
-                    name: data.is_order?"阶次":"频率/Hz",
+                    name: isOrder?"阶次":"频率/Hz",
                     nameLocation: 'middle',
                     nameGap: 30,
-                    max: data.is_order?20:'dataMax',
+                    max: isOrder?20:'dataMax',
                     axisLabel: {
-                        showMaxLabel: data.is_order?true:false,
+                        showMaxLabel: isOrder?true:false,
                     }
                     // data: newData
                 },
