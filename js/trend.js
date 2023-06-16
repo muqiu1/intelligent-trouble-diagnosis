@@ -50,7 +50,7 @@ layui.use(['form', 'layer'], function () {
             formatter : function (params) {
                 let param = params[0];
                 // console.log(param);
-                let html = [new Date(param.data.IndexNum).toLocaleString().split('/').join('-') + '<hr size=1 style="margin: 3px 0">'];
+                let html = [new Date(param.data.IndexNum).toLocaleString('chinese',{hour12: false}).split('/').join('-') + '<hr size=1 style="margin: 3px 0">'];
                 for (let i=0; i<y.length; i++){
                     html.push( rvibdataTable[ y[i] ] + ': ' + param.data[ y[i] == "LDZB"? "RMS" : y[i] ].toFixed(3) + '<br/>');
                 }
@@ -65,7 +65,7 @@ layui.use(['form', 'layer'], function () {
                 // },
                 // restore: {},
                 saveAsImage: {
-                    name: new Date().toLocaleString().split('/').join('-'),
+                    name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                 }
             },
         },
@@ -230,8 +230,8 @@ function drawTrend() {
             let data = res.data;
             console.log(data.data.length)
             // 指定图表的配置项和数据
-            document.getElementById('TrendSTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('TrendETime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('TrendSTime').innerHTML = new Date(startTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
+            document.getElementById('TrendETime').innerHTML = new Date(endTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             for (let i = 0; i < data.data.length; i++) {
                 data.data[i].IndexNum = data.data[i].IndexNum*1000;
             }

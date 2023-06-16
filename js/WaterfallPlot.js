@@ -214,7 +214,7 @@ function drawWaterfallPlot(){
                 let seriesList = [];
                 for (let i = 0; i < data.num; i++) {
                     let data1 = [];
-                    data.indexNum[i] = new Date(data.indexNum[i]*1000).toLocaleString();
+                    data.indexNum[i] = new Date(data.indexNum[i]*1000).toLocaleString('chinese',{hour12: false});
                     if (isStartStop) {
                         for (let j = 0; j < data.data[i][0].length; j++) {
                             if (isOrder && data.data[i][0][j] > 20) {
@@ -299,7 +299,7 @@ function drawWaterfallPlot(){
                         feature: {
                             restore: {},
                             saveAsImage: {
-                                name: new Date().toLocaleString().split('/').join('-'),
+                                name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                             }
                         }
                     },
@@ -335,7 +335,7 @@ function drawWaterfallPlot(){
                             },
                             restore: {},
                             saveAsImage: {
-                                name: new Date().toLocaleString().split('/').join('-'),
+                                name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                             }
                         }
                     },
@@ -428,7 +428,7 @@ function getWaterfallPlotStartTimeList(){
                     for (var k = 0; k < slct.length; k++) {
                         var op = document.createElement("option");
                         op.setAttribute('value', i+1 );
-                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString().split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString().split('/').join('-');
+                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString('chinese',{hour12: false}).split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString('chinese',{hour12: false}).split('/').join('-');
                         slct[k].appendChild(op);
                     }
                 }

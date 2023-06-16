@@ -153,7 +153,7 @@ function drawAxisTrajectory() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -252,7 +252,7 @@ function drawAxisTrajectory() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -293,7 +293,7 @@ function drawAxisTrajectory() {
                 ]
             };
             AxisTrajectoryCharts[2].setOption(option2, true);
-            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
         },
         error: function () {
@@ -355,7 +355,7 @@ function drawAxisTrajectory() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },

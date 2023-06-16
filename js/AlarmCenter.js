@@ -82,8 +82,8 @@ function update(para) {
     else if (para == AlarmCenterPara) {
         var time1 = new Date();
         var time2 = new Date(time1 - 10 * 60 * 1000);
-        time1 = time1.toLocaleString().split('/').join('-');
-        time2 = time2.toLocaleString().split('/').join('-');
+        time1 = time1.toLocaleString('chinese',{hour12: false}).split('/').join('-');
+        time2 = time2.toLocaleString('chinese',{hour12: false}).split('/').join('-');
         var data = getData(para, time1, time2);
         document.getElementById('t').innerHTML = "实时数据：从" + time1 + "到" + time2 + "，共有" + data.length + "条记录";
         table1.reload({

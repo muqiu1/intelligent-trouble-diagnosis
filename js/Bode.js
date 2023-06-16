@@ -117,8 +117,8 @@ function drawBode() {
             // console.log(data)
             console.log(data.data.length)
             // 指定图表的配置项和数据
-            document.getElementById('BodeSTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('BodeETime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('BodeSTime').innerHTML = new Date(startTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
+            document.getElementById('BodeETime').innerHTML = new Date(endTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             var option1 = {
                 title: {
                     text: '相位'
@@ -150,7 +150,7 @@ function drawBode() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -227,7 +227,7 @@ function drawBode() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -310,7 +310,7 @@ function drawBode() {
                     feature: {
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -395,7 +395,7 @@ function getBodeStartTimeList(){
                     for (var k = 0; k < slct.length; k++) {
                         var op = document.createElement("option");
                         op.setAttribute('value', i+1 );
-                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString().split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString().split('/').join('-');
+                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString('chinese',{hour12: false}).split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString('chinese',{hour12: false}).split('/').join('-');
                         slct[k].appendChild(op);
                     }
                 }

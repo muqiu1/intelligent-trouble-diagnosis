@@ -181,7 +181,7 @@ function drawFreq(id, MPID, urlRealTime='') {
             },
             restore: {},
             saveAsImage: {
-              name: new Date().toLocaleString().split('/').join('-'),
+              name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
             }
           }
         },
@@ -243,7 +243,7 @@ function drawFreq(id, MPID, urlRealTime='') {
             },
             restore: {},
             saveAsImage: {
-              name: new Date().toLocaleString().split('/').join('-'),
+              name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
             }
           }
         },
@@ -284,7 +284,7 @@ function drawFreq(id, MPID, urlRealTime='') {
       };
       FreqCharts[id + "_table1"].setOption(option1, true);
       FreqCharts[id + "_table2"].setOption(option2, true);
-      document.getElementById(id + 'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString().split('/').join('-');
+      document.getElementById(id + 'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
       document.getElementById(id+'rotSpeed').innerHTML = data.rotSpeed;
     },
     error: function () {

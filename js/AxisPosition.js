@@ -141,8 +141,8 @@ function drawAxisPosition() {
             let data = res.data;
             console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
-            document.getElementById('AxisPositionSTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('AxisPositionETime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('AxisPositionSTime').innerHTML = new Date(startTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
+            document.getElementById('AxisPositionETime').innerHTML = new Date(endTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
             let data1 = [];
             for (let i = 0; i < data.xTime.length; i++) {
@@ -173,7 +173,7 @@ function drawAxisPosition() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -240,7 +240,7 @@ function drawAxisPosition() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -313,7 +313,7 @@ function drawAxisPosition() {
                     feature: {
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -397,7 +397,7 @@ function getAxisPositionStartTimeList(){
                     for (var k = 0; k < slct.length; k++) {
                         var op = document.createElement("option");
                         op.setAttribute('value', i+1 );
-                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString().split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString().split('/').join('-');
+                        op.innerHTML = "启停分析："+ new Date( res.data[i].StartIndex*1000 ).toLocaleString('chinese',{hour12: false}).split('/').join('-') + " ~ " + new Date( res.data[i].EndIndex*1000 ).toLocaleString('chinese',{hour12: false}).split('/').join('-');
                         slct[k].appendChild(op);
                     }
                 }

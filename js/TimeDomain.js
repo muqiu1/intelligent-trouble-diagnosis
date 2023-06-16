@@ -153,7 +153,7 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -193,7 +193,7 @@ function drawTimeDomain(id, MPID, urlRealTime='') {
                 ]
             };
             TimeDomainCharts[id].setOption(option, true);
-            document.getElementById(id+'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString().split('/').join('-');
+            document.getElementById(id+'Time').innerHTML = new Date(data.indexNum*1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             document.getElementById(id+'rotSpeed').innerHTML = data.rotSpeed;
         },
         error: function () {

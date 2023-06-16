@@ -77,8 +77,8 @@ function drawXYpic() {
             let data = res.data;
             console.log(data.data.length)
             // 指定图表的配置项和数据
-            document.getElementById('XYsTime').innerHTML = new Date(startTime * 1000).toLocaleString().split('/').join('-');
-            document.getElementById('XYeTime').innerHTML = new Date(endTime * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('XYsTime').innerHTML = new Date(startTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
+            document.getElementById('XYeTime').innerHTML = new Date(endTime * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             var option1 = {
                 textStyle: {
                     fontSize: 15
@@ -101,7 +101,7 @@ function drawXYpic() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },

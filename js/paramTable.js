@@ -137,8 +137,8 @@ function parseData() {
                 break;
             }
         }
-        // dataTimeItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
-        dataFreqItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString().split('/').join('-');
+        // dataTimeItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
+        dataFreqItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
 
         // dataTimeItem["PPV"] = l[i].pPV;
         // dataTimeItem["FZYZ"] = l[i].fZYZ;

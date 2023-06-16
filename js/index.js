@@ -43,7 +43,7 @@ var rvibdataTable = {
 //JS 
 function setTime() {
     now = new Date();
-    now = now.toLocaleString().split('/').join('-');
+    now = now.toLocaleString('chinese',{hour12: false}).split('/').join('-');
     for (var obj of document.getElementsByName("nowTime")) {
         obj.innerHTML = now;
     }
@@ -228,7 +228,7 @@ function getTimeList(){
                     let l = res.data.list;
                     let data = [];
                     for (let i=0; i<l.length; i++){
-                        data.push({"time": new Date(l[i].indexNum*1000).toLocaleString().split('/').join('-'), "id": l[i].indexNum});
+                        data.push({"time": new Date(l[i].indexNum*1000).toLocaleString('chinese',{hour12: false}).split('/').join('-'), "id": l[i].indexNum});
                     }
                     return {
                         "code": 0, //解析接口状态

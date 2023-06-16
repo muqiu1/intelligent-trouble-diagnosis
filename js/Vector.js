@@ -109,7 +109,7 @@ function drawVector() {
             let data = res.data;
             console.log(data.indexNum, data.data[0].length)
             // 指定图表的配置项和数据
-            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString().split('/').join('-');
+            document.getElementById('Time').innerHTML = new Date(data.indexNum * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             document.getElementById('rotSpeed').innerHTML = data.rotSpeed;
             let data1 = [];
             let data2 = [];
@@ -149,7 +149,7 @@ function drawVector() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -213,7 +213,7 @@ function drawVector() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -277,7 +277,7 @@ function drawVector() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
@@ -341,7 +341,7 @@ function drawVector() {
                         },
                         restore: {},
                         saveAsImage: {
-                            name: new Date().toLocaleString().split('/').join('-'),
+                            name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                         }
                     }
                 },
