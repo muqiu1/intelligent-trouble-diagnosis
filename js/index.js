@@ -274,6 +274,7 @@ function getTimeList(){
 //实时监测函数
 function startTimer(Func) {
     intervalId = 1;
+    switchTimeTable(false);
     Func();
     intervalId = setInterval(() => {
         // 在这里发送网络请求
@@ -283,6 +284,7 @@ function startTimer(Func) {
 
 //计时器清理函数
 function clearTimer() {
+    switchTimeTable(true)
     if (intervalId) {
         new Promise(function (resolve, reject) {
             clearInterval(intervalId);
@@ -305,5 +307,36 @@ function changeAlarmNumber(num){
     }
     else{
         document.getElementById("alarmNumber").style.display = "inline-block";
+    }
+}
+
+// 保留两位有效数字
+function myFixed2(x) {
+    if (x == null || x == undefined){
+        return null;
+    }
+    if ( Math.abs(x) < 1e-6 ){
+        return 0;
+    }
+    if ( Math.abs(x) >= 0.1 ){
+        return x.toFixed(2);
+    }
+    s = x.toString();
+    idx = s.indexOf('.') + 1;
+    let i=0;
+    for (; i + idx<s.length; i++){
+        if (s[i+idx] != '0'){
+            break;
+        }
+    }
+    return x.toFixed(i+2);
+}
+
+function switchTimeTable(flag){
+    if (flag){
+        document.getElementById("_timeTable").style.display = "block";
+    }
+    else{
+        document.getElementById("_timeTable").style.display = "none";
     }
 }

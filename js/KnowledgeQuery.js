@@ -184,9 +184,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                                     <option value="FaultID">序号</option>
                                                                     <option value="Detail">故障描述</option>
                                                                     <option value="FaultType">故障类型</option>
-                                                                    <option value="FaultLoc">故障位置</option>
                                                                     <option value="FaultReason">故障原因</option>
-                                                                    <option value="Measures">解决方案</option>
                                                                     <option value="RuleName">相关规则</option>
                                                                 </select>
                                                             </div>
@@ -210,12 +208,10 @@ layui.use(['table', 'laypage', 'form'], function () {
                                 , cols: [[ //表头
                                     { field: 'FaultID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
                                     , { field: 'FaultName', title: '故障名称', width: '15%', align: 'center'}
-                                    , { field: 'Detail', title: '故障描述', width: '10%', align: 'center'}
-                                    , { field: 'FaultType', title: '故障类型', width: '10%', align: 'center'}
-                                    , { field: 'FaultLoc', title: '故障位置', width: '10%', align: 'center'}
-                                    , { field: 'FaultReason', title: '故障原因', width: '15%', align: 'center'}
-                                    , { field: 'Measures', title: '解决方案', width: '15%', align: 'center'}
-                                    , { field: 'RuleName', title: '相关规则', width: '15%', align: 'center'}
+                                    , { field: 'Detail', title: '故障描述', width: '15%', align: 'center'}
+                                    , { field: 'FaultType', title: '故障类型', width: '15%', align: 'center'}
+                                    , { field: 'FaultReason', title: '故障原因', width: '20%', align: 'center'}
+                                    , { field: 'RuleName', title: '相关规则', width: '25%', align: 'center'}
                                 ]]
                             });
 

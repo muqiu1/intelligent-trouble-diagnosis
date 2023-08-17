@@ -123,6 +123,7 @@ function getParam() {
 
 function parseData() {
     let l = paramTable.data.list;
+    let RangeUnitList = paramTable.msg.split(",");
     // paramTime = [];
     paramFreq = [];
     for (let i = 0; i < l.length; i++) {
@@ -149,19 +150,20 @@ function parseData() {
         // dataTimeItem["BXYZ"] = l[i].bXYZ;
         // dataTimeItem["Gap"] = l[i].gap;
 
-        dataFreqItem['halfMag'] = l[i].halfMag;
-        dataFreqItem['halfP'] = l[i].halfP;
-        dataFreqItem['x1Mag'] = l[i].x1Mag;
-        dataFreqItem['x1P'] = l[i].x1P;
-        dataFreqItem['x2Mag'] = l[i].x2Mag;
-        dataFreqItem['x2P'] = l[i].x2P;
-        dataFreqItem['x3Mag'] = l[i].x3Mag;
-        dataFreqItem['x3P'] = l[i].x3P;
-        dataFreqItem['x4Mag'] = l[i].x4Mag;
-        dataFreqItem['x5Mag'] = l[i].x5Mag;
+        dataFreqItem['halfMag'] = l[i].halfMag.toFixed(2) + RangeUnitList[i];
+        dataFreqItem['halfP'] = l[i].halfP.toFixed(2) + "°";
+        dataFreqItem['x1Mag'] = l[i].x1Mag.toFixed(2) + RangeUnitList[i];
+        dataFreqItem['x1P'] = l[i].x1P.toFixed(2) + "°";
+        dataFreqItem['x2Mag'] = l[i].x2Mag.toFixed(2) + RangeUnitList[i];
+        dataFreqItem['x2P'] = l[i].x2P.toFixed(2) + "°";
+        dataFreqItem['x3Mag'] = l[i].x3Mag.toFixed(2) + RangeUnitList[i];
+        dataFreqItem['x3P'] = l[i].x3P.toFixed(2)  + "°";
+        dataFreqItem['x4Mag'] = l[i].x4Mag.toFixed(2) + RangeUnitList[i];
+        dataFreqItem['x5Mag'] = l[i].x5Mag.toFixed(2) + RangeUnitList[i];
 
-        dataFreqItem["PPV"] = l[i].pPV;
-        dataFreqItem["Gap"] = l[i].gap;
+        dataFreqItem["PPV"] = l[i].pPV.toFixed(2) + RangeUnitList[i];
+    
+        dataFreqItem["Gap"] = myFixed2(l[i].gap) + 'V';
 
         // paramTime.push(dataTimeItem);
         paramFreq.push(dataFreqItem);

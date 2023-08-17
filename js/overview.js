@@ -75,6 +75,7 @@ function getPPVTable(){
             dataType: "json",
             success: function (data) {
                 let l = data.data.list;
+                let RangeUnitList = data.msg.split(",");
                 let PPVTable = [];
                 for (let i = 0; i < l.length; i++) {
                     let dataTimeItem = {};
@@ -87,7 +88,7 @@ function getPPVTable(){
                     }
                     dataTimeItem["time"] = new Date(parseInt(l[i].indexNum) * 1000).toLocaleString('chinese',{hour12: false}).split('/').join('-');
             
-                    dataTimeItem["PPV"] = l[i].pPV;
+                    dataTimeItem["PPV"] = l[i].pPV.toFixed(2) + RangeUnitList[i];
                     PPVTable.push(dataTimeItem);
                 }
                 table.reload('overviewPPV', { data: PPVTable });

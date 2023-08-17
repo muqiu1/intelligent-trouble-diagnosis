@@ -289,6 +289,9 @@ function StartRecognition() {
             },
             success: function (res) {
                 console.log(res.data);
+                for (var i = 0; i < res.data.length; i++) {
+                    res.data[i]["Probability"] = res.data[i]["Probability"].toFixed(2);
+                }
                 table.reload('RecognitionResult', {
                     data: res.data
                     , limit: res.data.length

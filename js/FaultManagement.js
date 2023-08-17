@@ -26,14 +26,12 @@ layui.use(['table', 'laypage', 'form'], function () {
                 }
                 , even: true
                 , cols: [[ //表头
-                    { field: 'FaultID', title: '序号', width: '9%', fixed: 'left', align: 'center'}
-                    , { field: 'FaultName', title: '故障名称', width: '13%', align: 'center'}
-                    , { field: 'Detail', title: '故障描述', width: '15%', align: 'center'}
-                    , { field: 'FaultType', title: '故障类型', width: '10%', align: 'center'}
-                    , { field: 'FaultLoc', title: '故障位置', width: '10%', align: 'center'}
-                    , { field: 'FaultReason', title: '故障原因', width: '13%', align: 'center'}
-                    , { field: 'Measures', title: '解决方案', width: '13%', align: 'center'}
-                    , { title: '操作', width: '17%', templet: '#Management', align: 'center' }
+                    { field: 'FaultID', title: '序号', width: '10%', fixed: 'left', align: 'center'}
+                    , { field: 'FaultName', title: '故障名称', width: '15%', align: 'center'}
+                    , { field: 'Detail', title: '故障描述', width: '20%', align: 'center'}
+                    , { field: 'FaultType', title: '故障类型', width: '15%', align: 'center'}
+                    , { field: 'FaultReason', title: '故障原因', width: '20%', align: 'center'}
+                    , { title: '操作', width: '20%', templet: '#Management', align: 'center' }
                 ]]
             });
 
@@ -75,21 +73,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">故障位置</label>
-                                        <div class="layui-input-block">
-                                            <input type="text" name="FaultLoc" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
                                         <label class="layui-form-label">故障原因</label>
                                         <div class="layui-input-block">
                                             <input type="text" name="FaultReason" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">解决方案</label>
-                                        <div class="layui-input-block">
-                                            <input type="text" name="Measures" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
@@ -209,21 +195,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">故障位置</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="FaultLoc" autocomplete="off" class="layui-input" disabled>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label class="layui-form-label">故障原因</label>
                                     <div class="layui-input-block">
                                         <input type="text" name="FaultReason" autocomplete="off" class="layui-input" disabled>
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">解决方案</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="Measures" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -328,21 +302,9 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">故障位置</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="FaultLoc" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label class="layui-form-label">故障原因</label>
                                     <div class="layui-input-block">
                                         <input type="text" name="FaultReason" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">解决方案</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="Measures" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <button style="margin-left: 500px" class="layui-btn" lay-submit lay-filter="Management-submit">保存</button>
