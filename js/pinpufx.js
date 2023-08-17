@@ -2,6 +2,7 @@ initName()
 var FreqCharts = {};
 var FreqLastTime = {};
 var FreqIsOrder = {};
+var FreqWindowType = {};
 var FreqDrawID = {};
 layui.use(['laytpl', 'form', 'layer'], function () {
   var laytpl = layui.laytpl
@@ -36,6 +37,7 @@ layui.use(['laytpl', 'form', 'layer'], function () {
       FreqDrawID[checkedList[i].id] = checkedList[i].id;
       form.val( checkedList[i].id + "FreqParameter", { isOrder: checkedList[i].id + '_' + checkedList[i].isOrder } );
       FreqIsOrder[checkedList[i].id] = checkedList[i].isOrder;
+      FreqWindowType[checkedList[i].id] = 0;
       FreqCharts[checkedList[i].id + "_table1"] = echarts.init(document.getElementById(checkedList[i].id + "_table1"));
       FreqCharts[checkedList[i].id + "_table2"] = echarts.init(document.getElementById(checkedList[i].id + "_table2"));
       FreqLastTime[checkedList[i].id] = 0;
@@ -98,6 +100,20 @@ layui.use(['laytpl', 'form', 'layer'], function () {
     }
   });
 
+  form.on('select(changeFreqWindowType)', function (data) {
+    var x = data.value.indexOf('_')
+    var id1 = parseInt(data.value.substr(0, x))
+    var windowType = data.value.substr(x + 1);
+    FreqLastTime[id1] = 0;
+    FreqWindowType[id1] = windowType;
+    if (intervalId == 0){
+      drawFreq(id1, FreqDrawID[id1])
+    }
+    else{
+      drawFreq(id1, FreqDrawID[id1], "_RealTime");
+    }
+  });
+
   function drawFreqRealTime(){
     for (var i = 0; i < checkedList.length; i++) {
       drawFreq(checkedList[i].id, FreqDrawID[checkedList[i].id], "_RealTime");
@@ -133,6 +149,7 @@ function drawFreq(id, MPID, urlRealTime='') {
       LastTime: FreqLastTime[id],
       isOrder: FreqIsOrder[id] == "1",
       isFFT31: FreqIsOrder[id] == "2",
+      windowType: FreqWindowType[id],
     },
     success: function (res) {
       let data = res.data;

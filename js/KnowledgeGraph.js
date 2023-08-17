@@ -139,11 +139,12 @@ layui.use(['util'], function () {
                 x: 0,
                 value: characterList[i].CharacterName,
                 symbol: 'circle',
-                symbolSize: [15, 7],
+                symbolSize: [20, 20],
                 label: {
                     show: true,
-                    fontSize: 15,
-                    formatter: '{c}'
+                    // fontSize: 15,
+                    formatter: '{c}',
+                    position: 'bottom'
                 },
                 itemStyle: {
                     color: color[i % color.length],
@@ -158,12 +159,13 @@ layui.use(['util'], function () {
                 y: x_min + (x_max - x_min) * i / (faultList.length - 1),
                 x: 1500,
                 value: faultList[i].FaultName,
-                symbol: 'roundRect',
-                symbolSize: [20, 9],
+                symbol: 'circle',
+                symbolSize: [30, 30],
                 label: {
                     show: true,
-                    fontSize: 15,
-                    formatter: '{c}'
+                    // fontSize: 15,
+                    formatter: '{c}',
+                    position: 'bottom'
                 },
                 itemStyle: {
                     color: color[i % color.length],
@@ -196,12 +198,13 @@ layui.use(['util'], function () {
                 y: x_min + (x_max - x_min) * i / (measureList.length - 1),
                 x: 3000,
                 value: measureList[i].Measures,
-                symbol: 'rect',
-                symbolSize: [20, 9],
+                symbol: 'circle',
+                symbolSize: [30, 30],
                 label: {
                     show: true,
-                    fontSize: 15,
-                    formatter: '{c}'
+                    // fontSize: 15,
+                    formatter: '{c}',
+                    position: 'bottom'
                 },
                 itemStyle: {
                     color: colorTable[ measureList[i].FaultID ],
@@ -222,7 +225,19 @@ layui.use(['util'], function () {
             title: {
                 text: '知识可视化'
             },
+            textStyle: {
+                fontSize: 20
+            },
             tooltip: {},
+            toolbox: {
+                show: true,
+                feature: {
+                    restore: {},
+                    saveAsImage: {
+                        name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
+                    }
+                }
+            },
             legend: [{
             }],
             animationDurationUpdate: 1500,
@@ -244,7 +259,7 @@ layui.use(['util'], function () {
                     //     fontSize: 20
                     // },
                     // center: [0, 0],
-                    zoom: 9,
+                    zoom: 1.2,
                     data: data,
                     links: links,
                     lineStyle: {
@@ -313,7 +328,7 @@ layui.use(['util'], function () {
                                         x: 0,
                                         value: characterList[j].CharacterName,
                                         symbol: 'circle',
-                                        symbolSize: [75, 35],
+                                        symbolSize: [35, 35],
                                         label: {
                                             show: true,
                                             fontSize: 15,
@@ -333,8 +348,8 @@ layui.use(['util'], function () {
                             y: (x_max + x_min) / 2,
                             x: (x_max + x_min) / 2,
                             value: params.value,
-                            symbol: 'roundRect',
-                            symbolSize: [100, 48],
+                            symbol: 'circle',
+                            symbolSize: [48, 48],
                             label: {
                                 show: true,
                                 fontSize: 15,
@@ -357,8 +372,8 @@ layui.use(['util'], function () {
                                     y: cnt == 1 ? (x_max + x_min) / 2 : x_min + (x_max - x_min) * j / (cnt - 1),
                                     x: x_max + x_min,
                                     value: measureList[i].Measures,
-                                    symbol: 'rect',
-                                    symbolSize: [100, 48],
+                                    symbol: 'circle',
+                                    symbolSize: [48, 48],
                                     label: {
                                         show: true,
                                         fontSize: 15,
@@ -412,7 +427,7 @@ layui.use(['util'], function () {
                             x: 0,
                             value: params.value,
                             symbol: 'circle',
-                            symbolSize: [75, 35],
+                            symbolSize: [35, 35],
                             label: {
                                 show: true,
                                 fontSize: 15,
@@ -430,8 +445,8 @@ layui.use(['util'], function () {
                                         y: FaultIDList.length > 1 ? x_min + d * i : (x_max + x_min) / 2,
                                         x: (x_max + x_min) / 2,
                                         value: faultList[j].FaultName,
-                                        symbol: 'roundRect',
-                                        symbolSize: [100, 48],
+                                        symbol: 'circle',
+                                        symbolSize: [48, 48],
                                         label: {
                                             show: true,
                                             fontSize: 15,
@@ -458,8 +473,8 @@ layui.use(['util'], function () {
                                     y: 0,
                                     x: x_max + x_min,
                                     value: measureList[i].Measures,
-                                    symbol: 'rect',
-                                    symbolSize: [100, 48],
+                                    symbol: 'circle',
+                                    symbolSize: [48, 48],
                                     label: {
                                         show: true,
                                         fontSize: 15,
@@ -489,8 +504,8 @@ layui.use(['util'], function () {
                                     y: 0,
                                     x: (x_max + x_min)/2,
                                     value: faultList[i].FaultName,
-                                    symbol: 'roundRect',
-                                    symbolSize: [100, 48],
+                                    symbol: 'circle',
+                                    symbolSize: [48, 48],
                                     label: {
                                         show: true,
                                         fontSize: 15,
@@ -509,6 +524,15 @@ layui.use(['util'], function () {
                         tooltip: {},
                         legend: [{
                         }],
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                restore: {},
+                                saveAsImage: {
+                                    name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
+                                }
+                            }
+                        },
                         animationDurationUpdate: 1500,
                         animationEasingUpdate: 'quinticInOut',
                         series: [

@@ -56,6 +56,14 @@
                     <input type="radio" name="isOrder" value={{_id +'_0'}} title="频率" lay-filter="changeFreqIsOrder">
                     <input type="radio" name="isOrder" value={{_id +'_2'}} title="1/3倍频程" lay-filter="changeFreqIsOrder">
                   </div>
+                  <div class="layui-input-inline" style="width: 150px;">
+                    <select name="windowType" lay-filter="changeFreqWindowType">
+                        <option value={{_id +'_0'}}>矩形窗</option>
+                        <option value={{_id +'_1'}}>Hamming窗</option>
+                        <option value={{_id +'_2'}}>Hanning窗</option>
+                        <option value={{_id +'_3'}}>Gaussian窗</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </form>

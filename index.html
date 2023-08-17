@@ -61,6 +61,7 @@
             <dd><a onclick="loadPage('Precession')" href="javascript:void(0)">全频谱</a></dd>
             <dd><a onclick="loadPage('AxisPosition')" href="javascript:void(0)">轴心位置</a></dd>
             <dd><a onclick="loadPage('Bode')" href="javascript:void(0)">Bode图</a></dd>
+            <dd><a onclick="loadPage('Relation')" href="javascript:void(0)">相关分析</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs">
@@ -71,7 +72,7 @@
           </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs">
-          <a href="javascript:;"><i class="layui-icon layui-icon-chart"></i>趋势预测</a>
+          <a href="javascript:;"><i class="layui-icon layui-icon-chart"></i>趋势分析</a>
           <dl class="layui-nav-child">
             <dd><a onclick="loadPage('trend')" href="javascript:void(0)">趋势分析</a></dd>
           </dl>
@@ -122,7 +123,7 @@
           </div>
         </form>
       </div>
-      <div class="layui-side-scroll" style="height: 50%;">
+      <div class="layui-side-scroll" style="height: 50%;" id="_timeTable">
         <table id="timeTable" lay-filter="timeTable"></table>
       </div>
     

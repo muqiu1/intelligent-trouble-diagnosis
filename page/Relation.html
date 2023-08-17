@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <fieldset class="layui-elem-field layui-field-title my-title">
+        <legend>相关分析</legend>
+    </fieldset>
+    <div class="layui-row">
+        <div class="layui-col-md3">
+            <div style="text-align:center; line-height:50px; font-weight:bold; font-size: 17px;" name="nowTime">时间</div>
+        </div>
+        <div class="layui-col-md4">
+            <form class="layui-form" action="" lay-filter="drawRelationTypeForm">
+                <div class="layui-form-item">
+                    <input type="radio" name="status" value="0" title="实时监测" lay-filter="drawRelationType">
+                    <input type="radio" name="status" value="1" title="当前查询" lay-filter="drawRelationType" checked>
+                    <input type="radio" name="status" value="2" title="历史查询" lay-filter="drawRelationType">
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md5">
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-panel">
+            <div class="layui-row">
+                <div class="layui-col-md4">
+                    <form class="layui-form" action="" lay-filter="RelationSelect">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: auto;">信号源1</label>
+                            <div class="layui-input-inline">
+                                <select name="sss" lay-filter="changeRelation">
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-col-md4">
+                    <form class="layui-form" action="" lay-filter="RelationSelect2">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: auto;">信号源2</label>
+                            <div class="layui-input-inline">
+                                <select name="sss" lay-filter="changeRelation">
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-col-md4" id="Time">时间</div>
+            </div>
+            <div class="layui-row layui-col-space30">
+                <div class="layui-col-md6">
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="Relation1" style=height:620px;></div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <form class="layui-form" action="" lay-filter="RelationType">
+                        <div class="layui-form-item">
+                            <input type="radio" name="rType" value="0" title="相关函数" lay-filter="RType" checked>
+                            <input type="radio" name="rType" value="1" title="相关系数" lay-filter="RType">
+                        </div>
+                    </form>
+                    <div class="layui-row">
+                        <div class="layui-col-md12" id="Relation2" style=height:300px;></div>
+                        <div class="layui-col-md12" id="Relation3" style=height:300px;></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/Relation.js"></script>
+</body>
