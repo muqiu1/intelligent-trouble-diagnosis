@@ -183,7 +183,7 @@ function drawRelation() {
             };
             var option2 = {
                 title: {
-                    text: '相关分析'
+                    text: '自相关分析'
                 },
                 textStyle: {
                     fontSize: 15
@@ -257,7 +257,7 @@ function drawRelation() {
             };
             var option3 = {
                 title: {
-                    text: '功率谱'
+                    text: '自功率谱'
                 },
                 textStyle: {
                     fontSize: 15
@@ -340,6 +340,8 @@ function drawRelation() {
                     },
                     seriesLayoutBy: 'row'
                 })
+                option2.title.text = '互相关分析';
+                option3.title.text = '互功率谱';
             }
             RelationCharts[1].setOption(option1, true);
             RelationCharts[2].setOption(option2, true);

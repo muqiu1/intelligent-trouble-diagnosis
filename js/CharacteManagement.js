@@ -3,7 +3,6 @@ layui.use(['table', 'laypage', 'form'], function () {
         , form = layui.form
         , $ = layui.$
 
-    let characterTypeDict = {};
     $.ajax({
         type: 'POST',
         url: "http://" + host + "/cms/character/typeList",
@@ -79,17 +78,8 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     <div class="layui-form-item">
                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                         <div class="layui-input-block">
-                                        <select name="CharacterType" required lay-verify="required">
-                                            <option value="0">波形特征</option>
-                                            <option value="1">频谱特征</option>
-                                            <option value="2">相位特征</option>
-                                            <option value="3">轴心轨迹特征</option>
-                                            <option value="4">转动特征</option>
-                                            <option value="5">振动方向</option>
-                                            <option value="6">过临界振动特征</option>
-                                            <option value="7">非线性特征</option>
-                                            <option value="8">其他特征</option>
-                                        </select>
+                                            <select name="CharacterType" required lay-verify="required">
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
@@ -103,6 +93,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                               `,
                             success: function () {
                                 // 对弹层中的表单进行初始化渲染
+                                initType();
                                 form.render();
                                 // 表单提交事件
                                 form.on('submit(Management-submit)', function (data) {
@@ -203,15 +194,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
                                         <select name="CharacterType" disabled>
-                                            <option value="0">波形特征</option>
-                                            <option value="1">频谱特征</option>
-                                            <option value="2">相位特征</option>
-                                            <option value="3">轴心轨迹特征</option>
-                                            <option value="4">转动特征</option>
-                                            <option value="5">振动方向</option>
-                                            <option value="6">过临界振动特征</option>
-                                            <option value="7">非线性特征</option>
-                                            <option value="8">其他特征</option>
                                         </select>
                                     </div>
                                 </div>
@@ -231,6 +213,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                           `,
                         success: function () {
                             // 对弹层中的表单进行初始化渲染
+                            initType();
                             form.render();
                             form.val("Management-layer", obj.data);
                             if ( obj.data.RuleID != null && obj.data.RuleID != "" ){
@@ -309,15 +292,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                     <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                     <div class="layui-input-block">
                                         <select name="CharacterType" required lay-verify="required">
-                                            <option value="0">波形特征</option>
-                                            <option value="1">频谱特征</option>
-                                            <option value="2">相位特征</option>
-                                            <option value="3">轴心轨迹特征</option>
-                                            <option value="4">转动特征</option>
-                                            <option value="5">振动方向</option>
-                                            <option value="6">过临界振动特征</option>
-                                            <option value="7">非线性特征</option>
-                                            <option value="8">其他特征</option>
                                         </select>
                                     </div>
                                 </div>
@@ -332,6 +306,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                           `,
                         success: function () {
                             // 对弹层中的表单进行初始化渲染
+                            initType();
                             form.render();
                             form.val("Management-layer", obj.data)
                             // 表单提交事件

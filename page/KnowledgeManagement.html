@@ -182,6 +182,18 @@
         let CharacterManagementList = [];
         let FaultManagementList = [];
         let RuleManagementList = [];
+        var characterTypeDict = {};
+        function initType(SelectName = "CharacterType") {
+            var slct = document.getElementsByName(SelectName);
+            for (var k = 0; k < slct.length; k++) {
+                for (var key in characterTypeDict) {
+                    var op = document.createElement("option")
+                    op.setAttribute('value', key)
+                    op.innerHTML = characterTypeDict[key];
+                    slct[k].appendChild(op)
+                }
+            }
+        }
     </script>
     <script src="../js/CharacteManagement.js"></script>
     <script src="../js/FaultManagement.js"></script>

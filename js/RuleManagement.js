@@ -136,15 +136,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                             <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                                             <div class="layui-input-block">
                                                                 <select name="CharacterType" lay-filter="CharacterType" required lay-verify="required">
-                                                                    <option value="0">波形特征</option>
-                                                                    <option value="1">频谱特征</option>
-                                                                    <option value="2">相位特征</option>
-                                                                    <option value="3">轴心轨迹特征</option>
-                                                                    <option value="4">转动特征</option>
-                                                                    <option value="5">振动方向</option>
-                                                                    <option value="6">过临界振动特征</option>
-                                                                    <option value="7">非线性特征</option>
-                                                                    <option value="8">其他特征</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -171,6 +162,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                   `,
                                                 success: function () {
                                                     // 对弹层中的表单进行初始化渲染
+                                                    initType();
                                                     var slct = document.getElementsByName("CharacterName");
                                                     for (var k = 0; k < slct.length; k++) {
                                                         for (var i = 0; i < CharacterManagementList.length; i++) {
@@ -600,15 +592,6 @@ layui.use(['table', 'laypage', 'form'], function () {
                                                         <label class="layui-form-label"><span class="layui-badge-dot"></span>征兆类型</label>
                                                         <div class="layui-input-block">
                                                             <select name="CharacterType" lay-filter="CharacterType" required lay-verify="required">
-                                                                <option value="0">波形特征</option>
-                                                                <option value="1">频谱特征</option>
-                                                                <option value="2">相位特征</option>
-                                                                <option value="3">轴心轨迹特征</option>
-                                                                <option value="4">转动特征</option>
-                                                                <option value="5">振动方向</option>
-                                                                <option value="6">过临界振动特征</option>
-                                                                <option value="7">非线性特征</option>
-                                                                <option value="8">其他特征</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -635,6 +618,7 @@ layui.use(['table', 'laypage', 'form'], function () {
                                               `,
                                             success: function () {
                                                 // 对弹层中的表单进行初始化渲染
+                                                initType();
                                                 var slct = document.getElementsByName("CharacterName");
                                                 for (var k = 0; k < slct.length; k++) {
                                                     for (var i = 0; i < CharacterManagementList.length; i++) {
