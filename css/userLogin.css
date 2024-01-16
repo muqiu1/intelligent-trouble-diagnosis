@@ -30,3 +30,11 @@ html, body{
     width: 450px;
     border-radius: 30px;
 }
+.annotation{
+    position: absolute;
+    top: 95%;
+    left:50%;
+    transform: translate(-50% , -50%);
+    text-align:center;
+    color: white;
+}
