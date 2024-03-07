@@ -60,23 +60,23 @@ layui.use(['form', 'layer'], function () {
         toolbox: {
             show: true,
             feature: {
-                // dataZoom: {
-                //     //   yAxisIndex: 'none'
-                // },
+                dataZoom: {
+                    //   yAxisIndex: 'none'
+                },
                 // restore: {},
                 saveAsImage: {
                     name: new Date().toLocaleString('chinese',{hour12: false}).split('/').join('-'),
                 }
             },
         },
-        // dataZoom: [
-        //     {
-        //         id: 'dataZoomX',
-        //         type: 'inside',
-        //         xAxisIndex: [0],
-        //         filterMode: 'filter'
-        //     },
-        // ],
+        dataZoom: [
+            {
+                id: 'dataZoomX',
+                type: 'inside',
+                xAxisIndex: [0],
+                filterMode: 'filter'
+            },
+        ],
         xAxis: {
             type: 'time',
             name: "时间",
