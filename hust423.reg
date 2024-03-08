@@ -5,7 +5,7 @@ Windows Registry Editor Version 5.00
 "URL Protocol"=""
 
 [HKEY_CLASSES_ROOT\hust423\DefaultIcon]
-@="E:\\Hust_software\\run_main.EXE"
+@="E:\\Hust_software\\dist\\run_main.exe"
 
 [HKEY_CLASSES_ROOT\hust423\shell]
 @=""
@@ -13,5 +13,5 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\hust423\shell\open]
 @=""
 
-[HKEY_CLASSES_ROOT\myprotocol\shell\open\command]
-@="\"E:\\Hust_software\\run_main.EXE\" "
+[HKEY_CLASSES_ROOT\hust423\shell\open\command]
+@="\"E:\\Hust_software\\dist\\run_main.exe\" "
